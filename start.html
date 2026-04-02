@@ -1,0 +1,1556 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KI in der Verwaltung | VHS Moderationsdeck</title>
+  <style>
+    :root {
+      --bg: #eef3f8;
+      --bg-soft: #e2ebf4;
+      --card: rgba(255, 255, 255, 0.97);
+      --line: #d2dce8;
+      --line-strong: #b7c6d8;
+      --ink: #1f2f45;
+      --muted: #54667f;
+      --accent: #1c4f8f;
+      --accent-soft: #5f89b7;
+      --accent-deep: #12345d;
+      --green: #1f7651;
+      --gold: #916212;
+      --red: #8b3328;
+      --shadow: 0 26px 60px rgba(18, 38, 67, 0.12);
+      --shadow-soft: 0 12px 28px rgba(22, 38, 66, 0.08);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 10% 12%, rgba(95, 137, 183, 0.18), transparent 24%),
+        radial-gradient(circle at 88% 10%, rgba(28, 79, 143, 0.12), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(31, 118, 81, 0.06), transparent 34%),
+        linear-gradient(180deg, #f8fbfe 0%, var(--bg) 100%);
+      color: var(--ink);
+      font-family: "Aptos", "Segoe UI Variable", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: rgba(39, 89, 150, 0.12);
+      z-index: 20;
+    }
+
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #275996, #6f98c2);
+      transition: width .3s ease;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: clamp(72px, 9vh, 100px) clamp(16px, 3vw, 44px) clamp(92px, 11vh, 118px);
+      opacity: 0;
+      transform: translateX(32px) scale(0.985);
+      pointer-events: none;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .frame {
+      position: relative;
+      width: min(1180px, 100%);
+      height: 100%;
+      margin: 0 auto;
+      padding: clamp(24px, 2.8vw, 38px);
+      border-radius: 30px;
+      border: 1px solid rgba(183, 198, 216, 0.8);
+      background:
+        linear-gradient(180deg, rgba(248, 251, 255, 0.98) 0%, rgba(255, 255, 255, 0.96) 100%);
+      box-shadow: var(--shadow);
+      overflow: auto;
+    }
+
+    .frame::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 7px;
+      border-radius: 30px 30px 0 0;
+      background: linear-gradient(90deg, var(--accent-deep), var(--accent), var(--accent-soft));
+      opacity: 0.95;
+    }
+
+    .kickerline {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin: 0 0 18px;
+      padding: 10px 0 16px;
+      border-bottom: 1px solid rgba(210, 220, 232, 0.9);
+    }
+
+    .kicker {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 0.98;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      color: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(44px, 6.7vw, 82px);
+      max-width: 920px;
+      letter-spacing: -0.03em;
+      color: var(--accent-deep);
+    }
+    h2 {
+      font-size: clamp(34px, 4.2vw, 52px);
+      max-width: 980px;
+      letter-spacing: -0.025em;
+      color: var(--accent-deep);
+    }
+    h3 {
+      font-size: clamp(22px, 2vw, 30px);
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: clamp(16px, 1.5vw, 19px);
+      line-height: 1.62;
+    }
+
+    ul, ol {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: clamp(15px, 1.2vw, 18px);
+      line-height: 1.5;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .lede {
+      max-width: 980px;
+      font-size: clamp(19px, 1.95vw, 25px);
+      color: #3e5068;
+      line-height: 1.52;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+    .panel,
+    .card,
+    .module-card,
+    .quote,
+    .instruction-card {
+      border: 1px solid rgba(210, 220, 232, 0.95);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.94);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .panel {
+      min-height: 420px;
+      background:
+        radial-gradient(circle at 76% 24%, rgba(95, 137, 183, 0.16), transparent 20%),
+        linear-gradient(180deg, #f5f9ff 0%, #e8f0fa 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 22px 44px rgba(20, 39, 68, 0.11);
+    }
+
+    .soft {
+      background: linear-gradient(180deg, #fbfdff 0%, #f2f7fd 100%);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .pill {
+      padding: 10px 15px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(28, 79, 143, 0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .metric {
+      border-radius: 20px;
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(28, 79, 143, 0.14);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 32px;
+      color: var(--accent-deep);
+      margin-bottom: 4px;
+    }
+
+    .label {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--bg-soft);
+      color: var(--ink);
+    }
+
+    .label.blue { background: #eef5ff; color: var(--accent); }
+    .label.green { background: #eef8f1; color: var(--green); }
+    .label.gold { background: #fbf4e5; color: var(--gold); }
+    .label.red { background: #faece8; color: var(--red); }
+
+    .agenda-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--muted);
+      font-size: 15px;
+      background: rgba(255,255,255,0.75);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .agenda-table th,
+    .agenda-table td {
+      text-align: left;
+      padding: 13px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .agenda-table th {
+      color: var(--accent-deep);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: #eef4fb;
+    }
+
+    .agenda-table tbody tr:nth-child(even) td {
+      background: rgba(242, 247, 253, 0.58);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .flow .card { padding: 16px; }
+
+    .step-no {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .instruction-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+    }
+
+    .instruction-card h3,
+    .module-card h3 { margin-bottom: 8px; }
+
+    .hero-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(28, 79, 143, 0.14);
+      color: var(--accent-deep);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-mark::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-soft));
+      box-shadow: 0 0 0 5px rgba(28, 79, 143, 0.08);
+    }
+
+    .title-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .title-panel::after {
+      content: "";
+      position: absolute;
+      right: -28px;
+      bottom: -32px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at center, rgba(95, 137, 183, 0.18) 0%, rgba(95, 137, 183, 0.07) 42%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .title-aside {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .title-note {
+      padding: 18px 18px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(28, 79, 143, 0.14);
+      background: linear-gradient(180deg, #f7faff 0%, #eef4fb 100%);
+    }
+
+    .title-note strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-deep);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .section-band {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 18px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #f7faff 0%, #eef4fb 100%);
+      border: 1px solid rgba(28, 79, 143, 0.12);
+    }
+
+    .section-band strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--accent-deep);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .section-band p {
+      margin: 0;
+      font-size: 15px;
+      color: #4a5d76;
+    }
+
+    .section-index {
+      flex: 0 0 auto;
+      min-width: 92px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, var(--accent-deep) 0%, var(--accent) 100%);
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 14px 24px rgba(18, 52, 93, 0.16);
+    }
+
+    .section-index span {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.82;
+    }
+
+    .section-index strong {
+      display: block;
+      margin: 4px 0 0;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+
+    .module-intro .frame,
+    .tool-intro .frame,
+    .closing-slide .frame {
+      background:
+        radial-gradient(circle at 92% 16%, rgba(95, 137, 183, 0.12), transparent 18%),
+        linear-gradient(180deg, rgba(248, 251, 255, 0.98) 0%, rgba(255, 255, 255, 0.96) 100%);
+    }
+
+    .module-intro h2,
+    .tool-intro h2,
+    .closing-slide h2 {
+      max-width: 860px;
+    }
+
+    .module-intro .grid-2,
+    .tool-intro .grid-2 {
+      align-items: stretch;
+    }
+
+    .emphasis-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .emphasis-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, var(--accent-deep), var(--accent-soft));
+    }
+
+    .closing-mark {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #eef5ff 0%, #e6f0ff 100%);
+      color: var(--accent-deep);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid rgba(28, 79, 143, 0.14);
+    }
+
+    .qr-placeholder {
+      display: grid;
+      place-items: center;
+      min-height: 180px;
+      border: 2px dashed rgba(28, 79, 143, 0.18);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f9fbff 0%, #eef5ff 100%);
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+      padding: 14px;
+    }
+
+    .link-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 16px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #f2f7ff 0%, #e7f0ff 100%);
+      border: 1px solid rgba(28, 79, 143, 0.16);
+      color: var(--accent-deep);
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(23, 50, 86, 0.08);
+    }
+
+    .nav {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(28, 79, 143, 0.1);
+      box-shadow: 0 16px 34px rgba(22, 35, 65, 0.14);
+      backdrop-filter: blur(10px);
+      z-index: 25;
+    }
+
+    .nav button {
+      border: 1px solid rgba(28, 79, 143, 0.08);
+      min-width: 42px;
+      min-height: 42px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8f0ff 100%);
+      color: var(--accent-deep);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 800;
+      transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+      box-shadow: 0 8px 14px rgba(28, 79, 143, 0.08);
+    }
+
+    .nav button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(28, 79, 143, 0.12);
+    }
+
+    .nav button:disabled {
+      opacity: 0.42;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .counter {
+      min-width: 106px;
+      text-align: center;
+      color: var(--accent-deep);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 960px) {
+      html, body { overflow: auto; }
+      .deck { height: auto; }
+      .slide {
+        position: static;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+        padding: 20px 12px 0;
+      }
+      .frame { height: auto; }
+      .hero, .grid-2, .grid-3, .instruction-grid, .metric-grid, .flow {
+        grid-template-columns: 1fr;
+      }
+      .nav, .progress { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <main class="deck">
+    <section class="slide active">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Ganztageskurs | VHS Kreisverwaltung Friedberg</p>
+          <p class="kicker">Robert Meyer</p>
+        </div>
+        <div class="hero">
+          <div class="panel title-panel">
+            <div>
+              <div class="hero-mark">Moderationsdeck · Tagesstruktur · Praxisformat</div>
+              <h1>KI in der Verwaltung</h1>
+              <p class="lede">Heute geht es nicht um einen klassischen KI-Vortrag. Heute geht es darum, Ihre echten Verwaltungsaufgaben so zu zerlegen, dass KI sinnvoll, sicher und nachvollziehbar unterstützen kann.</p>
+              <div class="pill-row">
+                <span class="pill">weniger Vortrag</span>
+                <span class="pill">mehr echte Fälle</span>
+                <span class="pill">mehr Tandem-Arbeit</span>
+                <span class="pill">mehr Transfer in den Alltag</span>
+              </div>
+            </div>
+            <div class="metric-grid">
+              <div class="metric">
+                <strong>5</strong>
+                <span>Module mit durchgehendem Praxisfokus</span>
+              </div>
+              <div class="metric">
+                <strong>1</strong>
+                <span>Ziel: mehr Souveränität statt mehr Unsicherheit</span>
+              </div>
+            </div>
+          </div>
+          <div class="title-aside">
+            <div class="card soft">
+              <span class="label blue">Tagesversprechen</span>
+              <h3>Was Sie heute mitnehmen sollen</h3>
+              <ul>
+                <li>Sie bekommen einen sicheren, praxisnahen Zugang zum Thema – auch ohne oder mit geringen Vorkenntnissen.</li>
+                <li>Sie erkennen, wo KI in Ihrem Bereich wirklich hilft und wo nicht.</li>
+                <li>Sie lernen, wie man KI-Ergebnisse sicher prüft statt blind übernimmt.</li>
+                <li>Sie erleben, dass Fachlichkeit, Urteilskraft und Sprache keine Schwächen, sondern Ihre größten KI-Stärken sind.</li>
+                <li>Sie gehen nicht mit Theorie nach Hause, sondern mit einem ersten konkreten Umsetzungsfall.</li>
+              </ul>
+            </div>
+            <div class="title-note">
+              <strong>Didaktischer Kern</strong>
+              <p>Sie arbeiten heute nicht als Publikum, sondern als Tandems mit eigenen Fällen, klaren Aufgaben und sichtbarem Transfer in den Alltag.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Roter Faden</p>
+          <p class="kicker">So ist der Tag gebaut</p>
+        </div>
+        <h2>Vom Verstehen zur Umsetzungsroutine</h2>
+        <div class="flow">
+          <div class="card">
+            <span class="step-no">Schritt 1</span>
+            <h3>Standort klären</h3>
+            <p>Wo stehen Sie heute? Was sind echte Fälle, echte Sorgen, echte Potenziale?</p>
+          </div>
+          <div class="card">
+            <span class="step-no">Schritt 2</span>
+            <h3>Fälle auswählen</h3>
+            <p>Welche Aufgaben eignen sich wirklich für KI-Unterstützung?</p>
+          </div>
+          <div class="card">
+            <span class="step-no">Schritt 3</span>
+            <h3>Sicher arbeiten</h3>
+            <p>Wie bleiben Datenschutz, Freigabe und fachliche Verantwortung stabil?</p>
+          </div>
+          <div class="card">
+            <span class="step-no">Schritt 4</span>
+            <h3>Transfer festziehen</h3>
+            <p>Was lässt sich morgen im eigenen Bereich realistisch starten?</p>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Wichtig</h3>
+          <p>Die Präsentation zeigt den Weg. Die eigentliche Arbeit passiert heute in Ihren Gesprächen, Ihren Fällen und im interaktiven Lehrmaterial. Der Kurs ist bewusst als Vertiefungsangebot zum verpflichtenden eLearning angelegt.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Start 1/4</p>
+          <p class="kicker">Vorstellungsrunde</p>
+        </div>
+        <h2>Vorstellungsrunde mit KI-Bezug</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card">
+            <span class="label blue">Aufgabe im Raum</span>
+            <h3>Jede Person beantwortet fünf Punkte</h3>
+            <ol>
+              <li>Name und Bereich</li>
+              <li>Nutzen Sie bereits KI – privat, beruflich oder beides?</li>
+              <li>Wenn ja: welches Tool oder welche Tools?</li>
+              <li>Wofür genau setzen Sie KI bisher ein?</li>
+              <li>Welche Erfahrung war bisher eher positiv oder eher ernüchternd?</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label gold">Ziel der Runde</span>
+            <p>Vorwissen, echte Nutzung, reale Sorgen und unterschiedliche Erfahrungsniveaus sichtbar machen. Genau daraus bauen wir heute die Tandems und die Fallarbeit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Start 2/4</p>
+          <p class="kicker">Selbsttest vor dem Tag</p>
+        </div>
+        <h2>Selbsttest: Standort vor dem Kurs</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card">
+            <span class="label blue">So läuft es</span>
+            <ol>
+              <li>Bitte auf dem eigenen Gerät das interaktive Lehrmaterial öffnen.</li>
+              <li>Gehen Sie zu <strong>Teil 5.2 – Selbsteinschätzungsbogen</strong>.</li>
+              <li>Füllen Sie die zehn Aussagen erst für sich allein aus.</li>
+              <li>Tauschen Sie sich danach kurz im Tandem aus: Wo fühle ich mich schon sicher? Wo wünsche ich mir heute Klarheit?</li>
+            </ol>
+            <p><a class="link-card" href="https://rmdroid.github.io/verwaltung/" target="_blank" rel="noopener noreferrer">Interaktives Lehrmaterial öffnen</a></p>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label green">Wichtige Einordnung</span>
+            <p>Der Selbsttest ist keine Prüfung. Er ist nur eine Standortbestimmung. Heute geht es nicht um „gut“ oder „schlecht“, sondern um Entwicklung, Sicherheit und mehr Handlungsspielraum.</p>
+            <div class="qr-placeholder">
+              Interaktives Lehrmaterial<br />
+              <strong>rmdroid.github.io/verwaltung</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Start 3/4</p>
+          <p class="kicker">Selbsttest debriefen</p>
+        </div>
+        <h2>Was zeigt der Selbsttest?</h2>
+        <div class="grid-2">
+          <div class="card">
+            <span class="label blue">Momentaufnahme</span>
+            <h3>Der Test zeigt Ihre aktuelle Selbsteinschätzung</h3>
+            <p>Er macht sichtbar, wo Sie sich bei Prompting, Prüfung, Datenschutz, Freigaben, Dokumentation und KI-Verständnis bereits sicher fühlen und wo noch Unsicherheit besteht.</p>
+          </div>
+          <div class="card">
+            <span class="label green">Nutzwert für heute</span>
+            <h3>Der Test ist ein Arbeitsinstrument</h3>
+            <p>Er hilft, Unterschiede im Raum zu normalisieren, Lernbedarf sichtbar zu machen und am Ende des Tages zu erkennen, wo Klarheit, Sicherheit oder Mut gewachsen sind.</p>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Worum es heute nicht geht</h3>
+          <p>Der Selbsttest ist keine Einteilung in Schubladen und kein Zertifikat. Er ist eine Momentaufnahme zu Beginn und ein Vergleichspunkt am Ende.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Start 4/4</p>
+          <p class="kicker">Warum dieser Tag wichtig ist</p>
+        </div>
+        <h2>Die eigentliche Herausforderung ist die KI-Kluft</h2>
+        <div class="grid-2">
+          <div class="card">
+            <span class="label blue">Zwischen Bürgern und Verwaltung</span>
+            <p>Bürger erzeugen heute mit KI bereits strukturierte Anträge, Rückfragen und lange Einsprüche. Wenn Verwaltung intern noch vollständig manuell arbeitet, entsteht ein Bearbeitungsgefälle.</p>
+          </div>
+          <div class="card">
+            <span class="label gold">Innerhalb der Verwaltung</span>
+            <p>Einige Mitarbeitende arbeiten schon produktiv mit KI, andere stehen noch am Anfang. Gute Organisation bedeutet, diese Unterschiede konstruktiv zu bearbeiten statt sie größer werden zu lassen.</p>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:16px;">
+          <div class="card">
+            <h3>KI ersetzt nicht einfach Menschen</h3>
+            <p>Was bleibt, sind Verantwortung, Urteilskraft, Einordnung und Bürgerkommunikation.</p>
+          </div>
+          <div class="card">
+            <h3>KI ist ein Werkzeug</h3>
+            <p>Vor allem für Entwürfe, Strukturierung, Verdichtung, Sprache und Vorbereitung.</p>
+          </div>
+          <div class="card">
+            <h3>Sie sollen handlungsfähiger werden</h3>
+            <p>Nicht weniger menschlich, sondern souveräner in einem veränderten Arbeitsumfeld.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Tagesbild</p>
+          <p class="kicker">Fünf Module</p>
+        </div>
+        <div class="section-band">
+          <div>
+            <strong>Tageslogik</strong>
+            <p>Erst verstehen, dann auswählen, dann sicher anwenden, dann vergleichen, dann in belastbare Routinen überführen.</p>
+          </div>
+          <div class="section-index"><span>Module</span><strong>5</strong></div>
+        </div>
+        <h2>Der Tag in fünf klaren Schritten</h2>
+        <table class="agenda-table">
+          <thead>
+            <tr>
+              <th>Zeit</th>
+              <th>Modul</th>
+              <th>Frage</th>
+              <th>Ergebnis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>09:00</td><td>Start</td><td>Wo stehen wir und welche Fälle bringen wir mit?</td><td>Standort, Erwartungen, Fallmaterial</td></tr>
+            <tr><td>09:30</td><td>Modul 1</td><td>Was kann KI, was nicht, und was heißt das für Verantwortung?</td><td>realistische Einordnung</td></tr>
+            <tr><td>10:15</td><td>Modul 2</td><td>Welche Verwaltungsfälle sind wirklich geeignet?</td><td>Use-Case-Priorisierung</td></tr>
+            <tr><td>11:15</td><td>Modul 3</td><td>Wie arbeiten wir sicher und rechtsklar?</td><td>Ampel, Freigabe, Prüflogik</td></tr>
+            <tr><td>13:00</td><td>Modul 4</td><td>Wie entstehen robuste Prompts und prüfbare Ergebnisse?</td><td>Prompt-Handwerk und Review</td></tr>
+            <tr><td>14:15</td><td>Tool-Block</td><td>Wie arbeiten wir konkret mit zulässigen Chatbots?</td><td>Vergleich, Demo, Einordnung</td></tr>
+            <tr><td>15:00</td><td>Modul 5</td><td>Wie wird aus dem Kurs eine belastbare Routine?</td><td>Transfer, Rollen, Wirkung, Commitment</td></tr>
+            <tr><td>15:30</td><td>Abschluss</td><td>Was hat sich verändert und was geht morgen los?</td><td>Selbsttest, Commitments</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Arbeitsmodus</p>
+          <p class="kicker">Tandem statt Einzelkampf</p>
+        </div>
+        <h2>So arbeiten wir heute miteinander</h2>
+        <div class="grid-2">
+          <div class="module-card">
+            <span class="label blue">Rolle 1</span>
+            <h3>Navigator</h3>
+            <ul>
+              <li>probiert aus</li>
+              <li>denkt in Arbeitsschritten</li>
+              <li>formuliert erste Varianten</li>
+              <li>zieht die Aufgabe in Bewegung</li>
+            </ul>
+          </div>
+          <div class="module-card">
+            <span class="label green">Rolle 2</span>
+            <h3>Reviewer</h3>
+            <ul>
+              <li>prüft Fachlichkeit und Risiko</li>
+              <li>fragt nach Zielgruppe und Verständlichkeit</li>
+              <li>achtet auf Datenschutz und Freigaben</li>
+              <li>macht blinde Flecken sichtbar</li>
+            </ul>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Wichtig</h3>
+          <p>Das ist kein Modell für stark oder schwach. Gute KI-Arbeit braucht beides: den Mut zum Ausprobieren und die Disziplin der Prüfung.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide module-intro">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 1</p>
+          <p class="kicker">Verstehen</p>
+        </div>
+        <div class="section-band">
+          <div>
+            <strong>Modulstart</strong>
+            <p>Erst die Möglichkeiten realistisch einordnen, bevor konkrete Fälle und Tools betrachtet werden.</p>
+          </div>
+          <div class="section-index"><span>Modul</span><strong>1</strong></div>
+        </div>
+        <h2>Was KI kann. Was sie nicht kann. Was das für Verwaltung heißt.</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">Arbeitsanweisung</span>
+            <ol>
+              <li>Nehmen Sie drei typische Aufgaben aus Ihrem Bereich.</li>
+              <li>Ordnen Sie ein: Entwurf, Strukturierung, Entscheidung, Freigabe.</li>
+              <li>Benennen Sie pro Aufgabe mindestens ein Halluzinations- oder Fehlerrisiko.</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label gold">Erwarteter Output</span>
+            <ul>
+              <li>ein realistisches Bild statt KI-Hype</li>
+              <li>klare Trennung zwischen Vorprodukt und Verantwortung</li>
+              <li>erste gemeinsame Sprache für Chancen und Grenzen</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 1</p>
+          <p class="kicker">Auswertung</p>
+        </div>
+        <h2>Plenumsfragen für Modul 1</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Wo hilft KI wirklich?</h3>
+            <p>Wo entsteht echter Zeitgewinn, ohne Verantwortung zu verwischen?</p>
+          </div>
+          <div class="card">
+            <h3>Wo ist Vorsicht nötig?</h3>
+            <p>Wo wirkt Sprache überzeugend, obwohl fachliche Sicherheit fehlt?</p>
+          </div>
+          <div class="card">
+            <h3>Was bleibt menschlich?</h3>
+            <p>Wo sind Urteilskraft, Ermessensspielraum und Verantwortung nicht delegierbar?</p>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Kernsatz</h3>
+          <p>Die Verwaltung braucht keine KI-Gläubigkeit. Sie braucht eine saubere Trennung zwischen Vorprodukt und Verantwortung.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide module-intro">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 2</p>
+          <p class="kicker">Use Cases</p>
+        </div>
+        <div class="section-band">
+          <div>
+            <strong>Modulstart</strong>
+            <p>Nicht jeder Verwaltungsfall eignet sich gleich gut. Der Einstieg muss klein, prüfbar und wiederholbar sein.</p>
+          </div>
+          <div class="section-index"><span>Modul</span><strong>2</strong></div>
+        </div>
+        <h2>Die richtigen Verwaltungsfälle auswählen</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">Arbeitsanweisung</span>
+            <ol>
+              <li>Wählen Sie einen echten Verwaltungsprozess aus Ihrem Bereich.</li>
+              <li>Beschreiben Sie Ziel, Input, Risiko und prüfbaren Output.</li>
+              <li>Ordnen Sie den Fall als grün, gelb oder rot ein.</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label green">Leitfrage</span>
+            <p>Mit welchem Fall sollte Ihr Bereich anfangen, wenn KI morgen einen messbaren Nutzen bringen soll?</p>
+            <p><span class="label gold">Faustregel</span></p>
+            <p>Der beste Einstieg ist meist nicht der spektakulärste Fall, sondern der mit hoher Wiederholung, klarer Struktur und guter Prüfbarkeit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 2</p>
+          <p class="kicker">Falltypen</p>
+        </div>
+        <h2>Typische gute Einstiegsfälle</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Textlastige Routine</h3>
+            <p>Entwürfe, Gliederungen, Verdichtung, Zusammenfassungen, Antwortvorschläge.</p>
+          </div>
+          <div class="card">
+            <h3>Sprach- und Strukturarbeit</h3>
+            <p>verständliche Bürgerkommunikation, klare interne Vorlagen, bessere Lesbarkeit.</p>
+          </div>
+          <div class="card">
+            <h3>Vorbereitung statt Entscheidung</h3>
+            <p>KI sortiert vor, aber die fachliche Entscheidung bleibt beim Menschen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide module-intro">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 3</p>
+          <p class="kicker">Sicherheit</p>
+        </div>
+        <div class="section-band">
+          <div>
+            <strong>Modulstart</strong>
+            <p>Die eigentliche Arbeit beginnt in der gelben Zone: zulässig denken, Risiken erkennen, Freigaben sauber halten.</p>
+          </div>
+          <div class="section-index"><span>Modul</span><strong>3</strong></div>
+        </div>
+        <h2>Datenschutz, Freigabe und Ampellogik</h2>
+        <div class="grid-3">
+          <div class="module-card">
+            <span class="label green">Grün</span>
+            <h3>unkritisch oder bereinigt</h3>
+            <p>öffentliche, neutrale oder ausreichend anonymisierte Inhalte</p>
+          </div>
+          <div class="module-card">
+            <span class="label gold">Gelb</span>
+            <h3>nur mit Disziplin</h3>
+            <p>fachnahe Fälle mit Kontextbezug, klarer Prüfung und sauberer Reduktion</p>
+          </div>
+          <div class="module-card">
+            <span class="label red">Rot</span>
+            <h3>Stopp</h3>
+            <p>personenbezogene, sensible oder nicht freigegebene Eingaben</p>
+          </div>
+        </div>
+        <div class="instruction-card soft" style="margin-top:16px;">
+          <span class="label blue">Arbeitsanweisung</span>
+          <ol>
+            <li>Nehmen Sie einen realistischen Fall.</li>
+            <li>Prüfen Sie Personenbezug, Freigabestatus und Prüfbarkeit.</li>
+            <li>Prüfen Sie zusätzlich: Ist der Fall organisatorisch und in Richtung EU AI Act Readiness sauber einordbar?</li>
+            <li>Entscheiden Sie gemeinsam: grün, gelb oder rot.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 3</p>
+          <p class="kicker">Sicherheitsroutine</p>
+        </div>
+        <h2>Was Sie nach Modul 3 sicher sagen können sollen</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Keine Angstlogik</h3>
+            <p>Nicht alles ist automatisch verboten. Aber nicht alles ist automatisch erlaubt oder klug.</p>
+          </div>
+          <div class="card">
+            <h3>Handhabbare Prüfroutine</h3>
+            <p>Weniger Bauchgefühl, mehr klare Schritte: Personenbezug, Freigabe, Prüfbarkeit, Dokumentation.</p>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:16px;">
+          <div class="card">
+            <h3>Dienstanweisung zuerst</h3>
+            <p>Nicht entscheidend ist nur, was technisch möglich ist. Entscheidend ist, was dienstlich freigegeben ist und welche Daten in welches Tool dürfen.</p>
+          </div>
+          <div class="card">
+            <h3>EU AI Act Readiness</h3>
+            <p>Zur sicheren Nutzung gehören auch Rollen, Nachvollziehbarkeit, menschliche Aufsicht, Prüfschritte und eine dokumentierbare Freigabelogik.</p>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Kernsatz</h3>
+          <p>Die meisten Fehler entstehen nicht in offensichtlichen roten Fällen, sondern in der gelben Zone.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide module-intro">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 4</p>
+          <p class="kicker">Prompting</p>
+        </div>
+        <div class="section-band">
+          <div>
+            <strong>Modulstart</strong>
+            <p>Gute Ergebnisse entstehen nicht durch Magie, sondern durch klare Aufträge, saubere Grenzen und diszipliniertes Review.</p>
+          </div>
+          <div class="section-index"><span>Modul</span><strong>4</strong></div>
+        </div>
+        <h2>Vom unscharfen Auftrag zum belastbaren Prompt</h2>
+        <div class="grid-2">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">Die 5 Bausteine</span>
+            <ul>
+              <li>Rolle</li>
+              <li>Kontext</li>
+              <li>Aufgabe</li>
+              <li>Ausgabeformat</li>
+              <li>Grenzen und Prüfkriterien</li>
+            </ul>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label green">Arbeitsanweisung</span>
+            <ol>
+              <li>Nehmen Sie einen schlechten oder unklaren Prompt.</li>
+              <li>Bauen Sie ihn im Tandem zu einer robusten Version um.</li>
+              <li>Prüfen Sie gemeinsam: Für wen? Wozu? In welcher Form? Mit welchen Grenzen?</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 4</p>
+          <p class="kicker">Review</p>
+        </div>
+        <h2>Woran erkennt man ein brauchbares Ergebnis?</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>fachlich passend</h3>
+            <p>Keine stillen Erfindungen, keine schiefen Zuspitzungen, keine verdeckten Lücken.</p>
+          </div>
+          <div class="card">
+            <h3>sprachlich passend</h3>
+            <p>Zielgruppe, Ton und Verständlichkeit stimmen zum Verwaltungszweck.</p>
+          </div>
+          <div class="card">
+            <h3>freigabefähig</h3>
+            <p>Das Ergebnis ist nicht nur schön formuliert, sondern mit vertretbarem Aufwand prüfbar.</p>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Kernsatz</h3>
+          <p>Nicht die längste Eingabe gewinnt, sondern die klarste. Gute Prompts sparen Nacharbeit, weil sie Ziel, Struktur und Grenzen sauber vorgeben.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide tool-intro">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Tool-Block</p>
+          <p class="kicker">Vergleich</p>
+        </div>
+        <div class="section-band">
+          <div>
+            <strong>Toolvergleich</strong>
+            <p>Heute geht es nicht um den „Sieger“, sondern um Unterschiede bei Qualität, Nacharbeit, Risiko und organisatorischer Passung.</p>
+          </div>
+          <div class="section-index"><span>Tools</span><strong>3</strong></div>
+        </div>
+        <h2>Arbeiten mit ChatGPT, Gemini und Mistral</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">Rahmen für heute</span>
+            <ol>
+              <li>Wir geben drei Systemen dieselben klaren Verwaltungsaufgaben.</li>
+              <li>Wir beobachten Unterschiede bei Sprache, Struktur, Verlässlichkeit und Nacharbeit.</li>
+              <li>Wir arbeiten nur mit datensparsamen, unkritischen Beispielinhalten.</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label green">Dienstanweisung als Leitplanke</span>
+            <ul>
+              <li>Claude wird nicht genutzt.</li>
+              <li>Mistral soll bevorzugt werden.</li>
+              <li>ChatGPT und Gemini werden als Vergleich gezeigt.</li>
+              <li>Freigabe, Datentyp und Nachvollziehbarkeit entscheiden vor Tool-Komfort.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Vergleichsfragen für alle drei Systeme</h3>
+          <p>Welches Ergebnis ist am verständlichsten? Wo ist die Struktur am brauchbarsten? Wo ist fachliche Nacharbeit nötig? Und welches Resultat wäre unter dienstlichen Rahmenbedingungen am ehesten weiterverwendbar?</p>
+        </div>
+        <div class="card soft" style="margin-top:16px;">
+          <span class="label blue">Separat davon</span>
+          <h3>NotebookLM als Lern- und Vertiefungswerkzeug</h3>
+          <p>NotebookLM gehört heute nicht in dieselbe Kategorie wie ChatGPT, Gemini oder Mistral für die Arbeitsdemo. Es eignet sich eher als optionales Werkzeug, um Modultexte aus dem Lehrmaterial als Quelle hochzuladen, Inhalte in einfachen Worten erklären zu lassen und sich gezielt Verständnisfragen beantworten zu lassen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Tool-Block</p>
+          <p class="kicker">Live-Demo</p>
+        </div>
+        <h2>Was wir live mit den Chatbots vergleichen</h2>
+        <div class="grid-3">
+          <div class="module-card">
+            <span class="label blue">Demo 1</span>
+            <h3>Bürgertext verständlicher machen</h3>
+            <p>Alle drei Systeme bekommen denselben kurzen, sperrigen Verwaltungstext.</p>
+            <ul>
+              <li>Ziel: verständliche Fassung für Bürgerinnen und Bürger</li>
+              <li>Prüfung: Klarheit, Ton, keine neuen Tatsachen</li>
+            </ul>
+          </div>
+          <div class="module-card">
+            <span class="label gold">Demo 2</span>
+            <h3>Sachstand strukturieren</h3>
+            <p>Alle drei Systeme bekommen dieselben ungeordneten Notizen zu einem Vorgang.</p>
+            <ul>
+              <li>Ziel: kurzer, prüfbarer Vermerk</li>
+              <li>Prüfung: Struktur, offene Punkte, keine Erfindungen</li>
+            </ul>
+          </div>
+          <div class="module-card">
+            <span class="label green">Demo 3</span>
+            <h3>Lange Eingabe verdichten</h3>
+            <p>Alle drei Systeme bekommen denselben längeren Text oder dieselbe Stellungnahme.</p>
+            <ul>
+              <li>Ziel: Kernaussagen, Fristen, offene Fragen</li>
+              <li>Prüfung: Priorisierung, Vollständigkeit, Nacharbeit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Worauf wir im Raum achten</h3>
+          <p>Kein System ist „einfach richtig“. Entscheidend ist, welches Ergebnis mit welcher Nacharbeit, mit welchem Risiko und unter welcher Freigabelogik brauchbar wird.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Tool-Block</p>
+          <p class="kicker">Mitgabe</p>
+        </div>
+        <h2>Prompt-Vorlagen zum direkten Teilen</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Bürgerkommunikation</h3>
+            <p>Für Schreiben, Hinweise und Entwürfe in klarer Sprache mit nächstem Schritt und ohne neue Tatsachen.</p>
+          </div>
+          <div class="card">
+            <h3>Vermerk strukturieren</h3>
+            <p>Für interne Sachstandsvermerke mit Ausgangslage, offenen Punkten, Risiken und nächsten Schritten.</p>
+          </div>
+          <div class="card">
+            <h3>Lange Texte verdichten</h3>
+            <p>Für Stellungnahmen, Einsprüche oder längere Eingaben mit Kernaussagen, Fristen und Prüfbedarf.</p>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:16px;">
+          <div class="card">
+            <h3>Prüf- und Freigabehilfe</h3>
+            <p>Für die kritische Sichtung von KI-Ergebnissen vor fachlicher Prüfung und Freigabe.</p>
+          </div>
+          <div class="card">
+            <h3>Universelle Schablone</h3>
+            <p>Mit Rolle, Kontext, Aufgabe, Ausgabeformat und Grenzen für neue Fälle im eigenen Bereich.</p>
+          </div>
+          <div class="card">
+            <h3>Hinweis für den Alltag</h3>
+            <p>Die Vorlagen sind Startpunkte. Entscheidend bleibt, dass nur freigegebene Tools und geeignete Daten verwendet werden.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide module-intro">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 5</p>
+          <p class="kicker">Transferziel</p>
+        </div>
+        <div class="section-band">
+          <div>
+            <strong>Modulstart</strong>
+            <p>Erst wenn aus dem Kurs eine kleine Routine wird, entsteht echter Nutzen im Alltag statt nur kurzfristiger Aha-Effekte.</p>
+          </div>
+          <div class="section-index"><span>Modul</span><strong>5</strong></div>
+        </div>
+        <h2>Transfer sichern statt Impuls verpuffen lassen</h2>
+        <div class="grid-2">
+          <div class="card">
+            <span class="label blue">Transferziel</span>
+            <p>Die Frage lautet nicht: „Was wäre theoretisch möglich?“ Sondern: „Was setze ich morgen kontrolliert um?“</p>
+          </div>
+          <div class="card soft">
+            <span class="label gold">Organisationsziel</span>
+            <p>Aus dem Kurstag sollen kleine, wiederkehrende Lernschleifen entstehen: Reviews, Peer-Feedback, Prompt-Sammlung, Lessons Learned.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 5</p>
+          <p class="kicker">Transferarchitektur</p>
+        </div>
+        <h2>Ein guter Transfer startet klein</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>ein Startfall</h3>
+            <p>Lieber ein klar umrissener Einstieg als mehrere große Ideen ohne operative Disziplin.</p>
+          </div>
+          <div class="card">
+            <h3>ein Startdatum</h3>
+            <p>Transfer wird erst real, wenn feststeht, wann der erste Pilotfall tatsächlich beginnt.</p>
+          </div>
+          <div class="card">
+            <h3>klare Prüfkriterien</h3>
+            <p>Zeitgewinn, Nutzbarkeit, Fehlerquote, Rückfragen oder Qualität nach Review müssen vorab benannt sein.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 5</p>
+          <p class="kicker">Rollen und Governance</p>
+        </div>
+        <h2>Wer macht was im späteren Betrieb?</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Anwender</h3>
+            <p>erzeugen Vorarbeit, strukturieren Vorgänge, bereiten Ergebnisse nachvollziehbar vor</p>
+          </div>
+          <div class="card">
+            <h3>Reviewer</h3>
+            <p>prüfen Fachlichkeit, Risiken und Passung zum Verwaltungszweck und machen Qualität sichtbar</p>
+          </div>
+          <div class="card">
+            <h3>Freigabe</h3>
+            <p>bleibt Führungs- oder Linienaufgabe und trennt technische Nützlichkeit von organisatorischer Legitimation</p>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Kernsatz</h3>
+          <p>Gute Governance lebt oft nicht von großen Regelwerken, sondern von kleinen Standards, die zuverlässig eingehalten werden.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 5</p>
+          <p class="kicker">Wirkung messen</p>
+        </div>
+        <h2>Woran merkt man, dass der Einstieg funktioniert?</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Sinnvolle Startmetriken</h3>
+            <ul>
+              <li>Zeitgewinn</li>
+              <li>Qualität nach Review</li>
+              <li>Anteil tatsächlich nutzbarer Entwürfe</li>
+              <li>Rückfragenquote</li>
+            </ul>
+          </div>
+          <div class="card soft">
+            <span class="label gold">Wichtige Einordnung</span>
+            <p>Ein schnellerer Vorgang allein reicht nicht. Wirkung in Behörden entsteht erst dann, wenn Tempo, fachliche Qualität und Nachvollziehbarkeit zusammenpassen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 5</p>
+          <p class="kicker">Kleine Standards</p>
+        </div>
+        <h2>Wie Kompetenz im Team bleibt</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Checklisten</h3>
+            <p>kurz, einheitlich, direkt nutzbar</p>
+          </div>
+          <div class="card">
+            <h3>Lessons Learned</h3>
+            <p>Fehler und gute Muster sichtbar machen statt wiederholen</p>
+          </div>
+          <div class="card">
+            <h3>Prompt-Sammlung</h3>
+            <p>nicht als Spielerei, sondern als Organisationsgedächtnis</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 5</p>
+          <p class="kicker">Peer-Review</p>
+        </div>
+        <h2>So wird aus dem Kurs ein belastbarer nächster Schritt</h2>
+        <div class="grid-2">
+          <div class="module-card">
+            <span class="label blue">Jedes Tandem zeigt</span>
+            <ul>
+              <li>einen ersten realistischen Startfall</li>
+              <li>die vorgesehene Prüfroutine</li>
+              <li>eine Messgröße für den Einstieg</li>
+            </ul>
+          </div>
+          <div class="module-card">
+            <span class="label gold">Ein anderes Tandem prüft</span>
+            <ul>
+              <li>ist der Fall realistisch?</li>
+              <li>ist der Fall sicher genug?</li>
+              <li>ist der Nutzen sichtbar?</li>
+              <li>fehlt noch eine kleine Struktur?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="quote" style="margin-top:16px;">
+          <h3>Kernsatz</h3>
+          <p>Nicht das Tool skaliert zuerst, sondern der Prozess um das Tool.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Mitgabe</p>
+          <p class="kicker">Nach dem Kurs</p>
+        </div>
+        <h2>Was Sie für danach mitnehmen können</h2>
+        <div class="grid-2">
+          <div class="card">
+            <span class="label blue">Sofort nutzbar</span>
+            <ul>
+              <li>Selbsttest zur späteren Wiederholung</li>
+              <li>Prompt-Vorlagen für den Arbeitsalltag</li>
+              <li>Checklisten für Datenschutz, Freigabe und Review</li>
+            </ul>
+          </div>
+          <div class="card soft">
+            <span class="label gold">Optional als Nachbereitung</span>
+            <p>Eine 30-Tage-Roadmap ist sinnvoll, aber eher als Mitgabe oder als Arbeitsauftrag für Teams nach der Schulung als mitten in der Tagesschulung.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Abschluss 1/3</p>
+          <p class="kicker">Selbsttest erneut</p>
+        </div>
+        <h2>Selbsttest: Standort nach dem Kurs</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card">
+            <span class="label blue">So läuft es</span>
+            <ol>
+              <li>Öffnen Sie erneut den Selbsteinschätzungsbogen im Lehrmaterial.</li>
+              <li>Bewerten Sie dieselben Aussagen noch einmal.</li>
+              <li>Vergleichen Sie für sich: Wo ist mehr Klarheit, Sicherheit oder Mut entstanden?</li>
+            </ol>
+            <p><a class="link-card" href="./interaktives_lehrmaterial.html#t5-2" target="_blank" rel="noopener noreferrer">Selbsttest erneut öffnen</a></p>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label green">Wichtig</span>
+            <p>Das ist keine Leistungskontrolle. Es geht nicht darum, überall Höchstwerte zu haben. Es geht darum, Entwicklung sichtbar zu machen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Abschluss 2/3</p>
+          <p class="kicker">Reflexion</p>
+        </div>
+        <h2>Drei Fragen zum Abschluss</h2>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Was ist heute klarer geworden?</h3>
+            <p>Wo sehen Sie jetzt deutlicher, wann KI hilft und wann sie riskant ist?</p>
+          </div>
+          <div class="card">
+            <h3>Was macht Ihnen weniger Sorgen?</h3>
+            <p>Wo ist aus diffuser Angst eine konkrete Arbeitslogik geworden?</p>
+          </div>
+          <div class="card">
+            <h3>Welche Stärke nehmen Sie ernster?</h3>
+            <p>Wo haben Sie heute gemerkt, dass Fachlichkeit, Sprache oder Urteilsvermögen Ihr eigentlicher Hebel sind?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide closing-slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Abschluss 3/3</p>
+          <p class="kicker">Commitment</p>
+        </div>
+        <div class="closing-mark">Transfer in den Arbeitsalltag</div>
+        <h2>Was geht morgen los?</h2>
+        <div class="grid-2">
+          <div class="card emphasis-card">
+            <span class="label blue">Commitment-Fragen</span>
+            <ul>
+              <li>Welcher Fall eignet sich bei Ihnen wirklich als Einstieg?</li>
+              <li>Welche Schutzregel oder Prüfroutine nehmen Sie konkret mit?</li>
+              <li>Wo können Sie vorhandene Stärken durch KI besser ausspielen?</li>
+            </ul>
+          </div>
+          <div class="card soft">
+            <span class="label gold">Schlusssatz</span>
+            <p>Die Frage ist nicht, ob Verwaltung mit KI arbeiten wird. Die Frage ist, ob sie es reaktiv, zufällig und unsicher tut oder mit klarer Methode, Verantwortung und einem Werkzeugkasten, der wirklich zum Alltag passt.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="nav" aria-label="Navigation">
+    <button type="button" id="prevBtn" aria-label="Zurück">&#8592;</button>
+    <div class="counter" id="counter">1 / 18</div>
+    <button type="button" id="nextBtn" aria-label="Weiter">&#8594;</button>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const progressBar = document.getElementById('progressBar');
+    const counter = document.getElementById('counter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      currentSlide = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === currentSlide));
+      counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+      progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === slides.length - 1;
+    }
+
+    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+        event.preventDefault();
+        showSlide(currentSlide + 1);
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        showSlide(currentSlide - 1);
+      }
+      if (event.key === 'Home') showSlide(0);
+      if (event.key === 'End') showSlide(slides.length - 1);
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>

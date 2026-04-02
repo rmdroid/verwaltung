@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entscheidungsbaum | KI in der Verwaltung</title>
+  <style>
+    :root {
+      --blue: #0f2f55;
+      --blue-deep: #081a32;
+      --petrol: #4d91a7;
+      --bg: #eef2f6;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-strong: rgba(255, 255, 255, 0.9);
+      --text: #142033;
+      --muted: #5d6a7f;
+      --red-soft: rgba(252, 236, 232, 0.92);
+      --shadow: 0 28px 70px rgba(10, 25, 49, 0.08);
+      --glass-shadow: 0 16px 40px rgba(10, 25, 49, 0.1);
+      --green: #1f9b5a;
+      --orange: #d98a35;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(77,145,167,0.2), transparent 26%),
+        radial-gradient(circle at 82% 10%, rgba(15,47,85,0.12), transparent 24%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f6 34%, #ebeff4 100%);
+      min-height: 100vh;
+      padding: 40px 24px;
+    }
+
+    .page {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero,
+    .card,
+    .wizard-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(246,249,252,0.78));
+      border: 1px solid rgba(255,255,255,0.82);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px) saturate(120%);
+    }
+
+    .hero {
+      padding: 34px 38px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(77,145,167,0.28), rgba(15,47,85,0.04));
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(15,47,85,0.05);
+      color: var(--blue);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--petrol), var(--blue));
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: var(--blue);
+    }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 1080px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .card {
+      padding: 22px 24px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: var(--blue);
+      font-size: 1.24rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .wizard-card {
+      padding: 28px;
+    }
+
+    .wizard-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(420px, 0.92fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .wizard-stage {
+      min-height: 180px;
+      padding: 26px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.64);
+      margin-bottom: 18px;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(20px);
+    }
+
+    .wizard-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .badge,
+    .wizard-step-indicator {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(15,47,85,0.06);
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 0.84rem;
+      letter-spacing: 0.06em;
+    }
+
+    .wizard-stage h2 {
+      margin: 16px 0 10px;
+      color: var(--blue);
+      font-size: 2rem;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .wizard-result {
+      margin-top: 16px;
+      padding: 20px;
+      border-radius: 22px;
+      display: none;
+      border: 1px solid rgba(255,255,255,0.74);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+
+    .wizard-result.visible { display: block; }
+    .wizard-result.green { background: rgba(39,174,96,0.14); color: #155c35; }
+    .wizard-result.orange { background: rgba(230,126,34,0.14); color: #8a4f16; }
+    .wizard-result.red { background: var(--red-soft); color: #8d2a17; }
+
+    .wizard-result-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      opacity: 0.82;
+    }
+
+    .wizard-result-kicker::before {
+      content: "";
+      width: 14px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.65;
+    }
+
+    .wizard-result h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      color: currentColor;
+    }
+
+    .wizard-result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .wizard-result-detail {
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.54);
+      border: 1px solid rgba(255,255,255,0.68);
+    }
+
+    .wizard-result-detail span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .wizard-result-detail strong {
+      display: block;
+      font-size: 0.94rem;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      color: inherit;
+    }
+
+    .wizard-summary {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(15,47,85,0.05);
+      border: 1px solid rgba(15,47,85,0.08);
+      margin-top: 18px;
+    }
+
+    .wizard-summary h3 {
+      margin: 0;
+      color: var(--blue);
+      letter-spacing: -0.03em;
+      font-size: 1.06rem;
+    }
+
+    .wizard-summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .wizard-summary-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.64);
+      border: 1px solid rgba(255,255,255,0.78);
+    }
+
+    .wizard-summary-item strong {
+      display: block;
+      color: var(--blue);
+      margin-bottom: 2px;
+    }
+
+    .wizard-summary-item span {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .wizard-summary-answer {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 8px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(15,47,85,0.07);
+      color: var(--blue);
+      font-size: 0.76rem;
+      font-style: normal;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .wizard-summary-step {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(77,145,167,0.22), rgba(15,47,85,0.12));
+      color: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .wizard-map {
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(243,247,251,0.78), rgba(255,255,255,0.82)),
+        radial-gradient(circle at top center, rgba(77,145,167,0.16), transparent 40%);
+      padding: 24px;
+      min-height: 100%;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(20px);
+    }
+
+    .wizard-map svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .wizard-node text {
+      fill: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .wizard-node rect {
+      fill: rgba(255,255,255,0.92);
+      stroke: rgba(15,47,85,0.12);
+      stroke-width: 2;
+      transition: fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease;
+    }
+
+    .wizard-edge {
+      stroke: rgba(26,61,109,0.18);
+      stroke-width: 2.5;
+      fill: none;
+      transition: stroke 0.2s ease, stroke-width 0.2s ease;
+    }
+
+    .wizard-node.active rect {
+      fill: rgba(42,127,142,0.16);
+      stroke: var(--petrol);
+      filter: drop-shadow(0 10px 18px rgba(42,127,142,0.12));
+    }
+
+    .wizard-node.result-green rect { fill: rgba(39,174,96,0.14); stroke: var(--green); }
+    .wizard-node.result-orange rect { fill: rgba(230,126,34,0.14); stroke: var(--orange); }
+    .wizard-node.result-red rect { fill: rgba(194, 71, 48, 0.12); stroke: #c24730; }
+    .wizard-edge.active { stroke: var(--petrol); stroke-width: 4; }
+
+    .wizard-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      margin-top: 14px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .wizard-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wizard-legend i {
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      border-radius: 999px;
+    }
+
+    .wizard-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .wizard-btn,
+    .reset-btn {
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+
+    .wizard-btn {
+      background: linear-gradient(135deg, var(--blue), var(--blue-deep));
+      color: #fff;
+    }
+
+    .wizard-btn.secondary,
+    .reset-btn {
+      background: rgba(15,47,85,0.08);
+      color: var(--blue);
+    }
+
+    .footnote {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1180px) {
+      .wizard-layout, .hero-grid, .wizard-result-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Teil 3.7 · Entscheidungsbaum</div>
+      <h1>Darf ich das in die KI eingeben?</h1>
+      <p>Dieser Entscheidungsbaum übersetzt die Kernlogik von Datenschutz, Freigabe und fachlicher Prüfbarkeit in einen kompakten Vorentscheidungsprozess. Er eignet sich als eigenständiges Desktop-Werkzeug für Schulung, Intranet oder Teamstandard.</p>
+      <div class="hero-grid">
+        <div class="card">
+          <h3>Was wird geprüft?</h3>
+          <ul>
+            <li>Personenbezug und Anonymisierbarkeit</li>
+            <li>dienstliche Freigabe des verwendeten Tools</li>
+            <li>klarer Zweck und fachliche Prüfbarkeit des Ergebnisses</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Wofür ist die Seite gedacht?</h3>
+          <ul>
+            <li>für schnelle Vorentscheidungen im Arbeitsalltag</li>
+            <li>für Schulung und gemeinsame Fallbesprechung</li>
+            <li>als Kopiervorlage für Intranet oder Team-Wiki</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="wizard-card">
+      <div class="wizard-layout">
+        <div>
+          <div class="wizard-stage">
+            <div class="wizard-head">
+              <div class="badge">Geführter Entscheidungsweg</div>
+              <div class="wizard-step-indicator" id="wizardStepIndicator">Prüfschritt 1 von 4</div>
+            </div>
+            <h2 id="wizardQuestion">Enthält die Eingabe personenbezogene Daten?</h2>
+            <p id="wizardHint">Starten Sie mit der Frage nach Personenbezug.</p>
+            <div class="wizard-result" id="wizardResult"></div>
+            <div class="wizard-summary" aria-live="polite">
+              <h3>Prüfpfad</h3>
+              <div class="wizard-summary-list" id="wizardSummaryList"></div>
+            </div>
+          </div>
+          <div class="wizard-buttons" id="wizardButtons">
+            <button class="wizard-btn" type="button" data-answer="ja">Ja</button>
+            <button class="wizard-btn secondary" type="button" data-answer="nein">Nein</button>
+            <button class="reset-btn" type="button" id="wizardReset">Nochmal starten</button>
+          </div>
+          <p class="footnote">Diesen Entscheidungsbaum können Sie auch als Team-Standard in Ihrem Intranet hinterlegen.</p>
+        </div>
+
+        <div class="wizard-map" aria-hidden="true">
+          <svg viewBox="0 0 430 520" role="img">
+            <path id="edge-start-anon" class="wizard-edge" d="M215 86 L120 150" />
+            <path id="edge-start-approved" class="wizard-edge" d="M215 86 L310 150" />
+            <path id="edge-anon-stopred" class="wizard-edge" d="M120 206 L80 278" />
+            <path id="edge-anon-approved" class="wizard-edge" d="M120 206 L310 214" />
+            <path id="edge-approved-stoporange1" class="wizard-edge" d="M310 214 L350 278" />
+            <path id="edge-approved-reviewable" class="wizard-edge" d="M310 214 L215 310" />
+            <path id="edge-reviewable-stoporange2" class="wizard-edge" d="M215 366 L110 430" />
+            <path id="edge-reviewable-ok" class="wizard-edge" d="M215 366 L320 430" />
+
+            <g id="node-start" class="wizard-node">
+              <rect x="115" y="28" rx="18" ry="18" width="200" height="58"></rect>
+              <text x="215" y="54" text-anchor="middle">Personenbezogene</text>
+              <text x="215" y="71" text-anchor="middle">Daten?</text>
+            </g>
+            <g id="node-anon" class="wizard-node">
+              <rect x="24" y="150" rx="18" ry="18" width="192" height="56"></rect>
+              <text x="120" y="177" text-anchor="middle">Vollständig</text>
+              <text x="120" y="194" text-anchor="middle">anonymisierbar?</text>
+            </g>
+            <g id="node-approved" class="wizard-node">
+              <rect x="214" y="150" rx="18" ry="18" width="192" height="56"></rect>
+              <text x="310" y="177" text-anchor="middle">Tool dienstlich</text>
+              <text x="310" y="194" text-anchor="middle">freigegeben?</text>
+            </g>
+            <g id="node-stop-red" class="wizard-node">
+              <rect x="18" y="278" rx="18" ry="18" width="124" height="58"></rect>
+              <text x="80" y="304" text-anchor="middle">Stopp:</text>
+              <text x="80" y="321" text-anchor="middle">Datenschutz</text>
+            </g>
+            <g id="node-stop-orange-1" class="wizard-node">
+              <rect x="288" y="278" rx="18" ry="18" width="124" height="58"></rect>
+              <text x="350" y="304" text-anchor="middle">Stopp:</text>
+              <text x="350" y="321" text-anchor="middle">Freigabe</text>
+            </g>
+            <g id="node-reviewable" class="wizard-node">
+              <rect x="121" y="310" rx="18" ry="18" width="188" height="56"></rect>
+              <text x="215" y="336" text-anchor="middle">Zweck klar &amp;</text>
+              <text x="215" y="353" text-anchor="middle">Ergebnis prüfbar?</text>
+            </g>
+            <g id="node-stop-orange-2" class="wizard-node">
+              <rect x="42" y="430" rx="18" ry="18" width="136" height="58"></rect>
+              <text x="110" y="456" text-anchor="middle">Stopp:</text>
+              <text x="110" y="473" text-anchor="middle">Auftrag schärfen</text>
+            </g>
+            <g id="node-ok" class="wizard-node">
+              <rect x="252" y="430" rx="18" ry="18" width="136" height="58"></rect>
+              <text x="320" y="456" text-anchor="middle">Freigabe:</text>
+              <text x="320" y="473" text-anchor="middle">zulässig</text>
+            </g>
+          </svg>
+          <div class="wizard-legend">
+            <span><i style="background: rgba(42,127,142,0.16); border: 1px solid #2a7f8e;"></i>aktiver Schritt</span>
+            <span><i style="background: rgba(39,174,96,0.14); border: 1px solid #27ae60;"></i>zulässig</span>
+            <span><i style="background: rgba(230,126,34,0.14); border: 1px solid #e67e22;"></i>nachschärfen / Freigabe</span>
+            <span><i style="background: rgba(194,71,48,0.12); border: 1px solid #c24730;"></i>Stopp</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const wizardNodes = {
+      start: { q: 'Enthält die Eingabe personenbezogene Daten?', hint: 'Starten Sie mit der Frage nach Personenbezug.', yes: 'anon', no: 'approved' },
+      anon: { q: 'Können die Daten vollständig anonymisiert werden?', hint: 'Denken Sie an direkte und indirekte Identifikatoren.', yes: 'approved', no: 'stop-red' },
+      approved: { q: 'Ist das Tool dienstlich freigegeben?', hint: 'Freigabestatus vor jeder Nutzung prüfen.', yes: 'reviewable', no: 'stop-orange-1' },
+      reviewable: { q: 'Ist der Zweck klar und das Ergebnis fachlich prüfbar?', hint: 'Prüfbarkeit entscheidet über sichere Nutzung.', yes: 'ok', no: 'stop-orange-2' },
+      'stop-red': {
+        result: 'Eingabe nicht zulässig.',
+        title: 'Datenschutzrechtlicher Stopp',
+        summary: 'Personenbezug oder sensible Details sind nicht ausreichend bereinigt.',
+        nextStep: 'Keine Daten eingeben. Fall anonymisieren oder Datenschutz und Informationssicherheit einbinden.',
+        documentation: 'Vermerken Sie kurz, warum der Fall gestoppt wurde und welche Klärung offen ist.',
+        tone: 'red'
+      },
+      'stop-orange-1': {
+        result: 'Tool nicht freigegeben.',
+        title: 'Governance-Freigabe fehlt',
+        summary: 'Der Anwendungsfall mag sinnvoll sein, ist aber organisatorisch noch nicht abgesichert.',
+        nextStep: 'Nur freigegebene Alternativen nutzen oder formale Freigabe beantragen.',
+        documentation: 'Dokumentieren Sie den Bedarf, den vorgesehenen Einsatzzweck und die betroffenen Datenkategorien.',
+        tone: 'orange'
+      },
+      'stop-orange-2': {
+        result: 'Auftrag zuerst nachschärfen.',
+        title: 'Prüfbarkeit noch nicht ausreichend',
+        summary: 'Zweck, Qualitätsmaßstab oder fachliche Kontrolle sind noch zu unklar.',
+        nextStep: 'Aufgabe enger fassen, Format definieren und Prüfschritte vorab festlegen.',
+        documentation: 'Halten Sie fest, welche Qualitätskriterien und Verantwortlichkeiten vor Nutzung geklärt werden.',
+        tone: 'orange'
+      },
+      ok: {
+        result: 'Eingabe ist zulässig.',
+        title: 'Nutzung kann verantwortbar erfolgen',
+        summary: 'Datenlage, Freigabe und fachliche Prüfbarkeit sind in diesem Fall tragfähig.',
+        nextStep: 'KI nutzen, Ergebnis prüfen und den Einsatz nachvollziehbar dokumentieren.',
+        documentation: 'Kurz festhalten: Tool, Zweck, Prüfschritt und finale fachliche Kontrolle.',
+        tone: 'green'
+      }
+    };
+
+    const nodeLabels = {
+      start: 'Personenbezug prüfen',
+      anon: 'Anonymisierung prüfen',
+      approved: 'Freigabestatus prüfen',
+      reviewable: 'Zweck und Prüfbarkeit prüfen',
+      'stop-red': 'Stopp wegen Datenschutz',
+      'stop-orange-1': 'Stopp wegen fehlender Freigabe',
+      'stop-orange-2': 'Auftrag nachschärfen',
+      ok: 'Nutzung ist zulässig'
+    };
+
+    const transitionLabels = {
+      'start->anon': 'Ja',
+      'start->approved': 'Nein',
+      'anon->approved': 'Ja',
+      'anon->stop-red': 'Nein',
+      'approved->reviewable': 'Ja',
+      'approved->stop-orange-1': 'Nein',
+      'reviewable->ok': 'Ja',
+      'reviewable->stop-orange-2': 'Nein'
+    };
+
+    function setupWizard() {
+      const question = document.getElementById('wizardQuestion');
+      const hint = document.getElementById('wizardHint');
+      const result = document.getElementById('wizardResult');
+      const buttons = document.getElementById('wizardButtons');
+      const reset = document.getElementById('wizardReset');
+      const stepIndicator = document.getElementById('wizardStepIndicator');
+      const summaryList = document.getElementById('wizardSummaryList');
+      let current = 'start';
+      let path = ['start'];
+
+      function paintMap() {
+        document.querySelectorAll('.wizard-node').forEach((node) => {
+          node.classList.remove('active', 'result-green', 'result-orange', 'result-red');
+        });
+        document.querySelectorAll('.wizard-edge').forEach((edge) => edge.classList.remove('active'));
+
+        const sequenceEdges = [];
+        for (let i = 0; i < path.length - 1; i += 1) {
+          const from = path[i];
+          const to = path[i + 1];
+          const edgeId = {
+            'start->anon': 'edge-start-anon',
+            'start->approved': 'edge-start-approved',
+            'anon->stop-red': 'edge-anon-stopred',
+            'anon->approved': 'edge-anon-approved',
+            'approved->stop-orange-1': 'edge-approved-stoporange1',
+            'approved->reviewable': 'edge-approved-reviewable',
+            'reviewable->stop-orange-2': 'edge-reviewable-stoporange2',
+            'reviewable->ok': 'edge-reviewable-ok'
+          }[`${from}->${to}`];
+          if (edgeId) sequenceEdges.push(edgeId);
+        }
+        sequenceEdges.forEach((id) => document.getElementById(id)?.classList.add('active'));
+
+        const currentNodeId = {
+          start: 'node-start',
+          anon: 'node-anon',
+          approved: 'node-approved',
+          reviewable: 'node-reviewable',
+          'stop-red': 'node-stop-red',
+          'stop-orange-1': 'node-stop-orange-1',
+          'stop-orange-2': 'node-stop-orange-2',
+          ok: 'node-ok'
+        }[current];
+        if (currentNodeId) {
+          const node = document.getElementById(currentNodeId);
+          if (node) {
+            const tone = wizardNodes[current]?.tone;
+            node.classList.add(tone ? `result-${tone}` : 'active');
+          }
+        }
+      }
+
+      function renderSummary() {
+        summaryList.innerHTML = path.map((nodeId, index) => {
+          const node = wizardNodes[nodeId];
+          const title = nodeLabels[nodeId] || 'Prüfschritt';
+          const body = node.result || node.hint || '';
+          const answer = index === 0 ? '' : `<em class="wizard-summary-answer">${transitionLabels[`${path[index - 1]}->${nodeId}`] || 'Weiter'}</em>`;
+          return `<div class="wizard-summary-item"><span class="wizard-summary-step">${index + 1}</span><div><strong>${title}</strong><span>${body}</span>${answer}</div></div>`;
+        }).join('');
+      }
+
+      function render() {
+        const node = wizardNodes[current];
+        if (node.result) {
+          question.textContent = 'Ergebnis';
+          hint.textContent = 'Bewerten Sie den Fall anhand des Ergebnisses und dokumentieren Sie die Entscheidung.';
+          result.innerHTML = `
+            <div class="wizard-result-kicker">Entscheidung</div>
+            <h3>${node.title}</h3>
+            <p>${node.summary}</p>
+            <div class="wizard-result-grid">
+              <div class="wizard-result-detail"><span>Status</span><strong>${node.result}</strong></div>
+              <div class="wizard-result-detail"><span>Nächster Schritt</span><strong>${node.nextStep}</strong></div>
+              <div class="wizard-result-detail"><span>Dokumentation</span><strong>${node.documentation}</strong></div>
+            </div>`;
+          result.className = `wizard-result visible ${node.tone}`;
+          buttons.querySelectorAll('[data-answer]').forEach((btn) => btn.style.display = 'inline-flex');
+          if (stepIndicator) stepIndicator.textContent = 'Entscheidung getroffen';
+        } else {
+          question.textContent = node.q;
+          hint.textContent = node.hint;
+          result.className = 'wizard-result';
+          result.innerHTML = '';
+          buttons.querySelectorAll('[data-answer]').forEach((btn) => btn.style.display = 'inline-flex');
+          if (stepIndicator) stepIndicator.textContent = `Prüfschritt ${path.filter((id) => !wizardNodes[id].result).length} von 4`;
+        }
+        renderSummary();
+        paintMap();
+      }
+
+      buttons.addEventListener('click', (event) => {
+        const btn = event.target.closest('[data-answer]');
+        if (!btn) return;
+        if (btn.id === 'wizardReset') return;
+        const node = wizardNodes[current];
+        current = btn.dataset.answer === 'ja' ? node.yes : node.no;
+        path.push(current);
+        render();
+      });
+
+      reset.addEventListener('click', () => {
+        current = 'start';
+        path = ['start'];
+        render();
+      });
+
+      render();
+    }
+
+    setupWizard();
+  </script>
+</body>
+</html>

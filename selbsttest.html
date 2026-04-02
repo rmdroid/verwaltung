@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selbsttest | KI in der Verwaltung</title>
+  <style>
+    :root {
+      --blue: #0f2f55;
+      --blue-deep: #081a32;
+      --petrol: #4d91a7;
+      --petrol-soft: rgba(233, 244, 247, 0.94);
+      --blue-soft: rgba(235, 242, 250, 0.96);
+      --bg: #eef2f6;
+      --text: #142033;
+      --muted: #5d6a7f;
+      --green: #1f9b5a;
+      --shadow: 0 28px 70px rgba(10, 25, 49, 0.08);
+      --glass-shadow: 0 16px 40px rgba(10, 25, 49, 0.1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(77,145,167,0.2), transparent 26%),
+        radial-gradient(circle at 82% 10%, rgba(15,47,85,0.12), transparent 24%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f6 34%, #ebeff4 100%);
+      min-height: 100vh;
+      padding: 40px 24px;
+    }
+    .page { width: min(1360px, 100%); margin: 0 auto; display: grid; gap: 24px; }
+    .hero, .shell {
+      background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(246,249,252,0.78));
+      border: 1px solid rgba(255,255,255,0.82);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px) saturate(120%);
+    }
+    .hero, .shell { padding: 34px 38px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px;
+      background: rgba(15,47,85,0.05); color: var(--blue); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 10px; height: 10px; border-radius: 999px; background: linear-gradient(180deg, var(--petrol), var(--blue)); }
+    h1 { margin: 18px 0 12px; font-size: clamp(2.4rem, 4.8vw, 4.2rem); line-height: 0.96; color: var(--blue); letter-spacing: -0.05em; }
+    p { margin: 0 0 12px; line-height: 1.7; color: var(--muted); font-size: 1.03rem; max-width: 1040px; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+    .mini-card {
+      padding: 22px 24px; border-radius: 24px; background: rgba(255,255,255,0.66); border: 1px solid rgba(255,255,255,0.8); box-shadow: var(--glass-shadow);
+    }
+    .mini-card h3 { margin: 0 0 8px; color: var(--blue); font-size: 1.18rem; }
+    .mini-card ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.65; }
+    .score-shell {
+      margin-top: 12px; display: flex; justify-content: space-between; gap: 12px; align-items: center;
+      color: var(--blue); font-weight: 700;
+    }
+    .score-bar {
+      width: 100%; height: 10px; border-radius: 999px; background: rgba(26,61,109,0.08); overflow: hidden;
+    }
+    .score-fill {
+      width: 0%; height: 100%; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width 0.35s ease;
+    }
+    .cards-grid { display: grid; gap: 14px; margin-top: 18px; }
+    .rating-item {
+      padding: 20px; border-radius: 24px; background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.78); box-shadow: 0 12px 30px rgba(10, 25, 49, 0.05);
+    }
+    .rating-item strong {
+      display: block; margin-bottom: 8px; color: var(--blue); font-size: 1.06rem; line-height: 1.45;
+    }
+    .hero-footnote { font-size: 0.92rem; color: var(--muted); }
+    .answer-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .answer-btn {
+      min-height: 52px; text-align: center; border-radius: 16px; border: 1px solid rgba(15,47,85,0.14);
+      background: rgba(255,255,255,0.82); color: var(--text); padding: 13px 12px; cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; font-weight: 700;
+    }
+    .answer-btn:hover,
+    .answer-btn:focus-visible {
+      border-color: var(--petrol); outline: none; transform: translateY(-1px); box-shadow: 0 10px 24px rgba(10, 25, 49, 0.06);
+    }
+    .answer-btn.correct { background: rgba(39,174,96,0.14); border-color: rgba(39,174,96,0.45); }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    .wizard-btn, .copy-btn {
+      min-height: 46px; padding: 0 18px; border-radius: 14px; border: 0; cursor: pointer; font-weight: 700; font-size: 0.98rem;
+    }
+    .wizard-btn { background: linear-gradient(135deg, var(--blue), var(--blue-deep)); color: #fff; }
+    .copy-btn { background: rgba(15,47,85,0.08); color: var(--blue); }
+    .self-result {
+      display: none; margin-top: 16px; padding: 20px; border-radius: 18px; font-weight: 600;
+    }
+    .self-result.visible { display: block; }
+    .self-result.blue { background: var(--blue-soft); color: var(--blue); }
+    .self-result.petrol { background: var(--petrol-soft); color: #0d5661; }
+    .self-result.green { background: rgba(39,174,96,0.14); color: #155c35; }
+    @media (max-width: 980px) {
+      .hero-grid, .answer-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Teil 5.2 · Selbsttest</div>
+      <h1>KI-Kompetenzprofil als Momentaufnahme</h1>
+      <p>Dieser Selbsttest ist keine Prüfung. Er zeigt, wo bereits Sicherheit da ist und wo noch Unsicherheit bei Prompting, Prüfung, Datenschutz, Dokumentation oder Verstetigung besteht. Genau deshalb eignet er sich für Kursbeginn und Kursende.</p>
+      <div class="hero-grid">
+        <div class="mini-card">
+          <h3>Wofür der Test gedacht ist</h3>
+          <ul>
+            <li>eigene Selbsteinschätzung sichtbar machen</li>
+            <li>Veränderung im Kursverlauf erkennbar machen</li>
+            <li>Stärken und Lernfelder nüchtern einordnen</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h3>Wie Sie ihn nutzen können</h3>
+          <ul>
+            <li>zu Beginn als Standortbestimmung</li>
+            <li>zum Ende als Vorher-/Nachher-Vergleich</li>
+            <li>später erneut für Team- oder Lernpfade</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div id="selfAssessment"></div>
+    </section>
+  </main>
+
+  <script>
+    const selfStatements = [
+      'Ich kann Aufgaben identifizieren, die sich für KI-Unterstützung eignen.',
+      'Ich formuliere Prompts mit klarer Struktur.',
+      'Ich erkenne typische Halluzinationssignale.',
+      'Ich prüfe Fakten systematisch vor Übernahme.',
+      'Ich beachte Datenschutz und interne Freigaben sicher.',
+      'Ich kann Ergebnisse für unterschiedliche Zielgruppen anpassen.',
+      'Ich nutze Iterationen, um Ergebnisse zu verbessern.',
+      'Ich dokumentiere KI-Nutzung nachvollziehbar.',
+      'Ich kenne die Grundlogik des EU AI Act für meinen Bereich.',
+      'Ich kann Kolleginnen und Kollegen beim Einstieg unterstützen.'
+    ];
+
+    function storageKey(key) { return `ki-verwaltung:${key}`; }
+
+    function renderSelfAssessment() {
+      const host = document.getElementById('selfAssessment');
+      if (!host) return;
+      const state = JSON.parse(localStorage.getItem(storageKey('self-assessment')) || '[]');
+      host.innerHTML = `
+        <div class="score-shell"><span>Live-Punktzahl</span><span id="scoreValue">0 / 50</span></div>
+        <div class="score-bar"><div class="score-fill" id="scoreFill"></div></div>
+        <div class="cards-grid" id="ratingsWrap"></div>
+        <div class="hero-actions">
+          <button class="wizard-btn" type="button" id="evaluateSelfBtn">Auswerten</button>
+          <button class="copy-btn" type="button" id="copySelfBtn">Ergebnis als Text kopieren</button>
+        </div>
+        <div class="self-result" id="selfResult"></div>`;
+
+      const wrap = host.querySelector('#ratingsWrap');
+      selfStatements.forEach((statement, index) => {
+        const value = state[index] || 0;
+        const row = document.createElement('div');
+        row.className = 'rating-item';
+        row.innerHTML = `<strong>${index + 1}) ${statement}</strong><div class="hero-footnote">1 = trifft nicht zu · 5 = trifft vollständig zu</div><div class="answer-list">${[1,2,3,4,5].map((n) => `<button class="answer-btn${value === n ? ' correct' : ''}" type="button" data-value="${n}">${n}</button>`).join('')}</div>`;
+        row.querySelectorAll('[data-value]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state[index] = Number(btn.dataset.value);
+            localStorage.setItem(storageKey('self-assessment'), JSON.stringify(state));
+            renderSelfAssessment();
+          });
+        });
+        wrap.appendChild(row);
+      });
+
+      const total = state.reduce((sum, item) => sum + (Number(item) || 0), 0);
+      document.getElementById('scoreValue').textContent = `${total} / 50`;
+      document.getElementById('scoreFill').style.width = `${(total / 50) * 100}%`;
+      const result = document.getElementById('selfResult');
+
+      document.getElementById('evaluateSelfBtn').addEventListener('click', () => {
+        let cls = 'blue';
+        let text = 'Einstiegsebene – Fokus auf Grundlagen und sichere Routine.';
+        if (total >= 40) { cls = 'green'; text = 'Fortgeschrittene Ebene – Fokus auf Multiplikation und Teambefähigung.'; }
+        else if (total >= 25) { cls = 'petrol'; text = 'Solide Anwendungsebene – Fokus auf Qualität und Standardisierung.'; }
+        result.className = `self-result visible ${cls}`;
+        result.textContent = `${total} Punkte. ${text}`;
+        localStorage.setItem(storageKey('self-assessment-result'), result.textContent);
+      });
+
+      document.getElementById('copySelfBtn').addEventListener('click', async () => {
+        const text = localStorage.getItem(storageKey('self-assessment-result')) || `${total} Punkte – noch nicht ausgewertet.`;
+        try { await navigator.clipboard.writeText(text); } catch (_) {}
+      });
+    }
+
+    renderSelfAssessment();
+  </script>
+</body>
+</html>
