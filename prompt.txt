@@ -1,0 +1,179 @@
+Beispielprompts für den VHS-Kurs „KI in der Verwaltung“
+Robert Meyer
+
+Wichtiger Hinweis vor der Nutzung
+Diese Vorlagen sind nur für freigegebene Tools und nur mit datensparsamen, unkritischen oder ausreichend anonymisierten Inhalten gedacht. Keine personenbezogenen oder sensiblen Daten eingeben, wenn dies nicht ausdrücklich erlaubt ist.
+
+1. Bürgerkommunikation verständlich machen
+Einsatz
+Wenn ein fachlich richtiger, aber schwer verständlicher Text bürgernäher formuliert werden soll.
+
+Prompt
+Rolle:
+Sie sind Schreibassistenz für eine öffentliche Verwaltung.
+
+Kontext:
+Es geht um einen fachlich richtigen, aber sprachlich schwer verständlichen Text, der für Bürgerinnen und Bürger verständlicher aufbereitet werden soll.
+
+Aufgabe:
+Formulieren Sie den folgenden Text in klarer, verständlicher Sprache für Bürgerinnen und Bürger um.
+Vorgaben:
+- verständlich, sachlich und respektvoll
+- keine neuen Tatsachen hinzufügen
+- keine Rechtsberatung formulieren
+- unklare oder fehlende Informationen nicht erfinden
+
+Ausgabeformat:
+1. Betreff
+2. kurze verständliche Kernbotschaft
+3. nächste Schritte für die adressierte Person
+4. offene Punkte oder fehlende Informationen separat markieren
+
+Grenzen und Prüfkriterien:
+- Wenn Aussagen fachlich nicht eindeutig aus dem Ausgangstext hervorgehen, markieren Sie diese als „prüfbedürftig“ statt sie auszuschmücken.
+- sprachlich klar
+- fachlich nicht erweitert
+- für Bürgerinnen und Bürger verständlich
+- menschlich prüfbar vor Freigabe
+
+Arbeitsmaterial:
+[Text einfügen]
+
+2. Sachstand als Vermerk strukturieren
+Einsatz
+Wenn aus einem längeren Inhalt oder Notizen ein verwaltungsnaher Vermerk oder Zwischenstand entstehen soll.
+
+Prompt
+Rolle:
+Sie sind Assistenz für interne Verwaltungsvermerke.
+
+Kontext:
+Aus längeren Notizen oder unsortierten Informationen soll ein kurzer, fachlich prüfbarer Sachstandsvermerk entstehen.
+
+Aufgabe:
+Strukturieren Sie den folgenden Inhalt als knappen Sachstandsvermerk.
+Vorgaben:
+- keine neuen Tatsachen hinzufügen
+- Unsicherheiten sichtbar lassen
+- keine Wertungen ohne Grundlage
+
+Ausgabeformat:
+1. Ausgangslage
+2. bisheriger Sachstand
+3. offene Punkte
+4. Risiken / Klärungsbedarf
+5. empfohlene nächste Schritte
+
+Grenzen und Prüfkriterien:
+- Wenn Informationen widersprüchlich, unvollständig oder interpretationsbedürftig sind, markieren Sie diese ausdrücklich unter „offene Punkte“.
+- logisch strukturiert
+- fachlich zurückhaltend
+- Unsicherheiten klar markiert
+- für menschliche Prüfung geeignet
+
+Arbeitsmaterial:
+[Text oder Notizen einfügen]
+
+3. Lange Eingabe verdichten und priorisieren
+Einsatz
+Wenn ein langer Text, eine Stellungnahme oder ein Schreiben schnell in eine prüfbare Übersicht gebracht werden soll.
+
+Prompt
+Rolle:
+Sie unterstützen bei der Analyse langer Texte im Verwaltungskontext.
+
+Kontext:
+Eine lange Eingabe, Stellungnahme oder ein Schreiben soll in eine prüfbare Arbeitsübersicht überführt werden.
+
+Aufgabe:
+Analysieren Sie den folgenden Text und verdichten Sie ihn zu einer Arbeitsübersicht für die weitere Prüfung.
+Vorgaben:
+- Kernaussagen schnell erfassbar machen
+- Fristen, Forderungen und Risiken sichtbar machen
+- keine inhaltlichen Ergänzungen erfinden
+
+Ausgabeformat:
+1. Kernaussagen in 5 bis 7 Punkten
+2. Fristen / Termine
+3. Forderungen oder Erwartungen
+4. offene Fragen
+5. Punkte mit hohem Prüfbedarf
+
+Grenzen und Prüfkriterien:
+- Wenn Fristen, Zuständigkeiten oder rechtliche Aussagen nicht eindeutig aus dem Text hervorgehen, markieren Sie diese als „nicht eindeutig ableitbar“.
+- kompakt und vollständig genug für den Einstieg
+- keine stillen Ergänzungen
+- Prioritäten und Prüfbedarf sichtbar
+- anschlussfähig für menschliche Weiterbearbeitung
+
+Arbeitsmaterial:
+[Text einfügen]
+
+4. Review- und Freigabehilfe
+Einsatz
+Wenn ein KI-Ergebnis nicht nur sprachlich, sondern fachlich und organisatorisch geprüft werden soll.
+
+Prompt
+Rolle:
+Sie sind Prüfassistenz für die fachliche Vorprüfung eines KI-gestützten Entwurfs im Verwaltungskontext.
+
+Kontext:
+Ein erster Entwurf liegt vor und soll vor einer möglichen Freigabe kritisch gesichtet werden.
+
+Aufgabe:
+Prüfen Sie den folgenden Entwurf kritisch.
+Vorgaben:
+- sprachliche Schwächen sichtbar machen
+- fachlichen Prüfbedarf markieren
+- Risiken und Fehlinterpretationen offenlegen
+
+Ausgabeformat:
+1. sprachlich unklare Stellen
+2. fachlich prüfbedürftige Stellen
+3. mögliche Risiken oder Fehlinterpretationen
+4. konkrete Freigabe-Checkliste in 5 Punkten
+
+Grenzen und Prüfkriterien:
+- Keine eigenen fachlichen Korrekturen erfinden, sondern nur Prüfbedarf und Auffälligkeiten markieren.
+- Wo sind Aussagen unklar, zu pauschal oder potenziell irreführend?
+- Wo könnten Fakten fehlen oder stillschweigend ergänzt worden sein?
+- Wo ist die Sprache unangemessen, missverständlich oder zu komplex?
+- Welche Passagen sollten vor einer Freigabe zwingend menschlich geprüft werden?
+
+Arbeitsmaterial:
+[Text einfügen]
+
+5. Verwaltungs-Prompt-Schablone
+Einsatz
+Als universelle Vorlage für wiederkehrende Aufgaben in ChatGPT, Gemini oder Mistral.
+
+Prompt
+Rolle:
+Sie sind [Rolle, z. B. Schreibassistenz / Analyseassistenz / Strukturierungsassistenz] für eine öffentliche Verwaltung.
+
+Kontext:
+[kurz beschreiben, worum es geht]
+
+Aufgabe:
+[genau beschreiben, was erstellt, geprüft oder strukturiert werden soll]
+Vorgaben:
+- [optional: Zielgruppe oder Verwendungszweck direkt hier ergänzen]
+
+Ausgabeformat:
+[z. B. Liste / Vermerk / Entwurf / Tabelle / Zusammenfassung]
+
+Grenzen und Prüfkriterien:
+- keine neuen Tatsachen hinzufügen
+- Unsicherheiten sichtbar markieren
+- verständliche, sachliche Sprache
+- nur Informationen aus dem bereitgestellten Material verwenden
+- keine sensiblen Inhalte erfinden oder ergänzen
+- fachlich nachvollziehbar
+- sprachlich passend
+- mit menschlicher Prüfung freigabefähig
+
+Wenn Informationen fehlen oder nicht eindeutig sind:
+Kennzeichnen Sie diese ausdrücklich als offen oder prüfbedürftig.
+
+Arbeitsmaterial:
+[Text einfügen]
