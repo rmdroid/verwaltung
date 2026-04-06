@@ -1,4 +1,4 @@
-Beispielprompts für den VHS-Kurs „KI in der Verwaltung“
+ Beispielprompts für den VHS-Kurs „KI in der Verwaltung“
 Robert Meyer
 
 Wichtiger Hinweis vor der Nutzung
@@ -38,6 +38,8 @@ Grenzen und Prüfkriterien:
 
 Arbeitsmaterial:
 [Text einfügen]
+
+
 
 2. Sachstand als Vermerk strukturieren
 Einsatz
@@ -177,3 +179,91 @@ Kennzeichnen Sie diese ausdrücklich als offen oder prüfbedürftig.
 
 Arbeitsmaterial:
 [Text einfügen]
+
+
+
+
+
+
+
+
+
+----------------------------------------
+Optimierter Lernpfad
+----------------------------------------
+
+Diese Prompts dienen nicht der direkten Texterzeugung für Verwaltungsvorgänge, sondern dem eigenständigen Lernen mit KI-Unterstützung. Sie helfen dabei, ein Thema schrittweise zu durchdenken, zu verstehen, zu erklären und entlang eines Lernpfads aktiv zu vertiefen.
+
+Schritt 1: Sokratisches Fragen – Denkprozesse aktivieren
+Ziel
+Eigenständiges Denken und strukturierte Reflexion anregen.
+
+Prompt
+Agieren Sie als sokratischer Tutor.
+Stellen Sie mir durchdachte, stufenweise Fragen zum Thema [Thema einfügen].
+Ziel ist es, mich durch gezieltes Nachfragen zum eigenständigen Denken zu führen – ohne mir direkt die Antworten zu geben.
+
+Hinweis
+Dieser Schritt kann mehrfach wiederholt werden, zum Beispiel zu Teilaspekten eines Themas.
+
+
+Schritt 2: Multi-Level-Erklärung – Tiefenverständnis aufbauen
+Ziel
+Das Thema aus verschiedenen Perspektiven erfassen und differenzieren.
+
+Prompt
+Erkläre mir das Thema [Thema einfügen] auf drei Verständnisebenen:
+
+- Level 1: Für ein Kind
+- Level 2: Für eine/n Hochschüler/in
+- Level 3: Für eine/n Wissenschaftler/in
+
+Hinweis
+Lies die Erklärung nicht nur durch, sondern erkläre sie dir selbst laut nach, um Verständnislücken zu erkennen.
+
+
+Schritt 3: Perspektivwechsel und KI-Feedback – aktives Prüfen
+Ziel
+Eigenes Erklärungsvermögen trainieren, Feedback erhalten und Lücken schließen.
+
+Prompt
+Ich werde dir nun das Thema [Thema einfügen] auf drei Ebenen erklären:
+
+- Level 1 (für ein Kind)
+- Level 2 (für eine/n Hochschüler/in)
+- Level 3 (für eine/n Wissenschaftler/in)
+
+Bitte analysiere danach meine Erklärungen auf Verständlichkeit und fachliche Korrektheit.
+Gib mir für jedes Level:
+- eine Bewertung meines Verständnisses
+- Hinweise auf eventuelle Missverständnisse oder Unklarheiten
+- eine gezielte Rückfrage, um mein Verständnis weiter zu vertiefen
+
+
+Schritt 4: Lernen mit der Bloom-Taxonomie – aktives Kompetenzerleben
+Ziel
+Lerntransfer durch Aufgaben entlang der sechs kognitiven Ebenen.
+
+Prompt
+Erstelle mir eine Lernreise zum Thema [Thema einfügen] anhand der sechs Stufen der Bloom’schen Taxonomie:
+
+1. Erinnern: Fakten und Begriffe wiedergeben
+2. Verstehen: Inhalte erklären und beschreiben
+3. Anwenden: Konzepte in Beispielen nutzen
+4. Analysieren: Strukturen, Zusammenhänge und Unterschiede erkennen
+5. Evaluieren: Aussagen oder Vorgehensweisen beurteilen
+6. Kreieren: eigenständig neue Ideen, Modelle oder Anwendungen entwickeln
+
+Gib mir zu jeder Stufe:
+- eine konkrete Aufgabe oder Fragestellung
+- optional Feedbackkriterien, an denen ich meine Antwort prüfen kann
+
+
+Zusatzoption: Metareflexion
+Ziel
+Eigene Lernmuster und Denkbewegungen sichtbar machen.
+
+Prompt
+Welche Lernmuster erkennst du in meinen Antworten?
+Wo scheint mein Denken besonders klar oder undeutlich zu sein?
+Welche Art von Übung oder Perspektive könnte mir helfen, mein Verständnis zu vertiefen?
