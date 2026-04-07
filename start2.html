@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KI in der Verwaltung | VHS Testdeck Prezi-Stil</title>
+  <style>
+    :root {
+      --bg: #081423;
+      --ink: #f4f8fc;
+      --muted: rgba(244, 248, 252, 0.82);
+      --line: rgba(255, 255, 255, 0.14);
+      --accent: #8ab4ff;
+      --accent-2: #7fd1c3;
+      --panel: rgba(9, 22, 38, 0.56);
+      --panel-strong: rgba(9, 22, 38, 0.74);
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Aptos", "Segoe UI Variable", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(138, 180, 255, 0.12), transparent 24%),
+        radial-gradient(circle at 88% 88%, rgba(127, 209, 195, 0.1), transparent 22%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      z-index: 30;
+    }
+
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .35s ease;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.04);
+      transition: opacity .5s ease, transform .65s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .slide-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.06);
+      transition: transform 7s ease;
+    }
+
+    .slide.active .slide-bg {
+      transform: scale(1);
+    }
+
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(5, 14, 26, 0.78) 0%, rgba(5, 14, 26, 0.42) 44%, rgba(5, 14, 26, 0.14) 100%),
+        linear-gradient(180deg, rgba(5, 14, 26, 0.16) 0%, rgba(5, 14, 26, 0.52) 100%);
+    }
+
+    .stage {
+      position: relative;
+      z-index: 2;
+      width: min(1240px, calc(100vw - 56px));
+      height: calc(100vh - 112px);
+      margin: 56px auto;
+      display: grid;
+      align-items: center;
+      padding: 28px;
+    }
+
+    .layout-hero {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+    }
+
+    .layout-path {
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+    }
+
+    .layout-dialogue {
+      grid-template-columns: 0.96fr 1.04fr;
+      gap: 24px;
+    }
+
+    .layout-split {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .panel {
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel-strong) 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-panel {
+      padding: 34px 36px 30px;
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-panel > .slide-no {
+      align-self: flex-end;
+    }
+
+    .hero-panel.centered-start {
+      justify-content: center;
+      gap: 42px;
+    }
+
+    .copy-panel,
+    .steps-panel {
+      padding: 30px 32px;
+      min-height: 540px;
+      display: grid;
+      align-content: start;
+      gap: 18px;
+    }
+
+    .steps-panel.bottom-no {
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(244, 248, 252, 0.76);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), rgba(138, 180, 255, 0.12));
+    }
+
+    .slide-no {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+    }
+
+    .speaker-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(244, 248, 252, 0.84);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .module-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(138, 180, 255, 0.24), rgba(127, 209, 195, 0.18));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--ink);
+      width: fit-content;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .module-mark strong {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .module-mark span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .tool-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(127, 209, 195, 0.22), rgba(138, 180, 255, 0.16));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--ink);
+      width: fit-content;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .tool-mark strong {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .tool-mark span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 0.98;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    h1 {
+      font-size: clamp(48px, 6.2vw, 82px);
+      letter-spacing: -0.05em;
+      max-width: 760px;
+    }
+
+    h2 {
+      font-size: clamp(38px, 4.6vw, 60px);
+      letter-spacing: -0.04em;
+      max-width: 760px;
+    }
+
+    h3 {
+      font-size: clamp(18px, 2vw, 26px);
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    p {
+      margin: 0;
+      font-size: clamp(18px, 1.6vw, 22px);
+      line-height: 1.52;
+      color: var(--muted);
+    }
+
+    .hero-subline {
+      max-width: 620px;
+      margin-top: 18px;
+    }
+
+    .promise-list,
+    .ask-list,
+    .step-list,
+    .quick-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .promise-list li,
+    .ask-list li,
+    .step-list li,
+    .quick-list li {
+      padding: 15px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .promise-list strong,
+    .ask-list strong,
+    .step-list strong,
+    .quick-list strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-card span {
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 16px;
+    }
+
+    .link-box {
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      display: grid;
+      gap: 10px;
+    }
+
+    .link-box small {
+      color: rgba(244, 248, 252, 0.72);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .link-box a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 18px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .timeline-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .timeline-row strong {
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      align-self: start;
+    }
+
+    .timeline-row span {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.38;
+    }
+
+    .step-card {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .step-card span {
+      display: block;
+      margin-bottom: 6px;
+      color: rgba(244, 248, 252, 0.72);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .step-card strong {
+      display: block;
+      color: var(--ink);
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .nav {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(9, 22, 38, 0.78);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      z-index: 40;
+    }
+
+    .nav button {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(180deg, rgba(138, 180, 255, 0.22), rgba(127, 209, 195, 0.18));
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .nav button:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .counter {
+      min-width: 72px;
+      text-align: center;
+      color: var(--ink);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 980px) {
+      html, body { overflow: auto; }
+      .deck { height: auto; }
+      .slide {
+        position: static;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+      }
+      .stage {
+        width: min(100vw - 20px, 100%);
+        height: auto;
+        margin: 10px auto 24px;
+        padding: 10px 0;
+      }
+      .layout-hero,
+      .layout-path,
+      .layout-dialogue,
+      .layout-split,
+      .step-grid,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-panel,
+      .copy-panel,
+      .steps-panel,
+      .visual-image {
+        min-height: auto;
+      }
+      .slide-bg {
+        position: absolute;
+      }
+      .nav, .progress { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <main class="deck">
+    <section class="slide active">
+      <div class="slide-bg" style="background-image:url('1.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-hero">
+        <div class="panel hero-panel centered-start">
+          <div>
+            <div class="eyebrow">Ganztageskurs · VHS Kreisverwaltung Friedberg</div>
+            <h1 style="font-size:clamp(44px,5.6vw,72px); max-width:840px;">Willkommen<br>zum VHS-Kurs Einsteiger KI</h1>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:16px;">
+            <div class="speaker-tag">Robert Meyer</div>
+            <div class="slide-no">01</div>
+          </div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Tagesversprechen</div>
+          <ul class="promise-list">
+            <li><strong>Klarer Zugang</strong>ohne Technikstress und ohne Vorwissen-Hürde.</li>
+            <li><strong>Reale Anwendungsfälle</strong>statt abstrakter Tool-Begeisterung.</li>
+            <li><strong>Prüfen vor Übernehmen</strong>als wichtigste Arbeitsregel.</li>
+            <li><strong>Ein erster Umsetzungsfall</strong>für den eigenen Bereich.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('2.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-path">
+        <div class="panel steps-panel bottom-no">
+          <div class="eyebrow">Roter Faden</div>
+          <h2>Vom Verstehen<br>zur Umsetzungsroutine</h2>
+          <div style="display:flex; justify-content:flex-end; align-self:end;">
+            <div class="slide-no">02</div>
+          </div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="step-grid">
+            <div class="step-card">
+              <span>Schritt 1</span>
+              <strong>Verstehen und einordnen</strong>
+            </div>
+            <div class="step-card">
+              <span>Schritt 2</span>
+              <strong>Geeignete Einsatzfelder erkennen</strong>
+            </div>
+            <div class="step-card">
+              <span>Schritt 3</span>
+              <strong>Sicher und regelklar arbeiten</strong>
+            </div>
+            <div class="step-card">
+              <span>Schritt 4</span>
+              <strong>Transfer in den Alltag sichern</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('3.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-dialogue">
+        <div class="panel hero-panel">
+          <div>
+            <div class="eyebrow">Start 1/3 · Vorstellungsrunde</div>
+            <h2>Vorstellungsrunde<br>mit KI-Bezug</h2>
+          </div>
+          <div class="slide-no">03</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Zum Einstieg</div>
+          <ul class="ask-list">
+            <li><strong>Wer sind Sie?</strong>Name und Bereich.</li>
+            <li><strong>Wo stehen Sie?</strong>Nutzen Sie bereits KI oder eher noch nicht?</li>
+            <li><strong>Was interessiert Sie heute?</strong>Erwartungen, Fragen, Unsicherheiten.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('4.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="eyebrow">Start 2/3 · Selbsttest</div>
+            <h2>Standort vor dem Kurs</h2>
+            <p class="hero-subline">Erst orientieren, dann lernen. Der Selbsttest ist keine Prüfung, sondern ein ruhiger Startpunkt.</p>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:16px;">
+            <div class="link-box" style="max-width:420px;">
+              <small>Kurs-Link</small>
+              <a href="https://rmdroid.github.io/verwaltung/" target="_blank" rel="noopener noreferrer">rmdroid.github.io/verwaltung/</a>
+            </div>
+            <div class="slide-no">04</div>
+          </div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">So starten wir</div>
+          <ul class="quick-list">
+            <li><strong>Kurs-Startseite öffnen</strong>Die Übersicht ist heute Ihr gemeinsamer Einstiegspunkt.</li>
+            <li><strong>Mit dem Selbsttest beginnen</strong>Bitte zuerst nur diesen Schritt bearbeiten.</li>
+            <li><strong>Eigene Einschätzung</strong>Es geht um Klarheit, nicht um richtig oder falsch.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('5.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="eyebrow">Start 3/3 · Warum dieser Tag wichtig ist</div>
+            <h2>Die eigentliche Herausforderung<br>ist die KI-Kluft</h2>
+            <p class="hero-subline">Nicht nur zwischen Mensch und Technik, sondern zwischen unterschiedlichen Arbeitsrealitäten.</p>
+          </div>
+          <div class="slide-no">05</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Worum es geht</div>
+          <ul class="quick-list">
+            <li><strong>Zwischen Bürgern und Verwaltung</strong>Bürger nutzen KI oft schon für strukturierte und lange Eingaben.</li>
+            <li><strong>Innerhalb der Verwaltung</strong>Einige arbeiten bereits produktiv mit KI, andere stehen noch am Anfang.</li>
+            <li><strong>Ziel des Tages</strong>Mehr Handlungsfähigkeit statt mehr Unsicherheit.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('6.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel steps-panel bottom-no">
+          <div class="eyebrow">Tagesbild · Fünf Module</div>
+          <h2>Der Tag in fünf<br>klaren Schritten</h2>
+          <div style="display:flex; justify-content:flex-end; align-self:end;">
+            <div class="slide-no">06</div>
+          </div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="timeline-panel">
+            <div class="timeline-row">
+              <strong>Auftakt</strong>
+              <span>Start, Vorstellungsrunde und Selbsttest</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Modul 1</strong>
+              <span>Verstehen und einordnen</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Modul 2</strong>
+              <span>Einsatzfelder erkennen</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Pause</strong>
+              <span>10:30–10:45</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Modul 3</strong>
+              <span>Sicher arbeiten</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Pause</strong>
+              <span>12:00–12:30</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Modul 4</strong>
+              <span>Prompts und Prüfung</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Pause</strong>
+              <span>14:00–14:15</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Modul 5</strong>
+              <span>Transfer sichern</span>
+            </div>
+            <div class="timeline-row">
+              <strong>Abschluss</strong>
+              <span>Selbsttest erneut und Abschlussreflexion</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('7.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="eyebrow">Arbeitsmodus · Lernen mit KI-Unterstützung</div>
+            <h2>So arbeiten wir<br>heute miteinander</h2>
+            <p class="hero-subline">Weniger Vortragen. Mehr eigenes Arbeiten, Verstehen und Erklären.</p>
+          </div>
+          <div class="slide-no">07</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Arbeitsweise</div>
+          <ul class="quick-list">
+            <li><strong>Tandems oder Einzelarbeit</strong>Jede Person arbeitet im passenden Tempo.</li>
+            <li><strong>Modul für Modul</strong>Kurzer Einstieg, dann selbstständige Arbeit mit KI-Unterstützung.</li>
+            <li><strong>NotebookLM oder ChatGPT</strong>Lernen, prüfen und Ergebnisse anschließend in der Gruppe teilen.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('8.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="module-mark"><strong>Modul</strong><span>1</span></div>
+            <div style="height:14px;"></div>
+            <div class="eyebrow">Modul 1 · Verstehen und einordnen</div>
+            <h2>Was KI kann.<br>Was sie nicht kann.</h2>
+            <p class="hero-subline">Zuerst schaffen wir ein gemeinsames Verständnis.</p>
+          </div>
+          <div class="slide-no">08</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Einblick in Modul 1</div>
+          <ul class="quick-list">
+            <li><strong>KI ist nicht gleich KI</strong>Wir unterscheiden sauber zwischen Begriff, Oberfläche und System.</li>
+            <li><strong>Sprachmodelle sind keine Wahrheitssysteme</strong>Sie erzeugen wahrscheinliche Sprache, nicht automatisch richtige Aussagen.</li>
+            <li><strong>Biases und Halluzinationen gehören dazu</strong>Überzeugende Formulierungen können trotzdem fachlich schief liegen.</li>
+            <li><strong>Ergebnisse bleiben Vorschläge</strong>Prüfung, Verantwortung und Freigabe bleiben beim Menschen.</li>
+            <li><strong>Gemeinsame Sprache hilft</strong>Wir sagen oft „KI“, meinen aber häufig eine multimodale Transformer-Large-Language-Model-Oberfläche.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('9.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="module-mark"><strong>Modul</strong><span>2</span></div>
+            <div style="height:14px;"></div>
+            <div class="eyebrow">Modul 2 · Einsatzfelder erkennen</div>
+            <h2>Wo KI im Arbeitsalltag<br>wirklich helfen kann</h2>
+            <p class="hero-subline">Nicht jede Aufgabe profitiert. Entscheidend ist, wo KI sinnvoll vorbereitet, verdichtet oder verständlicher macht.</p>
+          </div>
+          <div class="slide-no">09</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Einblick in Modul 2</div>
+          <ul class="quick-list">
+            <li><strong>KI ist oft schon da</strong>Manche Anwendungen arbeiten längst mit KI, ohne dass es offen so benannt wird.</li>
+            <li><strong>Generativ oder eingebettet</strong>Beides ist nicht dasselbe und braucht unterschiedliche Einordnung.</li>
+            <li><strong>Aufgabe vor Marke</strong>Wir wählen Werkzeuge nicht nach Bekanntheit, sondern nach passendem Zweck.</li>
+            <li><strong>Typische Stärken</strong>Entwurf, Strukturierung, Verdichtung und bürgernahe Sprache.</li>
+            <li><strong>Klare Grenzen</strong>Ermessen, Faktenlage, Verantwortung und Freigabe bleiben menschliche Aufgaben.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('10.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="module-mark"><strong>Modul</strong><span>3</span></div>
+            <div style="height:14px;"></div>
+            <div class="eyebrow">Modul 3 · Sicher und regelklar arbeiten</div>
+            <h2>Datenschutz, Freigabe<br>und Ampellogik</h2>
+            <p class="hero-subline">Sichere KI-Nutzung beginnt nicht beim Prompt, sondern bei der Frage, was überhaupt eingegeben werden darf.</p>
+          </div>
+          <div class="slide-no">10</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Einblick in Modul 3</div>
+          <ul class="quick-list">
+            <li><strong>Dateneingabe ist der Haupthebel</strong>Viele Risiken entstehen nicht bei der Ausgabe, sondern schon beim Eingeben.</li>
+            <li><strong>Anonymisierung ist mehr als Namen löschen</strong>Auch Kontexte, Kombinationen und Details können heikel sein.</li>
+            <li><strong>Der EU AI Act gehört dazu</strong>Er betrifft nicht nur die IT, sondern auch Arbeitsprozesse und Verantwortlichkeiten.</li>
+            <li><strong>Grenzfälle brauchen einfache Werkzeuge</strong>Entscheidungsbaum, Checkliste und Ampellogik helfen bei der Vorprüfung.</li>
+          </ul>
+          <div class="mini-grid" style="grid-template-columns:1fr 1fr; margin-top:4px;">
+            <div class="mini-card">
+              <strong>Entscheidungsbaum</strong>
+              <span>Hilft bei der Frage: Darf ich das überhaupt eingeben?</span>
+            </div>
+            <div class="mini-card">
+              <strong>Checkliste</strong>
+              <span>Gibt eine kurze Vorprüfung vor Einsatz und Freigabe.</span>
+            </div>
+          </div>
+          <div class="link-box">
+            <small>Vertiefung</small>
+            <a href="https://learningstudioai.com/go/Jkx2eMssyXuKfyO29nsW" target="_blank" rel="noopener noreferrer">EU AI Act kompakt öffnen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('11.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="module-mark"><strong>Modul</strong><span>4</span></div>
+            <div style="height:14px;"></div>
+            <div class="eyebrow">Modul 4 · Prompts und Prüfung</div>
+            <h2>Vom groben Auftrag<br>zum belastbaren Prompt</h2>
+            <p class="hero-subline">Gute Ergebnisse entstehen selten zufällig. Sie entstehen, wenn Aufgabe, Kontext und Grenzen sauber gesetzt werden.</p>
+          </div>
+          <div class="slide-no">11</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Die 5 Bausteine</div>
+          <div class="mini-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="mini-card"><strong>Rolle</strong><span>Welche Funktion soll das System einnehmen?</span></div>
+            <div class="mini-card"><strong>Kontext</strong><span>Welcher Rahmen und welche Ausgangslage gelten?</span></div>
+            <div class="mini-card"><strong>Aufgabe</strong><span>Was genau soll entstehen oder geprüft werden?</span></div>
+            <div class="mini-card"><strong>Ausgabeformat</strong><span>Wie soll das Ergebnis strukturiert sein?</span></div>
+            <div class="mini-card" style="grid-column:1 / -1;"><strong>Grenzen und Prüfkriterien</strong><span>Was darf nicht passieren und woran prüfen wir das Ergebnis?</span></div>
+          </div>
+          <div class="link-box">
+            <small>Hilfsmittel</small>
+            <a href="https://chatgpt.com/g/g-69ce866b31588191a95e2f9719776dc7-vhs-verwaltungs-prompt-assistent-rm" target="_blank" rel="noopener noreferrer">Custom Prompt-Assistent öffnen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('11.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="tool-mark"><strong>Block</strong><span>Tools</span></div>
+            <div style="height:14px;"></div>
+            <div class="eyebrow">Tool-Block · Vergleich</div>
+            <h2>ChatGPT, Gemini<br>und Mistral im Vergleich</h2>
+            <p class="hero-subline">Wir suchen heute nicht das eindrucksvollste Ergebnis, sondern das brauchbarste unter realistischen Rahmenbedingungen.</p>
+          </div>
+          <div class="slide-no">12</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Rahmen für die Live-Demo</div>
+          <ul class="quick-list">
+            <li><strong>Gleiche Aufgabe, drei Systeme</strong>Alle drei bekommen denselben klaren Beispielauftrag.</li>
+            <li><strong>Dienstliche Leitplanke</strong>Claude wird heute nicht genutzt, Mistral ist bevorzugt.</li>
+            <li><strong>Nur unkritische Inhalte</strong>Wir arbeiten datensparsam und mit sicheren Beispieltexten.</li>
+            <li><strong>Worauf wir achten</strong>Verständlichkeit, Struktur, Nacharbeit und praktische Verwendbarkeit.</li>
+          </ul>
+          <div class="link-box">
+            <small>Mitgabe</small>
+            <a href="https://rmdroid.github.io/verwaltung/prompt.txt" target="_blank" rel="noopener noreferrer">Prompt-Vorlagen als TXT öffnen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('7.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="module-mark"><strong>Modul</strong><span>5</span></div>
+            <div style="height:14px;"></div>
+            <div class="eyebrow">Modul 5 · Transfer sichern</div>
+            <h2>Vom Kurstag<br>in den Arbeitsalltag</h2>
+            <p class="hero-subline">Der Transfer gelingt nicht durch große Pläne, sondern durch einen kleinen, klaren und überprüfbaren ersten Schritt.</p>
+          </div>
+          <div class="slide-no">13</div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Einblick in Modul 5</div>
+          <ul class="quick-list">
+            <li><strong>Klein starten</strong>Ein sinnvoller Anwendungsfall ist stärker als zehn lose Ideen.</li>
+            <li><strong>Einen echten Prozess wählen</strong>Der nächste Schritt soll aus dem eigenen Bereich kommen.</li>
+            <li><strong>Rollen klären</strong>Wer nutzt, wer prüft und wer gibt frei?</li>
+            <li><strong>Kleine Standards aufbauen</strong>Checklisten, Vorlagen und Lessons Learned helfen mehr als große Regelwerke.</li>
+            <li><strong>Morgen konkret werden</strong>Am Ende zählt, was Sie direkt im Alltag ausprobieren können.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-bg" style="background-image:url('4.png');"></div>
+      <div class="slide-overlay"></div>
+      <div class="stage layout-split">
+        <div class="panel hero-panel">
+          <div>
+            <div class="eyebrow">Abschluss · Selbsttest und Reflexion</div>
+            <h2 style="font-size:clamp(34px,4vw,52px); max-width:760px;">Standort nach dem Kurs<br>und nächster Schritt</h2>
+            <p class="hero-subline">Öffnen Sie den Selbsttest noch einmal und vergleichen Sie für sich: Wo ist heute mehr Klarheit, Sicherheit oder Mut entstanden?</p>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:16px;">
+            <div class="link-box" style="max-width:420px;">
+              <small>Selbsttest</small>
+              <a href="https://rmdroid.github.io/verwaltung/selbsttest.html" target="_blank" rel="noopener noreferrer">Selbsttest erneut öffnen</a>
+            </div>
+            <div class="slide-no">14</div>
+          </div>
+        </div>
+        <div class="panel copy-panel">
+          <div class="eyebrow">Drei Fragen zum Abschluss</div>
+          <ul class="quick-list">
+            <li><strong>Was ist heute klarer geworden?</strong>Wo sehen Sie jetzt deutlicher, wann KI hilft und wann sie riskant ist?</li>
+            <li><strong>Was macht Ihnen weniger Sorgen?</strong>Wo ist aus diffuser Unsicherheit eine konkrete Arbeitslogik geworden?</li>
+            <li><strong>Was würden Sie morgen konkret umsetzen?</strong>Welchen Prozess oder welchen Arbeitsschritt in Ihrer Abteilung würden Sie morgen mit KI-Unterstützung angehen?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="nav" aria-label="Navigation">
+    <button type="button" id="prevBtn" aria-label="Zurück">&#8592;</button>
+    <div class="counter" id="counter">1 / 14</div>
+    <button type="button" id="nextBtn" aria-label="Weiter">&#8594;</button>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const progressBar = document.getElementById('progressBar');
+    const counter = document.getElementById('counter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      currentSlide = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === currentSlide));
+      counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+      progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === slides.length - 1;
+    }
+
+    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+        event.preventDefault();
+        showSlide(currentSlide + 1);
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        showSlide(currentSlide - 1);
+      }
+      if (event.key === 'Home') showSlide(0);
+      if (event.key === 'End') showSlide(slides.length - 1);
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>
