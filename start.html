@@ -292,6 +292,12 @@
       background: rgba(242, 247, 253, 0.58);
     }
 
+    .agenda-table.compact th,
+    .agenda-table.compact td {
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+
     .flow {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -730,7 +736,17 @@
             <p>Einige Mitarbeitende arbeiten schon produktiv mit KI, andere stehen noch am Anfang. Gute Organisation bedeutet, diese Unterschiede konstruktiv zu bearbeiten statt sie größer werden zu lassen.</p>
           </div>
         </div>
-        <div class="grid-3" style="margin-top:16px;">
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Einordnung</p>
+          <p class="kicker">Drei Grundbotschaften</p>
+        </div>
+        <h2>Was heute hinter allem steht</h2>
+        <div class="grid-3">
           <div class="card">
             <h3>KI ersetzt nicht einfach Menschen</h3>
             <p>Was bleibt, sind Verantwortung, Urteilskraft, Einordnung und Bürgerkommunikation.</p>
@@ -753,15 +769,8 @@
           <p class="kicker">Tagesbild</p>
           <p class="kicker">Fünf Module</p>
         </div>
-        <div class="section-band">
-          <div>
-            <strong>Tageslogik</strong>
-            <p>Jedes Modul folgt demselben Rhythmus: kurze Vorstellung, gemeinsame Arbeit am Miro-Board, kurze Sicherung. Kein Frontalvortrag über sieben Stunden – wir arbeiten zusammen.</p>
-          </div>
-          <div class="section-index"><span>Module</span><strong>5</strong></div>
-        </div>
         <h2>Der Tag im gemeinsamen Rhythmus</h2>
-        <table class="agenda-table">
+        <table class="agenda-table compact">
           <thead>
             <tr>
               <th>Zeit</th>
@@ -858,14 +867,8 @@
           <p class="kicker">Dienstanweisung 1/2</p>
           <p class="kicker">Generative KI im Wetteraukreis</p>
         </div>
-        <div class="section-band">
-          <div>
-            <strong>Verbindlicher Rahmen</strong>
-            <p>Die Dienstanweisung zum Umgang mit Generativer KI gilt seit dem 01.04.2026 für alle Beschäftigten der Kreisverwaltung und der Eigenbetriebe.</p>
-          </div>
-          <div class="section-index"><span>Gültig seit</span><strong>04/26</strong></div>
-        </div>
         <h2>Die Spielregeln in Stichpunkten</h2>
+        <p>Verbindlich für alle Beschäftigten der Kreisverwaltung und der Eigenbetriebe – gültig seit dem 01.04.2026.</p>
         <div class="grid-2">
           <div class="card">
             <span class="label blue">Grundsätze</span>
@@ -924,12 +927,9 @@
               <li>Nur die kostenfreie Version ist zugelassen.</li>
               <li>Nutzerkonto mit dienstlicher E-Mail-Adresse, keine private Nutzung, keine Weitergabe der Zugangsdaten.</li>
               <li>Weiterverwendung der Eingaben zu Trainingszwecken deaktivieren, soweit möglich.</li>
+              <li><strong>Heute im Kurs:</strong> vor allem ChatGPT, Vibe und Claude.</li>
             </ul>
           </div>
-        </div>
-        <div class="quote" style="margin-top:16px;">
-          <h3>Für heute heißt das</h3>
-          <p>Wir arbeiten im Kurs ausschließlich mit freigegebenen Systemen – vor allem ChatGPT, Vibe und Claude. Die Checkliste aus Anlage 3 der Dienstanweisung entspricht genau der Vor-Während-Nach-Logik, mit der wir in Modul 3 arbeiten.</p>
         </div>
       </div>
     </section>
@@ -969,9 +969,31 @@
             </ul>
           </div>
         </div>
-        <div class="quote" style="margin-top:16px;">
-          <h3>Gemeinsam am Miro-Board: „Was kann KI – was kann sie nicht?“</h3>
-          <p>Wir sammeln Ihre Annahmen und Mythen auf dem Board und sortieren sie gemeinsam ein: Was stimmt, was ist Hype, was ist Missverständnis? Zusatz für Schnellere: den Bloom-Taxonomie-Lernprompt in ChatGPT oder Vibe ausprobieren.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 1 · Arbeitsphase</p>
+          <p class="kicker">Gemeinsam am Miro-Board</p>
+        </div>
+        <h2>„Was kann KI – was kann sie nicht?“</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">So läuft es</span>
+            <ol>
+              <li>Schreiben Sie 2–3 Zettel: Annahmen, Gehörtes, eigene Erfahrungen mit KI.</li>
+              <li>Alle Zettel kommen zuerst unsortiert auf den <strong>Parkplatz</strong>.</li>
+              <li>Dann sortieren wir gemeinsam ein: <strong>Stimmt</strong> – <strong>Hype/Mythos</strong> – <strong>Kommt drauf an</strong>.</li>
+              <li>Grenzfälle diskutieren wir im Raum – Ihre Erfahrung zählt.</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label gold">Zusatz für Schnellere</span>
+            <p>Probieren Sie den Bloom-Taxonomie-Lernprompt in ChatGPT oder Vibe aus (Link auf der Kursseite).</p>
+            <p style="margin-top:10px;">Eine Farbe pro Person – Notizen nur mit Namenskürzel.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -1013,9 +1035,33 @@
             </ul>
           </div>
         </div>
-        <div class="quote" style="margin-top:16px;">
-          <h3>Gemeinsam am Miro-Board: „Wo steckt in Ihrem Alltag schon KI – und welche Aufgabe würden Sie abgeben?“</h3>
-          <p>Jede und jeder bringt eigene Aufgaben aufs Board. Wir clustern gemeinsam: geeignet für KI, ungeeignet, unklar – und diskutieren die Grenzfälle im Raum.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 2 · Arbeitsphase</p>
+          <p class="kicker">Gemeinsam am Miro-Board</p>
+        </div>
+        <h2>„Wo steckt in Ihrem Alltag schon KI – und welche Aufgabe würden Sie abgeben?“</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">So läuft es</span>
+            <ol>
+              <li>Schreiben Sie 2–3 eigene, konkrete Arbeitsaufgaben auf Zettel – allgemein formuliert, <strong>keine echten Fälle, keine Namen, keine Aktenzeichen</strong>.</li>
+              <li>Wir clustern gemeinsam: <strong>geeignet</strong> – <strong>ungeeignet</strong> – <strong>unklar</strong>.</li>
+              <li>Abgleich mit Anlage 1 der Dienstanweisung: Deckt sich unser Bild mit den zulässigen und untersagten Einsatzzwecken?</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label gold">Gut zu wissen</span>
+            <ul>
+              <li>Faustregel: Entwurf und Struktur = meist geeignet. Entscheidung, Ermessen, echte Personendaten = ungeeignet.</li>
+              <li>Die Unklar-Spalte klären wir gleich in Modul 3 mit der Daten-Ampel.</li>
+              <li>Die Geeignet-Spalte brauchen wir am Nachmittag wieder.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -1058,9 +1104,34 @@
             </ul>
           </div>
         </div>
-        <div class="quote" style="margin-top:16px;">
-          <h3>Gemeinsam am Miro-Board: die Daten-Ampel live</h3>
-          <p>Auf dem Board liegen echte Beispielsätze aus dem Verwaltungsalltag. Wir ziehen sie gemeinsam auf Grün, Gelb oder Rot – und begründen jede Entscheidung mit der Dienstanweisung, dem Entscheidungsbaum und der Postkarten-Regel.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 3 · Arbeitsphase</p>
+          <p class="kicker">Gemeinsam am Miro-Board</p>
+        </div>
+        <h2>Die Daten-Ampel live</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">So läuft es</span>
+            <ol>
+              <li>Auf dem Board liegen 15 Beispielsätze aus dem Verwaltungsalltag im Feld <strong>Eingang</strong>.</li>
+              <li>Wir ziehen jeden Satz gemeinsam auf <strong>Grün</strong>, <strong>Gelb</strong> oder <strong>Rot</strong>.</li>
+              <li>Jede Entscheidung wird begründet: Dienstanweisung, Entscheidungsbaum oder Postkarten-Regel.</li>
+              <li>Bei jedem Gelb fragen wir: Was müsste man ändern, damit es Grün wird?</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label green">Die Ampel</span>
+            <ul>
+              <li><strong>Grün:</strong> darf so in ein freigegebenes KI-System</li>
+              <li><strong>Gelb:</strong> erst anonymisieren, umformulieren oder prüfen</li>
+              <li><strong>Rot:</strong> gehört nicht in ein KI-System</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -1104,9 +1175,36 @@
             <p style="margin-top:14px;"><a class="link-card" href="https://chatgpt.com/g/g-69ce866b31588191a95e2f9719776dc7-vhs-verwaltungs-prompt-assistent-rm" target="_blank" rel="noopener noreferrer">Custom Prompt-Assistent öffnen</a></p>
           </div>
         </div>
-        <div class="quote" style="margin-top:16px;">
-          <h3>Gemeinsam am Miro-Board: der Prompt-Baukasten</h3>
-          <p>Wir bauen aus den fünf Bausteinen gemeinsam einen Prompt für einen echten Verwaltungsfall, testen ihn live, benennen die Schwächen und schärfen ihn in zwei bis drei Runden nach. Iteration ist hier das Handwerk, nicht der Umweg.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 4 · Arbeitsphase</p>
+          <p class="kicker">Gemeinsam am Miro-Board</p>
+        </div>
+        <h2>Der Prompt-Baukasten</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">So läuft es</span>
+            <ol>
+              <li>Wir wählen einen Fall aus unserer <strong>Geeignet-Spalte</strong> vom Vormittag.</li>
+              <li>Gemeinsam füllen wir die fünf Baukasten-Felder auf dem Board mit Zetteln.</li>
+              <li>Den fertigen Prompt testen wir live in ChatGPT oder Vibe.</li>
+              <li>Schwächen benennen, nachschärfen, erneut testen – zwei bis drei Runden sind normal.</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label gold">Die 5 Bausteine</span>
+            <ul>
+              <li>Rolle – Wer soll die KI sein?</li>
+              <li>Kontext – Was muss sie wissen?</li>
+              <li>Aufgabe – Was genau soll sie tun?</li>
+              <li>Ausgabeformat – Wie soll das Ergebnis aussehen?</li>
+              <li>Grenzen – Was darf sie nicht?</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -1189,7 +1287,7 @@
         </div>
         <div class="quote" style="margin-top:16px;">
           <h3>Worauf wir im Raum achten</h3>
-          <p>Kein System ist „einfach richtig“. Entscheidend ist, welches Ergebnis mit welcher Nacharbeit, mit welchem Risiko und unter welcher Freigabelogik brauchbar wird.</p>
+          <p>Kein System ist „einfach richtig“. Entscheidend ist die Nacharbeitsquote. Ihre Beobachtungen sammeln wir parallel in der Vergleichstabelle auf dem Miro-Board: Sprache, Struktur, Nacharbeit, dienstliche Verwendbarkeit.</p>
         </div>
       </div>
     </section>
@@ -1269,9 +1367,36 @@
             </ul>
           </div>
         </div>
-        <div class="quote" style="margin-top:16px;">
-          <h3>Gemeinsam am Miro-Board: die Potenzial-Matrix</h3>
-          <p>Jede und jeder platziert die eigenen Aufgaben auf der Matrix aus Nutzen und Aufwand. Daraus entsteht für alle sichtbar: ein konkreter Startfall, ein Startdatum und ein Prüfkriterium – Ihr persönliches Commitment für die Zeit nach dem Kurs.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="frame">
+        <div class="kickerline">
+          <p class="kicker">Modul 5 · Arbeitsphase</p>
+          <p class="kicker">Gemeinsam am Miro-Board</p>
+        </div>
+        <h2>Potenzial-Matrix und Ihr Startfall</h2>
+        <div class="instruction-grid">
+          <div class="instruction-card emphasis-card">
+            <span class="label blue">So läuft es</span>
+            <ol>
+              <li>Nehmen Sie 1–2 Ihrer Aufgaben-Zettel vom Vormittag (oder schreiben Sie neue).</li>
+              <li>Platzieren Sie sie auf der Matrix: <strong>Nutzen</strong> (senkrecht) gegen <strong>Aufwand</strong> (waagerecht).</li>
+              <li>Der Quadrant oben links – hoher Nutzen, geringer Aufwand – ist Ihr Startkandidat.</li>
+              <li>Füllen Sie zum Schluss Ihre <strong>Startfall-Karte</strong> aus.</li>
+            </ol>
+          </div>
+          <div class="instruction-card soft">
+            <span class="label gold">Ihre Startfall-Karte</span>
+            <ul>
+              <li>Meine Aufgabe: …</li>
+              <li>Ich starte am: …</li>
+              <li>Daran messe ich den Erfolg: …</li>
+              <li>Kürzel: …</li>
+            </ul>
+            <p style="margin-top:10px;">Die Karten bleiben als sichtbares Tagesergebnis auf dem Board.</p>
+          </div>
         </div>
       </div>
     </section>
