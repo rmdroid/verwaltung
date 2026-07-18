@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redescript | Einsteiger KI – Wetteraukreis</title>
+  <style>
+    :root {
+      --ink: #1f2f45;
+      --muted: #54667f;
+      --accent: #1c4f8f;
+      --accent-deep: #12345d;
+      --petrol: #2d7187;
+      --gold: #916212;
+      --green: #1f7651;
+      --red: #8b3328;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --line: #d8e1ec;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 16px 60px;
+    }
+    header.top {
+      background: linear-gradient(135deg, var(--accent-deep), var(--accent));
+      color: #fff;
+      border-radius: 18px;
+      padding: 26px 28px;
+      margin-bottom: 18px;
+    }
+    header.top h1 { margin: 0 0 6px; font-size: 1.7rem; line-height: 1.2; }
+    header.top p { margin: 0; opacity: 0.85; font-size: 0.95rem; }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 22px;
+    }
+    .legend span {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+    .legend .l-rede { color: var(--accent); }
+    .legend .l-mod { color: var(--gold); }
+    .legend .l-miro { color: var(--petrol); }
+    .legend .l-zusatz { color: var(--green); }
+    section.block {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 16px;
+      break-inside: avoid;
+    }
+    .blockhead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+    .blockhead h2 { margin: 0; font-size: 1.25rem; color: var(--accent-deep); }
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .folien {
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #fff;
+      background: var(--accent);
+      padding: 4px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .time {
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: #e8edf4;
+      padding: 4px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .pause .time { background: #e8edf4; }
+    .res {
+      background: #f4f7fb;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 9px 14px;
+      margin: 0 0 14px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .res strong { color: var(--accent-deep); }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+    .tag.rede { background: #eaf1fb; color: var(--accent); }
+    .tag.mod { background: #faf3e2; color: var(--gold); }
+    .tag.miro { background: #e7f2f5; color: var(--petrol); }
+    .tag.zusatz { background: #eaf6ef; color: var(--green); }
+    .part { margin-bottom: 14px; }
+    .part:last-child { margin-bottom: 0; }
+    .part ul { margin: 4px 0 0; padding-left: 20px; color: var(--muted); }
+    .part li + li { margin-top: 5px; }
+    .part p { margin: 4px 0 0; color: var(--muted); }
+    .part strong { color: var(--ink); }
+    .miro-box {
+      border: 2px solid var(--petrol);
+      border-radius: 14px;
+      background: #e9f3f6;
+      padding: 16px 18px;
+      margin: 16px 0;
+    }
+    .miro-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      background: var(--petrol);
+      border-radius: 10px;
+      padding: 8px 14px;
+      margin: -4px 0 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .miro-head::before { content: "▶"; }
+    .miro-head small {
+      margin-left: auto;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 0.9;
+    }
+    .miro-box h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      color: var(--accent-deep);
+    }
+    .miro-box ul { margin: 4px 0 0; padding-left: 20px; color: var(--muted); }
+    .miro-box li + li { margin-top: 5px; }
+    .loesung {
+      background: #fff;
+      border: 1px dashed var(--petrol);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-top: 12px;
+    }
+    .loesung .ltitle {
+      display: block;
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .loesung ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 0.93rem; }
+    .loesung li + li { margin-top: 4px; }
+    .loesung p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+    .callout {
+      border-left: 4px solid var(--petrol);
+      background: #f2f8fa;
+      border-radius: 0 12px 12px 0;
+      padding: 12px 16px;
+      margin-top: 12px;
+    }
+    .callout.warn { border-left-color: var(--red); background: #fbf1ef; }
+    .callout p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .pause {
+      background: #eef2f7;
+      text-align: center;
+      padding: 12px 24px;
+    }
+    .pause .blockhead { border: none; margin: 0; padding: 0; justify-content: center; }
+    footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 24px; }
+    @media print {
+      body { background: #fff; }
+      section.block { border: 1px solid #ccc; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <h1>Redescript &amp; Moderationsleitfaden<br>VHS-Kurs „Einsteiger KI“ – Wetteraukreis</h1>
+      <p>Dozent: Robert Meyer · 9:00–15:50 Uhr · Rhythmus je Modul: Vorstellen → Miro-Board → Sicherung<br>Foliennummern beziehen sich auf die Reihenfolge in start.html (23 Folien, Zähler unten im Deck) · Miro-Frames auf miro.txt</p>
+    </header>
+
+    <div class="legend">
+      <span class="l-rede">Sprechtext</span>
+      <span class="l-mod">Moderation / Demo</span>
+      <span class="l-miro">▶ Petrol-Box = Jetzt am Miro-Board (Aufgabe + Lösung direkt dabei)</span>
+      <span class="l-zusatz">Zusatz für Schnellere</span>
+      <span style="color:var(--accent);">Blaues Badge = Folien</span>
+      <span style="color:var(--muted);">Graues Badge = Uhrzeit</span>
+    </div>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Auftakt: Ankommen &amp; erste Demos</h2>
+        <div class="meta"><span class="folien">Folien 1–2 + 8</span><span class="time">9:00–9:15</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> ChatGPT am Beamer (drei Demos) · Folie 1 (Willkommen) · Folie 2 (Roter Faden) · Folie 8 (Echter Einsteigerkurs) für die Erwartungs-Passage</div>
+      <div class="part">
+        <span class="tag mod">Demo</span>
+        <ul>
+          <li>Erdbeere-Demo (Buchstaben zählen)</li>
+          <li>Monat-mit-X-Demo</li>
+          <li>„Prüfe meine französische Aussprache“-Demo</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext</span>
+        <ul>
+          <li>Wer hat die ChatGPT-App auf dem Handy?</li>
+          <li>Welche Learnings nehmen wir aus den Demos mit?</li>
+          <li>Wie hätten wir das besser prompten können?</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag rede">Begrüßung</span>
+        <ul>
+          <li>Herzlich willkommen im Namen der VHS und in meinem Namen. Schön, dass Sie alle da sind.</li>
+          <li>Ich bin Robert Meyer und moderiere Sie heute durch den Kurs.</li>
+          <li>Mein Ziel: Ihnen KI näherbringen, die Angst nehmen, Sie begeistern – und klar benennen, wo die Mythen liegen.</li>
+          <li>Sie sollen heute Nachmittag sagen können: Meine Lernkurve ist heute stetig gestiegen.</li>
+          <li>Ein kompletter KI-Einsteigerkurs dauert 20 Tage à 8 Stunden – wir haben einen Tag. Wir schneiden Themen an, die Vertiefung kommt danach.</li>
+        </ul>
+      </div>
+      <div class="callout">
+        <p><strong>Erwartungen führen (Lehre aus dem ersten Termin):</strong> Das ist ein echter Einsteigerkurs. Wir starten bei den Grundlagen und gehen kleinschrittig vor. Für Fortgeschrittene ist heute Wiederholung und Orientierung – dafür gibt es Zusatzaufgaben und die Praxiswerkstätten im Anschluss. Und: Wenn ich zu schnell oder zu langsam bin, sagen Sie es sofort.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Vorstellung &amp; Ankommen am Board</h2>
+        <div class="meta"><span class="folien">Folie 3</span><span class="time">9:15–9:35</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Folie 3 (Teil 1 im Raum / Teil 2 am Board) · Miro Frame 1 (Ängste &amp; Erwartungen – die Skala kommt erst nach dem Selbsttest dran)</div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – kurz zu mir (2 Min.)</span>
+        <ul>
+          <li>Robert Meyer, aus Friedberg (Bruchenbrücken), KI-Dozent und Berater.</li>
+          <li>Motto: Lebenslanges Lernen. Ich nutze KI privat und beruflich intensiv – Tools, die ich brauche, baue ich mir selbst.</li>
+          <li>Meine Erwartung: Dass Sie Spaß am Lernen haben – und dass ich heute auch von Ihnen lerne.</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag mod">Teil 1 – Kurze Runde im Raum (bis 9:25)</span>
+        <ul>
+          <li>Nur drei Punkte pro Person (Folie 3): Name und Bereich · KI-Nutzung ja/nein · ein Satz zur prägendsten KI-Erfahrung.</li>
+          <li>Bewusst kurz halten – die Inhalte sammeln wir gleich am Board, nicht mündlich.</li>
+          <li>Handzeichen: Wer hat bereits ein ChatGPT-Konto (kostenlos oder Plus)?</li>
+          <li>Nebenbei einsammeln: Wie wurde KI in der Kreisverwaltung eingeführt? Wer möchte das kurz schildern?</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 1 „Ankommen“ · 9:25–9:35</small></div>
+        <h4>Aufgabe: Ängste &amp; Erwartungen in die drei Spalten</h4>
+        <ul>
+          <li>Erster Board-Kontakt: Jede Person nimmt sich eine Zettel-Farbe aus der Palette (Frame 0) und legt ihr Kürzel fest – kurz zeigen, wie Zettel kleben funktioniert.</li>
+          <li>Je 1–2 Zettel in die drei Spalten: <strong>Meine Ängste/Bedenken bei KI</strong> · <strong>Meine Erwartungen an KI</strong> · <strong>Meine Erwartungen an den Kurstag</strong>.</li>
+          <li>Kurz laut würdigen, was auffällt – Wiederholungen zu Clustern zusammenschieben.</li>
+          <li>Die Punkte-Skala darunter bleibt noch <strong>leer</strong> – die füllen wir nach dem Selbsttest.</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Moderationshilfe – typische Nennungen zum Aufgreifen</span>
+          <ul>
+            <li>Ängste: Arbeitsplatzverlust, Datenschutz/Überwachung, Fehler übernehmen, „ich bin zu alt dafür“, Abhängigkeit → alle tauchen im Tagesverlauf wieder auf (Modul 1, 3, 5) – kurz ankündigen: „Darauf kommen wir zurück.“</li>
+            <li>Erwartungen an KI: Zeitersparnis, bessere Texte, weniger Routine → perfekte Überleitung zu Modul 2.</li>
+            <li>Erwartungen an den Tag: „endlich verstehen“, „was darf ich überhaupt?“ → Verweis auf Dienstanweisungs-Block gleich im Anschluss.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Selbsttest &amp; KI-Kluft</h2>
+        <div class="meta"><span class="folien">Folien 4–7</span><span class="time">9:35–9:50</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Kursseite (rmdroid.github.io/verwaltung) · selbsttest.html (Skala 0–50) · Miro Frame 1 (Punkte-Skala) · Folie 4 (Selbsttest) · Folie 5 (KI-Kluft) · Folien 6–7 (Tagesplan + Arbeitsmodus) als Überleitung</div>
+      <div class="part">
+        <span class="tag mod">Moderation</span>
+        <ul>
+          <li>Kurs-Startseite zeigen: rmdroid.github.io/verwaltung – heute der gemeinsame Einstiegspunkt.</li>
+          <li>Selbsttest machen lassen (zehn Aussagen, jeder für sich).</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 1, Punkte-Skala · ca. 9:40</small></div>
+        <h4>Aufgabe: Selbsttest-Punktzahl auf die Skala 0–50 kleben</h4>
+        <ul>
+          <li>Jede Person klebt ihre Punktzahl (Zettel nur mit Kürzel) an die passende Stelle der Skala.</li>
+          <li>Einen Moment wirken lassen: Die Streuung ist der sichtbare Beweis für die KI-Kluft – direkte Überleitung zu Folie 5.</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Einordnung der Zonen (entspricht selbsttest.html)</span>
+          <ul>
+            <li>0–24 = Einstieg („genau richtig hier“) · 25–39 = solide Anwendung · 40–50 = fortgeschritten („heute als Erfahrungsgeber gefragt“).</li>
+            <li>Zweierteams direkt an der Skala bilden: je ein Zettel von links mit einem von rechts – erfahren neben neu.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – KI-Kluft</span>
+        <ul>
+          <li>„Schauen Sie auf unsere Skala: Diese Spannbreite ist die KI-Kluft – live und in diesem Raum.“</li>
+          <li>Meine Erfahrungen zur KI-Kluft: innerhalb von Teams, zwischen Bürgern und Verwaltung.</li>
+          <li>LinkedIn-Story (dritte KI-Kluft) – Handzeichen: Wer ist auf LinkedIn?</li>
+          <li>Damit wir die Kluft heute direkt verkleinern: Wir arbeiten in Zweierteams – erfahren neben neu, orientiert an der Skala. Das spart auch Ressourcen (Konten, kostenlose Prompts).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Dienstanweisung kompakt</h2>
+        <div class="meta"><span class="folien">Folien 9–10</span><span class="time">9:50–10:05</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Folie 9 (Spielregeln in Stichpunkten) · Folie 10 (freigegebene Systeme) · Stichpunkte auch auf der Kursseite unter „Dienstanweisung kompakt“ · Video „KI in der Verwaltung“ (Kursseite → Kursmedien)</div>
+      <div class="part">
+        <span class="tag rede">Sprechtext</span>
+        <ul>
+          <li>Seit dem 01.04.2026 gilt bei Ihnen die Dienstanweisung zum Umgang mit Generativer KI – für alle Beschäftigten der Kreisverwaltung und der Eigenbetriebe. Sie ist heute unsere verbindliche Leitplanke.</li>
+          <li>Grundsätze: Kennzeichnungspflicht, Überprüfbarkeit (KI halluziniert!), Diskriminierungsverbot, KI ersetzt kein menschliches Urteilsvermögen.</li>
+          <li>Datenschutz: Erlaubt sind öffentliche Informationen, anonymisierte Daten, allgemeine Textbausteine. Untersagt sind personenbezogene, sensible und vertrauliche Daten sowie Dokumente mit echten Daten.</li>
+          <li>Freigegeben sind: ChatGPT, Perplexity, Mistral Le Chat (heißt heute Vibe), Proton Lumo, DeepL und Claude. Gemini, Copilot und Ecosia nur als Suche.</li>
+          <li>Regeln: nur im Browser, nur kostenfrei, dienstliche E-Mail, Trainingsnutzung deaktivieren. Verstöße an den ISB melden.</li>
+          <li>Verantwortung für Eingaben und Ergebnisse tragen Sie selbst – deshalb üben wir heute genau das.</li>
+        </ul>
+      </div>
+      <div class="callout warn">
+        <p><strong>Wichtig (Änderung zum ersten Termin):</strong> Wir besprechen und nutzen heute ausschließlich freigegebene Tools. Keine Erwartungen aufbauen, die dienstlich nicht erfüllbar sind.</p>
+      </div>
+      <div class="part" style="margin-top:12px;">
+        <span class="tag mod">Video</span>
+        <p>Video „KI in der Verwaltung“ zeigen (Link auf der Startseite unter Kursmedien).</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 1: Was ist KI eigentlich?</h2>
+        <div class="meta"><span class="folien">Folie 11</span><span class="time">10:05–10:50</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Folie 11 (Modul 1 + Miro-Auftrag) · n8n am Beamer (Chatbot-Demo) · Miro Frame 2 (Mythen-Parkplatz) · Zusatz: Bloom-Taxonomie-Prompt in ChatGPT/Vibe · Vertiefung: Lehrmaterial Kapitel „Was ist Künstliche Intelligenz?“</div>
+      <div class="part">
+        <span class="tag rede">Vorstellen (ca. 15 Min.)</span>
+        <ul>
+          <li>Umgangssprachlich sagen wir „KI“ – korrekt wäre: multimodales Transformer Large Language Model. Ein KI-Chatbot ist die Web-Oberfläche dazu. Wir bleiben bei „KI“, kennen aber die korrekte Bezeichnung.</li>
+          <li>Zentrale Begriffe: generative KI, Halluzinationen, Biases, Temperature, Agent.</li>
+          <li>Demo n8n: Aufbau eines Chatbots – Vogelperspektive auf Frontend (Webseite) und Backend (Infrastruktur, Datenbanken, LLMs).</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 2 „Mythen-Parkplatz“ · ca. 25 Min.</small></div>
+        <h4>Aufgabe: „Was kann KI – was kann sie nicht?“</h4>
+        <ul>
+          <li>Alle schreiben 2–3 Zettel mit Annahmen, Gehörtem, eigenen Erfahrungen – zuerst ins graue Feld <strong>„Parkplatz“</strong> (links im Frame), unsortiert.</li>
+          <li>Dann gemeinsam jeden Zettel in eines der drei Felder ziehen: <strong>STIMMT</strong> (grün) / <strong>HYPE oder MYTHOS</strong> (rot) / <strong>KOMMT DRAUF AN</strong> (gelb).</li>
+          <li>Bei „Kommt drauf an“ bewusst diskutieren – hier sitzt der Lerneffekt. Fortgeschrittene als Erfahrungsgeber ansprechen.</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Lösungshilfe – typische Aussagen richtig einsortiert</span>
+          <ul>
+            <li><strong>STIMMT:</strong> „KI erfindet manchmal Fakten und Quellen“ (Halluzination) · „KI steckt längst in Alltagssoftware“ · „Meine Eingaben können als Trainingsdaten genutzt werden“ (deshalb laut DA deaktivieren) · „KI ist stark bei Entwürfen und Zusammenfassungen“.</li>
+            <li><strong>HYPE/MYTHOS:</strong> „KI weiß alles und ist immer aktuell“ (Wissensstand + Halluzinationen) · „KI versteht, was sie sagt“ (Wahrscheinlichkeitsmodell) · „KI ist neutral und objektiv“ (Biases aus Trainingsdaten!) · „KI ersetzt uns alle in fünf Jahren“ · „Der Chatbot lernt automatisch aus jedem Gespräch mit mir“.</li>
+            <li><strong>KOMMT DRAUF AN:</strong> „KI spart Zeit“ (nur mit gutem Prompt und Faktencheck, sonst Mehrarbeit) · „KI-Nutzung ist bei uns verboten“ (nein – freigegebene Tools + Regeln der DA) · „KI kann Entscheidungen treffen“ (vorschlagen ja, entscheiden nie – DA: kein Ersatz für menschliches Urteilsvermögen).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="part">
+        <span class="tag zusatz">Zusatz für Schnellere</span>
+        <p>Bloom-Taxonomie-Lernprompt in ChatGPT oder Vibe ausprobieren (Link auf der Startseite).</p>
+      </div>
+      <div class="part">
+        <span class="tag mod">Sicherung (ca. 5 Min.)</span>
+        <p>Drei Kernaussagen festhalten: KI-Ergebnisse sind Vorschläge, keine Entscheidungen. Halluzinationen sind normal, nicht die Ausnahme. Verantwortung bleibt beim Menschen.</p>
+      </div>
+    </section>
+
+    <section class="block pause">
+      <div class="blockhead">
+        <h2>Kurzpause</h2>
+        <span class="time">10:50–11:05</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 2: KI im Dienst-Alltag</h2>
+        <div class="meta"><span class="folien">Folie 12</span><span class="time">11:05–11:45</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Folie 12 (Modul 2 + Miro-Auftrag) · Miro Frame 3 (Aufgaben-Cluster) · Dienstanweisung Anlage 1 (zulässige/untersagte Einsatzzwecke) zum Abgleich · Vertiefung: Lehrmaterial Kapitel „KI in der Verwaltung“</div>
+      <div class="part">
+        <span class="tag rede">Vorstellen (ca. 10 Min.)</span>
+        <ul>
+          <li>Eisbrecher Alltags-KI: Wer hat heute schon einen Spam-Filter oder eine Suchfunktion genutzt? KI ist längst Teil der Arbeitsumgebung.</li>
+          <li>„Aufgabe vor Marke“: Es geht nicht um das beste Tool, sondern um das passende Profil für die Aufgabe (Tool-Matrix).</li>
+          <li>Die „No-AI-Zone“: Bewusstes Nicht-Nutzen ist professionell – bei Ermessensentscheidungen und sensiblen Rechtsfragen bleibt der Mensch die alleinige Instanz.</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 3 „Aufgaben-Cluster“ · ca. 25 Min.</small></div>
+        <h4>Aufgabe: „Wo steckt in Ihrem Alltag schon KI – und welche Aufgabe würden Sie abgeben?“</h4>
+        <ul>
+          <li>Jede Person schreibt 2–3 eigene, konkrete Arbeitsaufgaben auf Zettel. <strong>Wichtig ansagen:</strong> allgemein formulieren – keine echten Fälle, keine Namen, keine Aktenzeichen.</li>
+          <li>Zettel gemeinsam in die drei Spalten ziehen: <strong>GEEIGNET</strong> (grün) / <strong>UNGEEIGNET</strong> (rot) / <strong>UNKLAR</strong> (gelb).</li>
+          <li>Die Unklar-Spalte stehen lassen – sie ist die perfekte Überleitung zu Modul 3: „Genau dafür brauchen wir gleich die Ampel.“</li>
+          <li>Die Geeignet-Spalte bleibt stehen – Modul 5 (Potenzial-Matrix) greift darauf zurück.</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Lösungshilfe – Abgleich mit Anlage 1 der Dienstanweisung</span>
+          <ul>
+            <li><strong>Ausdrücklich zulässig:</strong> Word-/Excel-Vorlagen erstellen · Formulierungen gestalten · Vergleiche durchführen · Recherchen und Quellen ermitteln · Gesetzestexte vereinfachen · Agenda für Teamsitzung · FAQ-Entwürfe · Fortbildungsideen · Pressemitteilung vorbereiten · Social-Media-Textbausteine · Brainstormen · Standardantworten vorbereiten.</li>
+            <li><strong>Ausdrücklich untersagt:</strong> Widerspruchs- und Bußgeldbescheide · Sozialleistungsbescheide · Ansprüche auf Sozialleistungen bewerten · Verarbeitung von Bürgerdaten (Namen, Adressen, Aktenzeichen) · rechtliche Stellungnahmen · Arbeitsverträge mit Daten · Gesundheitsdaten · Melderegisterdaten.</li>
+            <li>Faustregel für die Diskussion: Entwurf und Struktur = meist geeignet · Entscheidung, Ermessen, echte Personendaten = ungeeignet.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="part">
+        <span class="tag mod">Sicherung (ca. 5 Min.)</span>
+        <p>Ergebnis: eine gemeinsame Liste geeigneter Einsatzfelder für den eigenen Bereich – bleibt auf dem Board stehen.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 3: Recht &amp; Sicherheit</h2>
+        <div class="meta"><span class="folien">Folie 13</span><span class="time">11:45–12:30</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Folie 13 (Modul 3 + Miro-Auftrag) · entscheidung.html (Entscheidungsbaum) · checkliste.html (Vor/Während/Nach) · Miro Frame 4 (Daten-Ampel mit den 15 Beispielsätzen aus miro.txt) · Link „EU AI Act kompakt“ (Kursseite) · Dienstanweisung Anlage 3</div>
+      <div class="part">
+        <span class="tag rede">Vorstellen (ca. 15 Min.)</span>
+        <ul>
+          <li>In der Verwaltung gilt: Risikologik vor Effizienzlogik. Ziel ist Compliance ohne unnötige Bürokratie.</li>
+          <li>Postkarten-Regel: Was nicht auf eine offen lesbare Postkarte gehört, gehört auch nicht ungeprüft in ein KI-Tool.</li>
+          <li>Daten-Ampel (Grün/Gelb/Rot) als schnelle Entscheidungshilfe vorstellen.</li>
+          <li>Entscheidungsbaum als Standard-Vorprüfung: Personenbezug? Anonymisierbar? Freigegeben? Zweck klar und prüfbar?</li>
+          <li>Checkliste Vor/Während/Nach – identisch mit der Logik von Anlage 3 der Dienstanweisung.</li>
+          <li>Anonymisierung ist mehr als „Name löschen“: auch Aktenzeichen und spezifische Ortsangaben verallgemeinern.</li>
+          <li>Diese Tools schenke ich Ihnen – sie bleiben dauerhaft online. Und: Solche Tools können Sie mit KI-Hilfe selbst bauen.</li>
+          <li>Hinweis: Für den EU AI Act gibt es ein separates Vertiefungsmodul (Link auf der Startseite).</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 4 „Daten-Ampel“ · ca. 25 Min.</small></div>
+        <h4>Aufgabe: 15 vorbereitete Beispielsätze auf Grün, Gelb oder Rot ziehen</h4>
+        <ul>
+          <li>Die 15 nummerierten Zettel liegen (von dir vorbereitet) im grauen Feld <strong>„Eingang“</strong> links im Frame.</li>
+          <li>Reihum oder im Zuruf: Gruppe zieht jeden Zettel in eine der drei Bahnen – <strong>jede Entscheidung begründen</strong> (Dienstanweisung, Entscheidungsbaum oder Postkarten-Regel).</li>
+          <li>Ampel-Definition ansagen: GRÜN = darf so rein · GELB = erst anonymisieren/prüfen · ROT = gehört nicht in die KI.</li>
+          <li>Bei jedem Gelb fragen: „Was müsste man ändern, damit es Grün wird?“</li>
+          <li>Fertige Ampel als Screenshot sichern – Arbeitsergebnis zum Mitnehmen.</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Auflösung – wohin gehört welcher Zettel?</span>
+          <ul>
+            <li><strong>GRÜN:</strong>
+              <br>1 Standardantwort „Anfrage eingegangen“ → Textbaustein ohne Personenbezug (Anlage 1 zulässig)
+              <br>2 Paragrafen einfach erklären → öffentliche Information („Gesetzestexte vereinfachen“)
+              <br>4 Agenda Teamsitzung → Anlage 1 zulässig
+              <br>9 Excel-Urlaubsplanungs-Vorlage → Anlage 1 zulässig, Formeln danach prüfen
+              <br>13 Energiesparmaßnahmen sammeln → Anlage 1 zulässig
+              <br>14 Pressemitteilung Bürgerbüro → Anlage 1 zulässig, wenn Stichpunkte ohne Personendaten; Kennzeichnung + Freigabe beachten (gute Grenzdiskussion zu Gelb!)</li>
+            <li><strong>GELB:</strong>
+              <br>3 Beschwerde „Herr Krause, Hauptstraße 12“ → Name + Adresse raus, dann als anonymisierte Zusammenfassung ok
+              <br>6 Vermerk mit Aktenzeichen 32-2026-0815 → Aktenzeichen = indirekter Personenbezug (steht wörtlich in der DA!); ohne AZ ok
+              <br>7 „Antrag fristgerecht einreichen“ bürgerfreundlich → der Beispielsatz selbst wäre Grün – Gelb als Erinnerung: echte Texte enthalten oft Namen/Daten/AZ, erst prüfen (bewusste Diskussion Grün vs. Gelb)
+              <br>11 Einladung „Herr Weber, 12. August“ → mit Namen untersagt; ohne Namen als neutrale Vorlage Grün (Paradebeispiel für „Was müsste man ändern?“)</li>
+            <li><strong>ROT:</strong>
+              <br>5 Wohngeld-Anspruch Frau Yilmaz → Anspruch bewerten ausdrücklich untersagt + Personendaten
+              <br>8 Ärztliches Attest Frau Berger → Gesundheitsdaten + sensibel + echtes Dokument: dreifach untersagt
+              <br>10 Widerspruchsbescheid Familie Öztürk → ausdrücklich untersagt, rechtlich bindend, nur Fachpersonal
+              <br>12 Interner Notfallplan → vertrauliche Daten (wörtlich als Beispiel in der DA)
+              <br>15 Rechtliche Stellungnahme bei Anwaltsdrohung → ausdrücklich untersagt, muss von Juristen kommen</li>
+          </ul>
+        </div>
+      </div>
+      <div class="part">
+        <span class="tag mod">Sicherung (ca. 5 Min.)</span>
+        <p>Merksatz sichern: Die Dateneingabe ist der zentrale Risikohebel. Im Zweifel: Entscheidungsbaum nutzen oder ISB fragen.</p>
+      </div>
+    </section>
+
+    <section class="block pause">
+      <div class="blockhead">
+        <h2>Mittagspause</h2>
+        <span class="time">12:30–13:00</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 4: Prompten &amp; Toolvergleich</h2>
+        <div class="meta"><span class="folien">Folien 14–17</span><span class="time">13:00–14:15</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Folie 14 (Modul 4 + 5 Bausteine) · Folie 15 (Tool-Block: ChatGPT/Vibe/Claude) · Folie 16 (Live-Demos 1–3) · Folie 17 (Prompt-Vorlagen als Mitgabe) · Miro Frame 5 (Prompt-Baukasten + Vergleichstabelle) · Custom Prompt-Assistent (ChatGPT-Link auf Kursseite) · prompt.txt · ChatGPT, Vibe und Claude im Browser · Video „Prompt Frameworks“</div>
+      <div class="part">
+        <span class="tag rede">Vorstellen (ca. 15 Min.)</span>
+        <ul>
+          <li>Jetzt krempeln wir die Ärmel hoch: Wie steuere ich die KI so präzise, dass ich brauchbare Ergebnisse statt Zufallsprodukte bekomme?</li>
+          <li>Die 5 Bausteine: Rolle, Kontext, Aufgabe, Ausgabeformat, Grenzen und Prüfkriterien.</li>
+          <li>Stil ist keine Wahrheit: Souveräner Ton ist kein Beweis für Richtigkeit – Faktencheck ist Pflicht.</li>
+          <li>Iteration statt Frustration: Drei bis vier Runden sind normal für ein gutes Ergebnis.</li>
+          <li>Custom Prompt-Assistent und Prompt-Schablone zeigen (Links auf der Startseite), ggf. Video „Prompt Frameworks“.</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 5 „Prompt-Baukasten“ · ca. 20 Min.</small></div>
+        <h4>Aufgabe: Gemeinsam einen Prompt aus den fünf Bausteinen bauen</h4>
+        <ul>
+          <li>Einen Fall aus der <strong>Geeignet-Spalte von Frame 3</strong> auswählen (Bogen zum Vormittag!).</li>
+          <li>Die fünf Felder der Baukasten-Vorlage mit Zetteln füllen: Rolle / Kontext / Aufgabe / Ausgabeformat / Grenzen.</li>
+          <li>Fertigen Prompt live in ChatGPT oder Vibe testen – Schwächen benennen, Zettel anpassen, erneut testen (2–3 Runden).</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Muster-Lösung als Rückfallebene (falls die Gruppe hakt)</span>
+          <ul>
+            <li><strong>Rolle:</strong> „Sie sind erfahrene Sachbearbeiterin im Bürgerservice einer Kreisverwaltung.“</li>
+            <li><strong>Kontext:</strong> „Bürgerinnen und Bürger fragen häufig per E-Mail nach dem Bearbeitungsstand ihres Antrags. Die Antworten sollen freundlich und für Laien verständlich sein.“</li>
+            <li><strong>Aufgabe:</strong> „Erstellen Sie eine wiederverwendbare Antwortvorlage auf solche Anfragen.“</li>
+            <li><strong>Ausgabeformat:</strong> „Höchstens 120 Wörter, Sie-Form, Platzhalter in eckigen Klammern für Anrede und Vorgangsart.“</li>
+            <li><strong>Grenzen:</strong> „Keine Rechtsauskünfte, keine konkreten Fristzusagen, keine erfundenen Angaben, keine Namen.“</li>
+          </ul>
+        </div>
+      </div>
+      <div class="part">
+        <span class="tag mod">Live-Vergleich ChatGPT / Vibe / Claude (ca. 30 Min.)</span>
+        <ul>
+          <li>Drei freigegebene Systeme, identische Aufgaben – wir suchen keinen Testsieger, sondern das passende Werkzeug.</li>
+          <li>Demo 1: Sperrigen Verwaltungstext in klare Bürgerinformation übersetzen – bleibt die fachliche Substanz erhalten?</li>
+          <li>Demo 2: Ungeordnete Notizen zu einem prüfbaren Vermerk strukturieren – Logik, Vollständigkeit, keine Erfindungen?</li>
+          <li>Demo 3: Lange Eingabe auf Kernaussagen und Fristen verdichten – gehen Nuancen verloren?</li>
+          <li>Beobachtungsauftrag: Nicht auf Geschwindigkeit achten, sondern auf die Nacharbeitsquote.</li>
+          <li>Nur datensparsame Beispielinhalte – Postkarten-Regel gilt auch im Test.</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Parallel: Miro-Board <small>Frame 5, Vergleichstabelle · während der Demos</small></div>
+        <h4>Aufgabe: Beobachtungen live in die Tabelle kleben</h4>
+        <ul>
+          <li>Während der drei Demos notieren die Teilnehmenden ihre Eindrücke als Zettel in die Tabelle: Spalten <strong>ChatGPT / Vibe / Claude</strong>, Zeilen <strong>Sprache und Ton / Struktur und Aufbau / Nacharbeit nötig? / Dienstlich verwendbar?</strong></li>
+          <li>Nach den Demos kurz gemeinsam auswerten: Wo häufen sich Zettel? Welches System passt zu welcher Aufgabe?</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Erwartbares Ergebnis für die Auswertung</span>
+          <p>Es gibt keinen Sieger auf allen Zeilen – genau das ist die Botschaft: „Aufgabe vor Marke“. Entscheidend ist die Zeile „Nacharbeit nötig?“ – dort zeigt sich, welches Ergebnis unter dienstlichen Bedingungen wirklich Zeit spart.</p>
+        </div>
+      </div>
+      <div class="part">
+        <span class="tag mod">Sicherung (ca. 10 Min.)</span>
+        <p>Ergebnisse am Board festhalten: Welches System passt zu welcher Aufgabe? Prompt-Vorlagen als Mitgabe zeigen (TXT-Link auf der Startseite).</p>
+      </div>
+      <div class="part">
+        <span class="tag zusatz">Zusatz für Schnellere</span>
+        <p>Multi-User-Prompt und Prompt-Generator ausprobieren; eigenen Fall mit dem Custom GPT durchspielen.</p>
+      </div>
+    </section>
+
+    <section class="block pause">
+      <div class="blockhead">
+        <h2>Kurzpause</h2>
+        <span class="time">14:15–14:30</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 5: Transfer &amp; Roadmap</h2>
+        <div class="meta"><span class="folien">Folien 18–21</span><span class="time">14:30–15:15</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Folie 18 (Modul 5 + Miro-Auftrag) · Folie 19 (Transfer startet klein) · Folie 20 (Kleine Standards) · Folie 21 (Mitgabe) · Miro Frame 6 (Potenzial-Matrix + Startfall-Karten) · Aufgaben-Zettel aus Miro Frame 3 wiederverwenden</div>
+      <div class="part">
+        <span class="tag rede">Vorstellen (ca. 10 Min.)</span>
+        <ul>
+          <li>Wir haben viel ausprobiert – jetzt sorgen wir dafür, dass das Wissen nicht im Seminarraum bleibt.</li>
+          <li>Potenzial vor Aktionismus: KI ist ein Kraftverstärker für Routinetexte und Datenaufbereitung – bewusst weglassen bei Ermessensentscheidungen.</li>
+          <li>Lernpfad Bronze/Silber/Gold: Niemand muss alles sofort können. Bronze = sichere Anwendung mit Faktencheck, Gold = Multiplikator im Team.</li>
+          <li>Team-Routine schlägt Einzelwissen: kurze Formate (30 Minuten alle zwei Wochen) für Prompts und Fehlerfälle.</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 6 „Potenzial-Matrix &amp; Startfall“ · ca. 25 Min.</small></div>
+        <h4>Aufgabe: Aufgaben auf die Matrix – dann Startfall-Karte ausfüllen</h4>
+        <ul>
+          <li>Jede Person nimmt 1–2 ihrer Aufgaben-Zettel aus <strong>Frame 3</strong> (oder schreibt neue) und platziert sie auf der Matrix: X-Achse = Aufwand der Einführung, Y-Achse = Nutzen/Entlastung.</li>
+          <li>Blick auf den Quadranten <strong>oben links „SOFORT STARTEN“</strong> (hoher Nutzen, geringer Aufwand): Das sind die Startkandidaten.</li>
+          <li>Dann kopiert jede Person die <strong>Startfall-Karte</strong> (Vorlage neben der Matrix) und füllt sie aus: Meine Aufgabe / Ich starte am / Daran messe ich den Erfolg / Kürzel.</li>
+          <li>Rückfrage an die Gruppe: Wie hat der Kreis KI bisher eingeführt? Welches Onboarding gab es? Wer lernt wie?</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Lösungshilfe – Beispiele je Quadrant + Muster-Startfall</span>
+          <ul>
+            <li><strong>Sofort starten:</strong> Standardantworten, Texte bürgerfreundlich umformulieren, E-Mail-Entwürfe, Agenda-Vorschläge.</li>
+            <li><strong>Planen</strong> (hoher Nutzen, hoher Aufwand): FAQ-Aufbau für die Website, Vorlagen-Bibliothek fürs Team.</li>
+            <li><strong>Nebenbei mitnehmen:</strong> Brainstorming, Formulierungshilfen im Einzelfall.</li>
+            <li><strong>Bewusst weglassen:</strong> alles mit Bescheiden, Ermessen, echten Personendaten (Bogen zu Modul 3).</li>
+            <li><strong>Muster-Startfall:</strong> „Meine Aufgabe: Antworten auf Bürgeranfragen verständlicher formulieren · Ich starte am: kommenden Montag · Daran messe ich den Erfolg: Zeit pro E-Mail und Zahl der Rückfragen · Kürzel: …“</li>
+          </ul>
+        </div>
+      </div>
+      <div class="part">
+        <span class="tag mod">Sicherung (ca. 10 Min.)</span>
+        <p>Hinweis auf die gebauten Tools, die der Kreis und die Teilnehmenden weiter nutzen können. Verweis auf die Praxiswerkstätten für Vertiefung und spezielle Einsatzfelder.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="blockhead">
+        <h2>Abschluss</h2>
+        <div class="meta"><span class="folien">Folien 22–23</span><span class="time">15:15–15:50</span></div>
+      </div>
+      <div class="res"><strong>Material:</strong> Folie 22 (Selbsttest erneut) · Folie 23 (Drei Fragen) · selbsttest.html · Miro Frame 7 (Abschlussfragen + Feedback-Skala) · zurück zu Miro Frame 1 (Ängste-Vergleich)</div>
+      <div class="part">
+        <span class="tag mod">Moderation</span>
+        <ul>
+          <li>Selbsttest erneut ausfüllen lassen und mit dem Morgenwert vergleichen – keine Leistungskontrolle, sondern sichtbare Entwicklung.</li>
+        </ul>
+      </div>
+      <div class="miro-box">
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 7 „Abschluss“ + zurück zu Frame 1</small></div>
+        <h4>Aufgabe: Drei Abschlussfragen, Feedback – und der Ängste-Vergleich</h4>
+        <ul>
+          <li>Je ein Zettel in die drei Spalten: <strong>Was ist heute klarer geworden?</strong> / <strong>Was macht Ihnen weniger Sorgen als heute Morgen?</strong> / <strong>Was setzen Sie morgen konkret um?</strong></li>
+          <li>Feedback-Skala darunter: Zettel auf 1–10 kleben („Mein Tag heute: 1 = wenig gelernt, 10 = Lernkurve stetig gestiegen“).</li>
+          <li><strong>Stärkster Moment des Tages:</strong> Gemeinsam zu <strong>Frame 1</strong> zurückscrollen – „Welche Angst von heute Morgen ist kleiner geworden? Ziehen Sie Ihren Morgen-Zettel hierher, wenn er sich erledigt hat.“</li>
+        </ul>
+        <div class="loesung">
+          <span class="ltitle">Moderationshilfe</span>
+          <p>Die Umsetzen-Spalte mit den Startfall-Karten aus Frame 6 verknüpfen („Das steht ja schon auf Ihrer Karte – wann geht es los?“). Zum Schluss: Startseite, Tools und Miro-Board bleiben online – nochmals auf die Praxiswerkstätten hinweisen.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>Redescript zum VHS-Kurs „Einsteiger KI“ · Robert Meyer · Stand Juli 2026</footer>
+  </div>
+</body>
+</html>
