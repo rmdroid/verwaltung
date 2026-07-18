@@ -478,8 +478,8 @@
             <h3 style="margin:0; font-size:1rem;">MS-Teams-Besprechung</h3>
             <a class="tool-link" href="https://teams.microsoft.com/meet/397161076316763?p=RKI60oxNmVtekPiPxm" target="_blank" rel="noopener noreferrer">Teams-Link öffnen</a>
             <h3 style="margin:8px 0 0; font-size:1rem;">Miro-Board (gemeinsame Arbeitsfläche)</h3>
-            <a class="tool-link" href="#" target="_blank" rel="noopener noreferrer">Miro-Board öffnen</a>
-            <p style="margin:0; color:var(--muted); font-size:0.95rem;">Der Miro-Link wird zum Kursstart freigeschaltet.</p>
+            <a class="tool-link" id="miroLink" href="#" target="_blank" rel="noopener noreferrer">Miro-Board öffnen</a>
+            <p id="miroHint" style="margin:0; color:var(--muted); font-size:0.95rem;">Der Miro-Link wird zum Kursstart freigeschaltet.</p>
           </div>
         </aside>
       </div>
@@ -675,5 +675,31 @@
       Zentrale Kursseite für den VHS-Kurs · Robert Meyer
     </footer>
   </main>
+
+  <script>
+    /* ================================================================
+       ▼▼▼  MIRO-BOARD-LINK — AM VORTAG HIER EINTRAGEN!  ▼▼▼
+       Nur die nächste Zeile ändern: den echten Miro-Freigabelink
+       zwischen die Anführungszeichen einfügen, z. B.
+       const MIRO_BOARD_URL = "https://miro.com/app/board/uXjVN.../";
+       Solange die Zeile leer ist (""), zeigt die Seite automatisch
+       den Hinweis "wird zum Kursstart freigeschaltet" und der
+       Button bleibt inaktiv. Sobald ein Link drinsteht, wird der
+       Button aktiv (öffnet in neuem Tab) und der Hinweis
+       verschwindet von selbst. Sonst nichts anpassen.
+       ================================================================ */
+    const MIRO_BOARD_URL = "https://webwhiteboard.com/board/uXjVH6KQBos=/?boardAccessToken=IzmOlQeDkL9cNwjYoldVle6Daot6tdGp";
+    /* ▲▲▲  ENDE MIRO-LINK — darunter nichts ändern  ▲▲▲ */
+
+    const miroLink = document.getElementById('miroLink');
+    const miroHint = document.getElementById('miroHint');
+    if (MIRO_BOARD_URL) {
+      miroLink.href = MIRO_BOARD_URL;
+      miroHint.style.display = 'none';
+    } else {
+      miroLink.style.opacity = '0.55';
+      miroLink.addEventListener('click', (event) => event.preventDefault());
+    }
+  </script>
 </body>
 </html>
