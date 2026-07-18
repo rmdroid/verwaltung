@@ -1,0 +1,476 @@
+=====================================================================
+MIRO-BOARD KONZEPT
+VHS-Kurs "Einsteiger KI" – Wetteraukreis | Robert Meyer
+=====================================================================
+
+---------------------------------------------------------------------
+1. GESAMTAUFBAU DES BOARDS
+---------------------------------------------------------------------
+
+Das Board ist von LINKS nach RECHTS aufgebaut und bildet den
+Tagesablauf ab. Wer dem Board folgt, folgt automatisch dem Kurstag.
+Jeder Abschnitt ist ein eigener Frame (in Miro: Rahmen), nummeriert
+und mit Uhrzeit beschriftet. Zwischen den Frames genug Abstand lassen,
+damit beim Zoomen immer nur ein Frame im Blick ist.
+
+  [0]          [1]           [2]         [3]          [4]
+  Willkommen → Ankommen &  → Modul 1:  → Modul 2:   → Modul 3:
+  Spielregeln  Erwartungen   Mythen-     Aufgaben-    Daten-Ampel
+                             Parkplatz   Cluster      live
+
+  [5]           [6]            [7]
+  → Modul 4:  → Modul 5:     → Abschluss:
+    Prompt-     Potenzial-     Drei Fragen
+    Baukasten   Matrix &       & Feedback
+    & Tool-     Commitment
+    vergleich
+
+Zeitliche Zuordnung:
+  Frame 0:  ab 9:00 (liegt beim Betreten sichtbar links)
+  Frame 1:  9:25 (Ängste & Erwartungen, direkt nach der kurzen
+            Vorstellungsrunde) und nochmals 9:40 (Selbsttest-
+            Punkte auf die Skala)
+  Frame 2:  10:05–10:50 (Modul 1)
+  Frame 3:  11:05–11:45 (Modul 2)
+  Frame 4:  11:45–12:30 (Modul 3)
+  Frame 5:  13:00–14:15 (Modul 4)
+  Frame 6:  14:30–15:15 (Modul 5)
+  Frame 7:  15:15–15:50 (Abschluss)
+
+Technischer Rahmen (kostenlose Miro-Version):
+- Board per öffentlichem Link freigeben: "Jeder mit dem Link" +
+  Rolle "Bearbeiten". Teilnehmende arbeiten anonym ohne Anmeldung.
+- Da alle anonym sind: JEDE PERSON nimmt sich EINE Klebezettel-Farbe
+  und kennzeichnet alle eigenen Notizen mit ihrem NAMENSKÜRZEL
+  (z. B. "RM"). Kein Klarname, keine Abteilung – Datenschutz.
+  Dieser Hinweis steht auf jedem generierten Hintergrundbild.
+- Vorlagen/Tabellen als BILD einfügen und in Miro SPERREN
+  (Rechtsklick > Sperren), damit niemand sie versehentlich verschiebt.
+  Die Teilnehmenden kleben ihre Notizen AUF das Bild.
+- Vorab 8–10 Klebezettel-Farben neben jedem Frame als "Farbpalette"
+  bereitlegen (je 1 Beispielzettel pro Farbe), von denen sich jeder
+  seine Farbe per Kopieren nimmt.
+
+Hinweis zu den Bild-Prompts unten:
+- Alle Prompts sind für Bildgenerierung (z. B. ChatGPT/DALL-E)
+  formuliert. Querformat wählen (16:9 oder 3:2).
+- Bildgeneratoren verschreiben sich gern: Nach der Generierung
+  die Texte im Bild IMMER auf Rechtschreibung prüfen, ggf. mit
+  "gleiches Bild, aber korrigiere den Text ..." nachbessern.
+- Einheitlicher Stil für alle Bilder = ruhiges, professionelles Board.
+
+
+---------------------------------------------------------------------
+2. FRAME 0: WILLKOMMEN & SPIELREGELN (ab 9:00)
+---------------------------------------------------------------------
+
+Zweck: Erster Anlaufpunkt. Erklärt in 20 Sekunden, wie das Board
+funktioniert. Bleibt den ganzen Tag als Referenz stehen.
+
+Aufbau im Frame:
+- Oben: das Willkommensbild (Prompt unten)
+- Darunter: die Farbpalette (8–10 leere Klebezettel in
+  verschiedenen Farben zum Kopieren)
+- Daneben 1 Beispiel-Zettel: "So sieht ein guter Zettel aus:
+  kurzer Stichpunkt + Kürzel (z. B. 'KI hilft bei E-Mails – RM')"
+
+BILD-PROMPT (Frame 0):
+Erstelle ein Bild im Querformat 16:9, flaches modernes Infodesign,
+Farbwelt: Dunkelblau (#12345d), Petrol (#2d7187), Weiß, dezentes
+Gold als Akzent. Kein Foto, keine Personen, cleaner Verwaltungs-Look.
+Große Überschrift: "Willkommen am Kurs-Board". Darunter drei kurze
+Regeln als Icon-Zeilen: "1. Nehmen Sie sich EINE Zettel-Farbe",
+"2. Kennzeichnen Sie jede Notiz mit Ihrem Namenskürzel",
+"3. Kurze Stichpunkte statt Sätze". Unten ein schmaler Hinweisbalken:
+"Keine Klarnamen, keine echten Falldaten – Datenschutz gilt auch hier."
+Der Text muss exakt so und fehlerfrei im Bild stehen, viel Weißraum,
+klare serifenlose Schrift.
+
+
+---------------------------------------------------------------------
+3. FRAME 1: ANKOMMEN & ERWARTUNGEN (9:25 und nochmals 9:40)
+---------------------------------------------------------------------
+
+Zweck: Jede Person macht Ängste und Erwartungen sichtbar und
+verortet sich später mit ihrer Selbsttest-Punktzahl. Ergebnis:
+Du siehst sofort die Spannbreite der Gruppe (Heterogenität!) und
+kannst am Ende des Tages darauf zurückkommen.
+
+WICHTIG – der Frame wird in ZWEI Schritten befüllt:
+
+Schritt 1 (9:25, direkt nach der kurzen Vorstellungsrunde,
+ca. 10 Min.):
+1. Erster Board-Kontakt: Farbe nehmen, Kürzel festlegen, kurz
+   zeigen, wie Zettel kleben funktioniert.
+2. Je 1–2 Zettel in die drei Spalten (Bild 1b):
+   Ängste / Erwartungen an KI / Erwartungen an den Kurstag.
+3. Kurz laut vorlesen, was auffällt. Cluster bilden, wo sich
+   Themen wiederholen.
+Die Punkte-Skala (Bild 1a) bleibt in diesem Schritt noch LEER.
+
+Schritt 2 (ca. 9:40, direkt nach dem Selbsttest, ca. 5 Min.):
+1. Jede Person klebt ihre Selbsttest-Punktzahl (Zettel nur mit
+   Kürzel) auf die Skala von 0 bis 50.
+2. Die Streuung auf der Skala ist der sichtbare Beweis für die
+   KI-Kluft – genau hier die Kluft-Story erzählen.
+3. Zweierteams entlang der Skala bilden: erfahren neben neu.
+
+Moderationstipp: Am Tagesende (Frame 7) auf die Ängste-Spalte
+zurückkommen: Welche Angst ist kleiner geworden?
+
+Aufbau im Frame:
+- Oben: Bild 1b (drei Spalten) – gesperrt (wird zuerst befüllt)
+- Darunter: Bild 1a (Punkte-Skala) – gesperrt (nach dem Selbsttest)
+
+BILD-PROMPT 1a (Selbsttest-Punkteskala):
+Erstelle ein Bild im Querformat 16:9, flaches modernes Infodesign,
+Farbwelt: Dunkelblau (#12345d), Petrol (#2d7187), Weiß, dezentes Gold.
+Überschrift: "Ihr Selbsttest-Ergebnis: Wo stehen Sie heute?"
+Darunter eine große horizontale Skala von 0 bis 50 als Zeitstrahl
+mit Zahlenmarken bei 0, 10, 20, 30, 40 und 50 und drei beschrifteten
+Zonen: links "0–24 Einstieg – genau richtig hier", Mitte "25–39
+Solide Anwendung", rechts "40–50 Fortgeschritten – heute als
+Erfahrungsgeber gefragt". Über der Skala viel freie Fläche zum
+Aufkleben von Notizzetteln. Unten ein schmaler Hinweisbalken:
+"Kleben Sie Ihre Punktzahl auf die Skala – Zettel nur mit
+Namenskürzel beschriften." Text exakt und fehlerfrei, viel Weißraum.
+
+BILD-PROMPT 1b (Ängste & Erwartungen, drei Spalten):
+Erstelle ein Bild im Querformat 16:9, gleicher Stil wie zuvor:
+flaches Infodesign, Dunkelblau (#12345d), Petrol (#2d7187), Weiß, Gold.
+Überschrift: "Ihre Gedanken zum Start". Darunter drei gleich breite
+leere Spalten mit Kopfzeilen: Spalte 1 "Meine Ängste / Bedenken bei KI"
+(Icon: Wolke), Spalte 2 "Meine Erwartungen an KI" (Icon: Glühbirne),
+Spalte 3 "Meine Erwartungen an den heutigen Kurs" (Icon: Zielscheibe).
+Die Spalten sind bewusst leer als Klebefläche für Notizzettel.
+Unten schmaler Hinweisbalken: "Eine Farbe pro Person – jede Notiz
+mit Namenskürzel." Text exakt und fehlerfrei.
+
+
+---------------------------------------------------------------------
+4. FRAME 2: MODUL 1 – MYTHEN-PARKPLATZ (10:05–10:50)
+---------------------------------------------------------------------
+
+Leitfrage: "Was kann KI – was kann sie nicht?"
+
+Ablauf (ca. 25 Min. Board-Anteil):
+1. Alle schreiben 2–3 Zettel: Annahmen, Gehörtes, eigene
+   Erfahrungen, Befürchtungen ("KI weiß alles", "KI klaut meine
+   Daten", "KI ersetzt uns alle", ...).
+2. Zettel landen zuerst im Feld "Parkplatz" (unsortiert).
+3. Gemeinsam jeden Zettel in eines der drei Felder ziehen:
+   STIMMT / HYPE oder MYTHOS / KOMMT DRAUF AN.
+4. Bei "Kommt drauf an" kurz diskutieren – hier sitzt der
+   Lerneffekt. Fortgeschrittene als Erfahrungsgeber ansprechen.
+Sicherung: Drei Kernsätze als große Zettel unten anpinnen
+(KI schlägt vor – Mensch entscheidet / Halluzinationen sind normal /
+Verantwortung bleibt beim Menschen).
+
+BILD-PROMPT (Frame 2):
+Erstelle ein Bild im Querformat 16:9, flaches Infodesign, Dunkelblau
+(#12345d), Petrol (#2d7187), Weiß, Gold als Akzent. Überschrift:
+"Mythen-Parkplatz: Was kann KI – was kann sie nicht?" Layout: Links
+ein schmales graues Feld mit Titel "Parkplatz – hier klebt alles
+zuerst". Rechts daneben drei große gleich breite Felder nebeneinander:
+grünes Feld "STIMMT", rotes Feld "HYPE / MYTHOS", gelbes Feld
+"KOMMT DRAUF AN". Alle Felder sind leere Klebeflächen mit dezenter
+Umrandung. Unten schmaler Hinweisbalken: "Eine Farbe pro Person –
+jede Notiz mit Namenskürzel." Text exakt und fehlerfrei, viel
+Weißraum, keine Deko-Elemente in den Klebeflächen.
+
+
+---------------------------------------------------------------------
+5. FRAME 3: MODUL 2 – AUFGABEN-CLUSTER (11:05–11:45)
+---------------------------------------------------------------------
+
+Leitfrage: "Wo steckt in Ihrem Alltag schon KI – und welche
+Aufgabe würden Sie abgeben?"
+
+Ablauf (ca. 25 Min. Board-Anteil):
+1. Jede Person schreibt 2–3 eigene, konkrete Arbeitsaufgaben auf
+   Zettel (z. B. "Protokolle schreiben", "Bürgeranfragen
+   beantworten", "Excel-Auswertung Monatsbericht").
+   WICHTIG ansagen: Aufgaben allgemein formulieren, keine echten
+   Fälle, keine Namen, keine Aktenzeichen.
+2. Zettel gemeinsam in die drei Spalten ziehen:
+   GEEIGNET FÜR KI / UNGEEIGNET / UNKLAR.
+3. Abgleich mit Anlage 1 der Dienstanweisung: Deckt sich unser
+   Bild mit den zulässigen und untersagten Einsatzzwecken?
+4. Die "Unklar"-Spalte ist Diskussionsmaterial – und leitet perfekt
+   auf Modul 3 (Recht) über: "Genau dafür brauchen wir die Ampel."
+Sicherung: Die Geeignet-Spalte bleibt stehen = gemeinsame
+Ideenliste für Modul 5 (Potenzial-Matrix greift darauf zurück).
+
+BILD-PROMPT (Frame 3):
+Erstelle ein Bild im Querformat 16:9, flaches Infodesign, Dunkelblau
+(#12345d), Petrol (#2d7187), Weiß, Gold. Überschrift: "Ihre Aufgaben:
+Was davon kann KI übernehmen?" Darunter drei große gleich breite
+leere Spalten: Spalte 1 grün beschriftet "GEEIGNET für KI-Unterstützung"
+(Icon: Daumen hoch), Spalte 2 rot beschriftet "UNGEEIGNET – bleibt
+Menschenarbeit" (Icon: Hand als Stoppzeichen), Spalte 3 gelb
+beschriftet "UNKLAR – klären wir gleich" (Icon: Fragezeichen).
+Unter den Spalten ein schmaler Merksatz-Balken: "Aufgaben allgemein
+beschreiben – keine echten Fälle, keine Namen." Ganz unten schmaler
+Hinweisbalken: "Eine Farbe pro Person – jede Notiz mit Namenskürzel."
+Text exakt und fehlerfrei, Klebeflächen leer lassen.
+
+
+---------------------------------------------------------------------
+6. FRAME 4: MODUL 3 – DATEN-AMPEL LIVE (11:45–12:30)
+---------------------------------------------------------------------
+
+Übung: Vorbereitete Beispielsätze gemeinsam auf Grün, Gelb oder
+Rot ziehen. Jede Entscheidung wird mit Dienstanweisung,
+Entscheidungsbaum oder Postkarten-Regel begründet.
+
+Ablauf (ca. 25 Min. Board-Anteil):
+1. Die 15 Beispielsätze (unten) hängen als Zettel ungeordnet im
+   Feld "Eingang". Du bereitest sie VOR dem Kurs als Klebezettel
+   vor (Text 1:1 übernehmen, Nummer davor).
+2. Reihum oder im Zuruf: Gruppe zieht jeden Satz auf GRÜN, GELB
+   oder ROT und begründet.
+3. Auflösung durch dich (Moderationshilfe unten) – bei Gelb
+   immer fragen: "Was müsste man ändern, damit es Grün wird?"
+4. Die fertige Ampel als Screenshot sichern – das ist ein
+   Arbeitsergebnis, das die Teilnehmenden mitnehmen können.
+
+Ampel-Definition (kurz ansagen):
+  GRÜN  = darf so in ein freigegebenes KI-System
+  GELB  = erst anonymisieren / umformulieren / prüfen, dann ok
+  ROT   = gehört nicht in ein KI-System (oder KI darf die
+          Aufgabe grundsätzlich nicht übernehmen)
+
+BILD-PROMPT (Frame 4):
+Erstelle ein Bild im Querformat 16:9, flaches Infodesign, Dunkelblau
+(#12345d), Weiß, kräftiges Ampel-Grün, Ampel-Gelb und Ampel-Rot.
+Überschrift: "Die Daten-Ampel: Darf das in die KI?" Layout: Links ein
+schmales graues Feld "Eingang – unsortierte Beispiele". Rechts drei
+große horizontale Bahnen übereinander wie eine liegende Ampel:
+oben rote Bahn "ROT – gehört nicht in die KI", Mitte gelbe Bahn
+"GELB – erst anonymisieren und prüfen", unten grüne Bahn "GRÜN –
+darf so eingegeben werden". An jeder Bahn links ein Ampelkreis in
+der jeweiligen Farbe. Die Bahnen sind leere Klebeflächen. Unten
+schmaler Hinweisbalken: "Begründen Sie Ihre Entscheidung:
+Dienstanweisung, Entscheidungsbaum oder Postkarten-Regel."
+Text exakt und fehlerfrei.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+DIE 15 BEISPIELSÄTZE (als einzelne Klebezettel vorbereiten)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+ 1. "Erstelle mir eine freundliche Standardantwort: Ihre Anfrage
+     ist eingegangen und wird schnellstmöglich bearbeitet."
+ 2. "Erkläre mir diesen Paragrafen aus dem Verwaltungsverfahrens-
+     gesetz in einfacher Sprache."
+ 3. "Fasse diese Beschwerde zusammen: Herr Krause aus der
+     Hauptstraße 12 in Bad Nauheim beschwert sich zum dritten Mal
+     über die Bearbeitungsdauer seines Bauantrags."
+ 4. "Schlage mir eine Agenda für eine einstündige Teamsitzung zum
+     Thema Digitalisierung vor."
+ 5. "Prüfe, ob Frau Yilmaz mit 1.850 Euro Einkommen und drei
+     Kindern Anspruch auf Wohngeld hat."
+ 6. "Strukturiere meine Notizen zum Vorgang mit dem Aktenzeichen
+     32-2026-0815 als Vermerk."
+ 7. "Formuliere diesen Text bürgerfreundlicher: Der Antrag ist
+     unter Beifügung der erforderlichen Nachweise fristgerecht
+     einzureichen."
+ 8. "Hier ist das ärztliche Attest von Frau Berger – fasse die
+     wichtigsten Punkte für die Akte zusammen."
+ 9. "Erstelle eine Excel-Vorlage mit Formeln für unsere
+     monatliche Urlaubsplanung im Team."
+10. "Schreibe den Widerspruchsbescheid für den abgelehnten
+     Antrag von Familie Öztürk."
+11. "Formuliere eine Einladung zum Mitarbeitergespräch mit
+     Herrn Weber am 12. August um 10 Uhr."
+12. "Fasse unseren internen Notfallplan für IT-Ausfälle auf
+     einer Seite zusammen."
+13. "Sammle Ideen für Energiesparmaßnahmen in einem
+     Bürogebäude."
+14. "Mache aus diesen Stichpunkten einen Entwurf für eine
+     Pressemitteilung über das neue Bürgerbüro."
+15. "Ein Bürger droht in seiner E-Mail mit seinem Anwalt –
+     formuliere eine rechtliche Stellungnahme als Antwort."
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+AUFLÖSUNG – NUR FÜR DICH (Moderationshilfe, nicht aufs Board)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+GRÜN (darf so eingegeben werden):
+  1  Standardantwort – allgemeiner Textbaustein ohne Personenbezug
+     (DA Anlage 1: "Standardantworten vorbereiten")
+  2  Gesetzestext vereinfachen – öffentliche Information
+     (DA Anlage 1: "Gesetzestexte vereinfachen")
+  4  Agenda Teamsitzung – zulässiger Einsatzzweck laut Anlage 1
+  9  Excel-Vorlage – zulässig laut Anlage 1; Formeln danach
+     fachlich prüfen
+ 13  Energiesparmaßnahmen – zulässig laut Anlage 1
+ 14  Pressemitteilung – zulässig laut Anlage 1, WENN die
+     Stichpunkte keine Personendaten enthalten; Freigabe durch
+     verantwortliche Person, Kennzeichnung beachten
+     (14 eignet sich als Grenzdiskussion Grün/Gelb)
+
+GELB (erst anonymisieren / umformulieren, dann ok):
+  3  Beschwerde – Name + Adresse entfernen, dann als anonymisierte
+     Zusammenfassung zulässig ("Ein Bürger beschwert sich...")
+  6  Aktenzeichen = indirekter Personenbezug (steht wörtlich in
+     der DA-Erläuterung zu Bürgerdaten) – Vermerk ohne AZ und
+     ohne Namen strukturieren lassen ist ok
+  7  Der Beispielsatz selbst ist unkritisch – ABER: Gelb als
+     Erinnerung, dass im echten Text oft Name/Datum/AZ stehen.
+     Erst prüfen, dann eingeben. (Alternativ als Grün spielbar –
+     gute Diskussion!)
+ 11  Einladung – mit Name "Herr Weber" untersagt (personen-
+     bezogene Daten). Ohne Namen als neutrale Vorlage: Grün.
+     Klassischer Fall für "Was müsste man ändern?"
+
+ROT (gehört nicht in die KI / KI darf das nicht):
+  5  Anspruch auf Sozialleistungen bewerten – ausdrücklich
+     untersagt (Anlage 1) + personenbezogene Daten
+  8  Ärztliches Attest – Gesundheitsdaten, sensible Daten,
+     Dokument mit echten Daten: dreifach untersagt
+ 10  Widerspruchsbescheid – ausdrücklich untersagt, rechtlich
+     bindend, muss von Fachpersonal erstellt werden
+ 12  Interner Notfallplan – vertrauliche Daten, ausdrücklich
+     als Beispiel in der DA genannt
+ 15  Rechtliche Stellungnahme – ausdrücklich untersagt, muss
+     von Juristen erstellt werden
+
+Merksatz zur Sicherung: "Die Dateneingabe ist der zentrale
+Risikohebel. Im Zweifel: Entscheidungsbaum – oder den ISB fragen."
+
+
+---------------------------------------------------------------------
+7. FRAME 5: MODUL 4 – PROMPT-BAUKASTEN & TOOLVERGLEICH (13:00–14:15)
+---------------------------------------------------------------------
+
+Teil A – Prompt-Baukasten (ca. 20 Min.):
+Leitfrage: "Wie wird aus einer vagen Bitte ein präziser Auftrag?"
+1. Auf dem Board liegt die Baukasten-Vorlage mit den 5 Bausteinen
+   (Rolle / Kontext / Aufgabe / Ausgabeformat / Grenzen).
+2. Gemeinsam einen Verwaltungsfall wählen (aus der Geeignet-Spalte
+   von Frame 3!) und die fünf Felder mit Zetteln füllen.
+3. Den fertigen Prompt live in ChatGPT oder Vibe testen.
+4. Schwächen benennen, Zettel anpassen, erneut testen –
+   2 bis 3 Runden. Iteration ist das Handwerk.
+
+Teil B – Toolvergleich-Beobachtung (ca. 30 Min.):
+Während der Live-Demos (ChatGPT / Vibe / Claude) notieren die
+Teilnehmenden ihre Beobachtungen in der Vergleichstabelle:
+Was fällt bei Sprache, Struktur, Nacharbeit auf? Welches Ergebnis
+wäre dienstlich am ehesten verwendbar?
+
+BILD-PROMPT 5a (Prompt-Baukasten):
+Erstelle ein Bild im Querformat 16:9, flaches Infodesign, Dunkelblau
+(#12345d), Petrol (#2d7187), Weiß, Gold. Überschrift: "Der Prompt-
+Baukasten: 5 Bausteine für einen präzisen Auftrag". Layout: Fünf
+große leere Felder in einer Reihe wie Bausteine, die ineinander-
+greifen, nummeriert und beschriftet: "1 ROLLE – Wer soll die KI
+sein?", "2 KONTEXT – Was muss sie wissen?", "3 AUFGABE – Was genau
+soll sie tun?", "4 AUSGABEFORMAT – Wie soll das Ergebnis aussehen?",
+"5 GRENZEN – Was darf sie nicht?". Jedes Feld ist eine leere
+Klebefläche. Unten schmaler Hinweisbalken: "Eine Farbe pro Person –
+jede Notiz mit Namenskürzel." Text exakt und fehlerfrei.
+
+BILD-PROMPT 5b (Toolvergleich-Tabelle):
+Erstelle ein Bild im Querformat 16:9, flaches Infodesign, Dunkelblau
+(#12345d), Petrol (#2d7187), Weiß, Gold. Überschrift: "Toolvergleich:
+Beobachtungen aus den Live-Demos". Eine große leere Tabelle mit
+drei Spalten und vier Zeilen. Spaltenköpfe: "ChatGPT", "Vibe",
+"Claude". Zeilenbeschriftungen links: "Sprache und Ton", "Struktur
+und Aufbau", "Nacharbeit nötig?", "Dienstlich verwendbar?". Alle
+Tabellenzellen sind leere Klebeflächen. Unten schmaler Hinweisbalken:
+"Nicht auf Tempo achten, sondern auf die Nacharbeitsquote."
+Text exakt und fehlerfrei.
+
+
+---------------------------------------------------------------------
+8. FRAME 6: MODUL 5 – POTENZIAL-MATRIX & COMMITMENT (14:30–15:15)
+---------------------------------------------------------------------
+
+Teil A – Potenzial-Matrix (ca. 15 Min.):
+1. Jede Person nimmt 1–2 ihrer Aufgaben-Zettel aus Frame 3
+   (oder schreibt neue) und platziert sie auf der Matrix:
+   X-Achse = Aufwand der Einführung, Y-Achse = Nutzen/Entlastung.
+2. Blick auf das Feld oben links (hoher Nutzen, geringer Aufwand):
+   Das sind die Startkandidaten.
+
+Teil B – Commitment (ca. 10 Min.):
+Jede Person füllt eine Startfall-Karte aus: Startfall + Startdatum
++ Prüfkriterium. Die Karten bleiben als sichtbares Tagesergebnis
+auf dem Board.
+
+BILD-PROMPT 6a (Potenzial-Matrix):
+Erstelle ein Bild im QUADRATISCHEN Format, flaches Infodesign,
+Dunkelblau (#12345d), Petrol (#2d7187), Weiß, Gold. Überschrift:
+"Potenzial-Matrix: Womit anfangen?" Eine große 2x2-Matrix mit
+beschrifteten Achsen: Y-Achse (senkrecht) "Nutzen / Entlastung"
+mit Pfeil nach oben, X-Achse (waagerecht) "Aufwand der Einführung"
+mit Pfeil nach rechts. Die vier Quadranten dezent beschriftet:
+oben links "SOFORT STARTEN" (grün hinterlegt), oben rechts
+"PLANEN", unten links "NEBENBEI MITNEHMEN", unten rechts "BEWUSST
+WEGLASSEN" (rot hinterlegt). Quadranten ansonsten leer als
+Klebefläche. Unten schmaler Hinweisbalken: "Eine Farbe pro Person –
+jede Notiz mit Namenskürzel." Text exakt und fehlerfrei.
+
+BILD-PROMPT 6b (Startfall-Karte, Vorlage zum Mehrfach-Kopieren):
+Erstelle ein Bild im Querformat 3:2, flaches Infodesign, weißer
+Kartenhintergrund mit dunkelblauem (#12345d) Rand und goldener
+Ecke, wie eine edle Karteikarte. Titel: "Mein Startfall". Darunter
+drei beschriftete leere Zeilen mit Schreiblinien: "Meine Aufgabe:",
+"Ich starte am:", "Daran messe ich den Erfolg:". Unten rechts ein
+kleines Feld "Kürzel:". Text exakt und fehlerfrei, viel Platz zum
+Beschriften.
+(In Miro: diese Karte einmal einfügen und daneben den Hinweis-
+Zettel setzen: "Karte kopieren, mit Text-Zetteln ausfüllen, Kürzel
+nicht vergessen.")
+
+
+---------------------------------------------------------------------
+9. FRAME 7: ABSCHLUSS – DREI FRAGEN & FEEDBACK (15:15–15:50)
+---------------------------------------------------------------------
+
+Ablauf:
+1. Selbsttest erneut (über die Kursseite), dann zurück ans Board.
+2. Jede Person beantwortet die drei Abschlussfragen mit je
+   einem Zettel in den drei Spalten.
+3. BOGEN ZUM MORGEN: Gemeinsam zu Frame 1 zurückscrollen –
+   "Welche Angst von heute Morgen ist kleiner geworden? Ziehen
+   Sie Ihren Morgen-Zettel hierher, wenn er sich erledigt hat."
+   Das ist der stärkste Moment des Tages – sichtbare Entwicklung.
+4. Feedback-Skala: Zettel auf die Skala von 1–10 kleben.
+
+BILD-PROMPT (Frame 7):
+Erstelle ein Bild im Querformat 16:9, flaches Infodesign, Dunkelblau
+(#12345d), Petrol (#2d7187), Weiß, Gold. Überschrift: "Drei Fragen
+zum Abschluss". Drei gleich breite leere Spalten mit Kopfzeilen:
+Spalte 1 "Was ist heute klarer geworden?" (Icon: Glühbirne),
+Spalte 2 "Was macht Ihnen weniger Sorgen als heute Morgen?"
+(Icon: aufgehende Sonne), Spalte 3 "Was setzen Sie morgen konkret um?"
+(Icon: Rakete). Darunter eine horizontale Feedback-Skala von 1 bis 10
+mit der Beschriftung "Mein Tag heute: 1 = wenig gelernt, 10 = Lernkurve
+stetig gestiegen". Unten schmaler Hinweisbalken: "Eine Farbe pro
+Person – jede Notiz mit Namenskürzel." Text exakt und fehlerfrei.
+
+
+---------------------------------------------------------------------
+10. CHECKLISTE VORBEREITUNG (vor dem Kurstag)
+---------------------------------------------------------------------
+
+[ ] Alle 11 Bilder generieren (0, 1a, 1b, 2, 3, 4, 5a, 5b, 6a, 6b, 7),
+    Texte auf Rechtschreibung prüfen
+[ ] Board anlegen, Frames 0–7 von links nach rechts, Uhrzeiten in
+    die Frame-Titel
+[ ] Bilder einfügen und SPERREN
+[ ] Farbpalette (8–10 Beispiel-Klebezettel) in Frame 0 anlegen
+[ ] Die 15 Ampel-Beispielsätze als Zettel in Frame 4 "Eingang"
+    vorbereiten (nummeriert)
+[ ] Startfall-Karte (6b) einfügen + Kopier-Hinweis daneben
+[ ] Freigabelink erstellen: "Jeder mit dem Link" + "Bearbeiten",
+    Link testen (Inkognito-Fenster, ohne Anmeldung)
+[ ] Link auf der Kursseite (index.html) beim Miro-Button eintragen
+[ ] Probedurchlauf: einmal als anonymer Gast Zettel kleben und
+    verschieben – funktioniert alles?
+
+=====================================================================
+Stand: Juli 2026 · Robert Meyer
+=====================================================================
