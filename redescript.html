@@ -378,15 +378,44 @@
       </div>
       <div class="res"><strong>Material:</strong> Folie 12 (Modulstart) · Folie 13 (Arbeitsphase – bleibt während der Board-Arbeit stehen) · n8n am Beamer (Chatbot-Demo) · Miro Frame 2 (Mythen-Parkplatz) · Zusatz: Bloom-Taxonomie-Prompt in ChatGPT/Vibe · Vertiefung: Lehrmaterial Kapitel „Was ist Künstliche Intelligenz?“</div>
       <div class="part">
-        <span class="tag rede">Vorstellen (ca. 15 Min.)</span>
+        <span class="tag rede">Vorstellen (ca. 20 Min.) – Einstieg: KI ist längst da</span>
         <ul>
+          <li>Wer hat heute schon KI genutzt? Vermutlich alle: Der Spamfilter im Postfach sortiert mit KI aus, die Videokonferenz unterdrückt Hintergrundgeräusche mit KI.</li>
+          <li>Abgrenzung: Nicht alles, was „KI“ heißt, ist KI. Regelbasierte Automatisierung (wenn A, dann B) ist keine KI. KI erkennt Muster in Daten – sie „denkt“ nicht menschlich.</li>
+          <li>Warum die Abgrenzung wichtig ist: Sie entscheidet, wann Sie einem Ergebnis vertrauen können und wann nicht.</li>
           <li>Umgangssprachlich sagen wir „KI“ – korrekt wäre: multimodales Transformer Large Language Model. Ein KI-Chatbot ist die Web-Oberfläche dazu. Wir bleiben bei „KI“, kennen aber die korrekte Bezeichnung.</li>
-          <li>Zentrale Begriffe: generative KI, Halluzinationen, Biases, Temperature, Agent.</li>
-          <li>Demo n8n: Aufbau eines Chatbots – Vogelperspektive auf Frontend (Webseite) und Backend (Infrastruktur, Datenbanken, LLMs).</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – Wie ein Sprachmodell arbeitet</span>
+        <ul>
+          <li>Generative KI <strong>erzeugt</strong> neue Inhalte (Texte, Tabellen, Entwürfe) – analytische KI <strong>bewertet</strong> nur (erkennen, klassifizieren, vorhersagen).</li>
+          <li>Die Autocomplete-Analogie: Ein LLM ist ein sehr leistungsfähiges Autocomplete, trainiert auf gewaltigen Textmengen. Es zerlegt Text in Tokens und berechnet Wort für Wort, was am wahrscheinlichsten folgt.</li>
+          <li>Konsequenz 1: Klare Eingaben verbessern die Qualität deutlich – deshalb üben wir nachher das Prompten.</li>
+          <li>Konsequenz 2 (Kernbotschaft!): Das Modell optimiert sprachliche <strong>Plausibilität, nicht Wahrheit</strong>. Ein souverän klingendes Ergebnis ist kein Beweis für Richtigkeit.</li>
+          <li>Für die Verwaltung heißt das: stark bei Entwürfen und Strukturierung – nie alleinige Quelle für Rechts- oder Fachwahrheit.</li>
+          <li>Einordnung schwache vs. starke KI: Im Alltag begegnet Ihnen ausschließlich schwache, spezialisierte KI (zusammenfassen, formulieren, strukturieren). Starke KI/AGI ist Zukunftsdebatte – wir arbeiten mit dem, was heute real ist.</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – Die zwei großen Fehlerquellen</span>
+        <ul>
+          <li><strong>Biases (Verzerrungen):</strong> entstehen durch einseitige Trainingsdaten, unklare Zielkriterien oder einseitige Beispiele im Prompt. In der Verwaltung besonders sensibel – kleine systematische Verzerrungen können reale Nachteile erzeugen.</li>
+          <li>Gegenmittel: Ergebnisse nie als „objektiv“ interpretieren; bei wichtigen Fällen alternative Formulierungen testen – reagiert das Modell systematisch anders, ist das ein Prüfhinweis.</li>
+          <li><strong>Halluzinationen:</strong> inhaltlich falsche, aber sprachlich überzeugende Aussagen – erfundene Quellen, falsche Paragrafen, scheinbar exakte Zahlen. Das Modell füllt Lücken mit Plausiblem.</li>
+          <li>Die Sicherheitsregel: <strong>Entwurf durch KI ist zulässig – verbindliche Aussage ohne Prüfung nicht.</strong> Namen, Normen, Zahlen und Zuständigkeiten gehören immer in den Faktencheck.</li>
+          <li>Praxis-Trick: Bei kritischen Fragen kürzere Antworten anfordern – die sind leichter zu prüfen und enthalten weniger erfundene Details.</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag mod">Demos</span>
+        <ul>
+          <li><strong>Live-Trick „begründeter Prompt“:</strong> Beispiel-Prompt: <em>„Was kannst du mir zur Entwicklung und Einführung von KI in deutschen Behörden sagen? Welche Teile deiner Antwort sind unsicher?“</em> – live zeigen, wie das Modell seine eigenen Grenzen benennt. Ersetzt keine Prüfung, macht sie aber leichter.</li>
+          <li>Demo n8n: Aufbau eines Chatbots – Vogelperspektive auf Frontend (Webseite) und Backend (Infrastruktur, Datenbanken, LLMs). Begriffe Temperature und Agent hier nebenbei zeigen.</li>
         </ul>
       </div>
       <div class="miro-box">
-        <div class="miro-head">Jetzt: Miro-Board <small>Frame 2 „Mythen-Parkplatz“ · Folie 13 zeigen · ca. 25 Min.</small></div>
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 2 „Mythen-Parkplatz“ · Folie 13 zeigen · ca. 20 Min.</small></div>
         <h4>Aufgabe: „Was kann KI – was kann sie nicht?“</h4>
         <ul>
           <li>Alle schreiben 2–3 Zettel mit Annahmen, Gehörtem, eigenen Erfahrungen – zuerst ins graue Feld <strong>„Parkplatz“</strong> (links im Frame), unsortiert.</li>
@@ -426,15 +455,37 @@
       </div>
       <div class="res"><strong>Material:</strong> Folie 14 (Modulstart) · Folie 15 (Arbeitsphase – bleibt während der Board-Arbeit stehen) · Miro Frame 3 (Aufgaben-Cluster) · Dienstanweisung Anlage 1 (zulässige/untersagte Einsatzzwecke) zum Abgleich · Vertiefung: Lehrmaterial Kapitel „KI in der Verwaltung“</div>
       <div class="part">
-        <span class="tag rede">Vorstellen (ca. 10 Min.)</span>
+        <span class="tag rede">Vorstellen (ca. 15 Min.) – Wo KI schon steckt</span>
         <ul>
-          <li>Eisbrecher Alltags-KI: Wer hat heute schon einen Spam-Filter oder eine Suchfunktion genutzt? KI ist längst Teil der Arbeitsumgebung.</li>
-          <li>„Aufgabe vor Marke“: Es geht nicht um das beste Tool, sondern um das passende Profil für die Aufgabe (Tool-Matrix).</li>
-          <li>Die „No-AI-Zone“: Bewusstes Nicht-Nutzen ist professionell – bei Ermessensentscheidungen und sensiblen Rechtsfragen bleibt der Mensch die alleinige Instanz.</li>
+          <li>Anknüpfen an Modul 1 („KI ist längst da“), jetzt konkret im Dienst: Spam- und Phishing-Erkennung im E-Mail-System · automatische Transkription in Besprechungstools · Such- und Vorschlagsfunktionen in Office · Übersetzungs- und Sprachassistenz · Priorisierung in Service- und Ticketsystemen.</li>
+          <li>Das eigentlich Neue ist nicht der Chatbot – es ist der <strong>direkte Zugriff der Fachbereiche</strong> auf generative KI. Deshalb beginnt KI-Kompetenz mit dem Erkennen vorhandener Nutzung, nicht mit Toolbegeisterung.</li>
+          <li>Zwei Formen unterscheiden: <strong>generative KI</strong> als eigenes Tool (Browser-Chat – flexibel für Entwürfe und Struktur) vs. <strong>eingebettete KI</strong> in der Fachsoftware (prozessnäher, mit Rechtemanagement). Das ist keine Technikfrage, sondern eine Governance-Frage: Datennutzung und Freigaben unterscheiden sich je Form.</li>
+          <li>Die Praxisregel dazu: <strong>Im Zweifel nicht improvisieren, sondern Freigabestatus klären.</strong> Genau dafür gibt es die Positivliste in der Dienstanweisung – diese kleine Disziplin schützt Sie und die Organisation.</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – Aufgabe vor Marke: die Tool-Matrix</span>
+        <ul>
+          <li>„Aufgabe vor Marke“: Es gibt nicht das beste Tool, nur das passende Profil für die Aufgabe. Fünf Aufgabentypen kurz durchgehen:</li>
+          <li><strong>Rohentwurf für Schreiben</strong> → schnelle Struktur und Sprache; Grenze: Fakten können falsch sein.</li>
+          <li><strong>Fachtext verdichten</strong> → Zeitersparnis bei der Erstsichtung; Grenze: Nuancen und Minderheitspositionen gehen verloren.</li>
+          <li><strong>Übersetzung / Leichte Sprache</strong> → bessere Verständlichkeit für Bürgerkommunikation; Grenze: transportiert die Vereinfachung noch die fachlich richtige Aussage?</li>
+          <li><strong>Tabellen- und Musteranalyse</strong> → schnellere Vorstrukturierung; Grenze: Kontext fehlt, nie finale Bewertung.</li>
+          <li><strong>Ideensammlung / Gliederung</strong> → bessere Startqualität; geringstes Risiko, solange es Entwurf bleibt.</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – Chancen und Grenzen ehrlich benennen</span>
+        <ul>
+          <li>Chancen: KI wirkt am stärksten, wo <strong>hohe Textlast auf knappe Zeit</strong> trifft. Sie beschleunigt vor allem die Erstbearbeitung – die erste Struktur steht in Minuten statt Stunden. Merksatz: KI ist ein Hebel für gute Prozesse, keine Abkürzung bei der Qualität.</li>
+          <li>Grenzen (daraus folgt die No-AI-Zone): keine rechtsverbindlichen Entscheidungen · keine eigenständige Ermessensausübung · keine Gewähr für Fakten · kennt weder lokale Zuständigkeiten noch politische Kontexte · übernimmt keine Haftung.</li>
+          <li>Die wichtigste Grenze ist organisatorisch: KI versteht nicht, welche Folgen eine Formulierung in Ihrem konkreten Verfahren hat. Deshalb: <strong>Bewusstes Nicht-Nutzen ist professionell.</strong></li>
+          <li>Fallbeispiel 1 – Bürgerinformation: Fachabteilung braucht kurzfristig eine Veröffentlichung. Trick: erst die fachlich präzise Version erzeugen, daraus die bürgernahe Fassung ableiten – Substanz bleibt, Verständlichkeit steigt. Redaktionszeit deutlich kürzer, Faktencheck bleibt Pflicht.</li>
+          <li>Fallbeispiel 2 – Stellungnahmen-Synopse: Mehrere lange Eingaben je einzeln zusammenfassen, dann Synopse. Erfolgsfaktor war die feste Strukturvorgabe: Argumente pro und contra, offene Rechtsfragen, Umsetzungsfolgen. Nacharbeit: Nuancen und Minderheitspositionen von Hand.</li>
         </ul>
       </div>
       <div class="miro-box">
-        <div class="miro-head">Jetzt: Miro-Board <small>Frame 3 „Aufgaben-Cluster“ · Folie 15 zeigen · ca. 25 Min.</small></div>
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 3 „Aufgaben-Cluster“ · Folie 15 zeigen · ca. 20 Min.</small></div>
         <h4>Aufgabe: „Wo steckt in Ihrem Alltag schon KI – und welche Aufgabe würden Sie abgeben?“</h4>
         <ul>
           <li>Jede Person schreibt 2–3 eigene, konkrete Arbeitsaufgaben auf Zettel. <strong>Wichtig ansagen:</strong> allgemein formulieren – keine echten Fälle, keine Namen, keine Aktenzeichen.</li>
@@ -464,20 +515,39 @@
       </div>
       <div class="res"><strong>Material:</strong> Folie 16 (Modulstart) · Folie 17 (Arbeitsphase mit Ampel-Definition – bleibt während der Board-Arbeit stehen) · entscheidung.html (Entscheidungsbaum) · checkliste.html (Vor/Während/Nach) · Miro Frame 4 (Daten-Ampel, 15 Beispielsätze) · Link „EU AI Act kompakt“ (Kursseite) · Dienstanweisung Anlage 3</div>
       <div class="part">
-        <span class="tag rede">Vorstellen (ca. 15 Min.)</span>
+        <span class="tag rede">Vorstellen (ca. 20 Min.) – Die richtige Frage zuerst</span>
         <ul>
           <li>In der Verwaltung gilt: Risikologik vor Effizienzlogik. Ziel ist Compliance ohne unnötige Bürokratie.</li>
+          <li>Die wichtigste Sicherheitsfrage lautet nicht „Welches Modell ist am besten?“, sondern: <strong>„Welche Informationen dürfen in dieses System?“</strong></li>
+          <li>Die Prüfreihenfolge dazu: erst Datenbezug klären, dann Freigabe, erst danach den Nutzen bewerten. Diese Reihenfolge verhindert, dass scheinbar hilfreiche Nutzung rechtlich kippt.</li>
           <li>Postkarten-Regel: Was nicht auf eine offen lesbare Postkarte gehört, gehört auch nicht ungeprüft in ein KI-Tool.</li>
-          <li>Daten-Ampel (Grün/Gelb/Rot) als schnelle Entscheidungshilfe vorstellen.</li>
+          <li>Daten-Ampel (Grün/Gelb/Rot) als schnelle Entscheidungshilfe vorstellen – die üben wir gleich live am Board.</li>
           <li>Entscheidungsbaum als Standard-Vorprüfung: Personenbezug? Anonymisierbar? Freigegeben? Zweck klar und prüfbar?</li>
           <li>Checkliste Vor/Während/Nach – identisch mit der Logik von Anlage 3 der Dienstanweisung.</li>
-          <li>Anonymisierung ist mehr als „Name löschen“: auch Aktenzeichen und spezifische Ortsangaben verallgemeinern.</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – Anonymisierung richtig gemacht</span>
+        <ul>
+          <li>Anonymisierung ist mehr als „Name löschen“ – das Verfahren hat <strong>fünf Schritte</strong>: Originaltext kopieren → direkte Identifikatoren entfernen → indirekte Identifikatoren verallgemeinern → fachliche Relevanz prüfen → anonymisierte Fassung gegen das Original gegenlesen.</li>
+          <li>Beispiel vorsprechen – vorher: „Herr Max Mustermann, wohnhaft in der Musterstraße 12, beantragt am 14.03.2026 … Aktenzeichen 48-7732/26“. Nachher: „Eine antragstellende Person beantragt im März 2026 … interne Referenz entfernt.“ Die Fachinformation bleibt, der Personenbezug ist weg.</li>
+          <li>Die drei typischen Fehler: stehen gelassene <strong>Aktenzeichen</strong>, nicht abstrahierte <strong>Zeit- und Ortsangaben</strong> (Kombination aus Datum, Ort, Funktion identifiziert!) und vergessene <strong>Metadaten in Anhängen</strong>.</li>
+          <li>Kennzeichnung in drei Stufen denken: interne Arbeitsskizzen nach Hausregel · entscheidungsrelevante Dokumente mit dokumentierter KI-Mitwirkung · externe Kommunikation im Zweifel transparent kennzeichnen. Doppelter Nutzen: schafft Vertrauen und macht den Fehlerfall nachvollziehbar.</li>
+        </ul>
+      </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – EU AI Act und was bei Verstößen passiert</span>
+        <ul>
+          <li>EU AI Act in drei Minuten: Verordnung (EU) 2024/1689 ist in Kraft, der Ansatz ist <strong>risikobasiert</strong> – je höher das Risiko, desto strenger die Pflichten.</li>
+          <li>Vier Risikoklassen: verbotenes Risiko · hohes Risiko · begrenztes Risiko · minimales Risiko. Die Pflichten greifen stufenweise; früh wirksam wurden Verbote bestimmter Praktiken und die Vorgaben zur KI-Kompetenz – deshalb sitzen Sie heute übrigens auch hier.</li>
+          <li>Wichtig: KI-Compliance ist keine reine IT-Aufgabe – auch Fachbereiche, die Ergebnisse weiterverarbeiten, sind Teil des Compliance-Systems.</li>
+          <li>Was bei Verstößen passiert: aufsichtsrechtliche und datenschutzrechtliche Maßnahmen, dienstrechtliche Folgen, Reputationsschaden, Korrekturaufwand. Die ehrliche Botschaft dazu: Die häufigste Ursache ist <strong>nicht Vorsatz, sondern Prozessunklarheit</strong> – genau deshalb gibt es Ampel, Entscheidungsbaum und die Meldepflicht beim ISB. Melden ist Schadensbegrenzung, kein Schuldeingeständnis.</li>
           <li>Diese Tools schenke ich Ihnen – sie bleiben dauerhaft online. Und: Solche Tools können Sie mit KI-Hilfe selbst bauen.</li>
           <li>Hinweis: Für den EU AI Act gibt es ein separates Vertiefungsmodul (Link auf der Startseite).</li>
         </ul>
       </div>
       <div class="miro-box">
-        <div class="miro-head">Jetzt: Miro-Board <small>Frame 4 „Daten-Ampel“ · Folie 17 zeigen · ca. 25 Min.</small></div>
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 4 „Daten-Ampel“ · Folie 17 zeigen · ca. 20 Min.</small></div>
         <h4>Aufgabe: 15 vorbereitete Beispielsätze auf Grün, Gelb oder Rot ziehen</h4>
         <ul>
           <li>Die 15 nummerierten Zettel liegen (von dir vorbereitet) im grauen Feld <strong>„Eingang“</strong> links im Frame.</li>
@@ -530,17 +600,27 @@
       </div>
       <div class="res"><strong>Material:</strong> Folie 18 (Modulstart + 5 Bausteine) · Folie 19 (Arbeitsphase Prompt-Baukasten) · Folie 20 (Tool-Block: ChatGPT/Vibe/Claude) · Folie 21 (Live-Demos 1–3) · Folie 22 (Prompt-Vorlagen als Mitgabe) · Miro Frame 5 (Prompt-Baukasten + Vergleichstabelle) · Custom Prompt-Assistent (ChatGPT-Link auf Kursseite) · prompt.txt · ChatGPT, Vibe und Claude im Browser · Video „Prompt Frameworks“</div>
       <div class="part">
-        <span class="tag rede">Vorstellen (ca. 15 Min.)</span>
+        <span class="tag rede">Vorstellen (ca. 20 Min.) – Das Handwerk</span>
         <ul>
           <li>Jetzt krempeln wir die Ärmel hoch: Wie steuere ich die KI so präzise, dass ich brauchbare Ergebnisse statt Zufallsprodukte bekomme?</li>
-          <li>Die 5 Bausteine: Rolle, Kontext, Aufgabe, Ausgabeformat, Grenzen und Prüfkriterien.</li>
-          <li>Stil ist keine Wahrheit: Souveräner Ton ist kein Beweis für Richtigkeit – Faktencheck ist Pflicht.</li>
+          <li>Die 5 Bausteine: Rolle, Kontext, Aufgabe, Ausgabeformat, Grenzen und Prüfkriterien. Je klarer die Steuerung, desto geringer die Nacharbeit.</li>
+          <li>Die Prompt-Karte einmal komplett vorsprechen: <em>„Rolle: Sie sind Schreibassistenz für eine öffentliche Verwaltung. Kontext: Es geht um eine Terminverschiebung im Bürgeramt. Aufgabe: Formulieren Sie eine freundliche und klare E-Mail. Format: ein Betreff, ein Einleitungssatz, drei Stichpunkte, ein Abschluss. Einschränkungen: keine juristischen Bewertungen, keine persönlichen Daten.“</em> – So klingt ein fertiger Prompt.</li>
+          <li>Der Dreisprung schlecht/mittel/gut am Bescheid-Beispiel: „Fass den Bescheid zusammen.“ → „Fass den Bescheid in drei Punkten zusammen.“ → „Fassen Sie den Bescheid für die interne Abstimmung zusammen: Anlass, Rechtsgrundlage, nächste Schritte. Maximal 120 Wörter. Keine neuen Fakten ergänzen.“ Kernsatz: <strong>Präzision, nicht Länge.</strong></li>
           <li>Iteration statt Frustration: Drei bis vier Runden sind normal für ein gutes Ergebnis.</li>
           <li>Custom Prompt-Assistent und Prompt-Schablone zeigen (Links auf der Startseite), ggf. Video „Prompt Frameworks“.</li>
         </ul>
       </div>
+      <div class="part">
+        <span class="tag rede">Sprechtext – Ergebnisse prüfen wie ein Profi</span>
+        <ul>
+          <li>Stil ist keine Wahrheit: Ein souverän formulierter Text kann falsche Normen, erfundene Quellen oder verkürzte Schlüsse enthalten.</li>
+          <li>Dazu die Denkfigur <strong>Erstqualität vs. Prüfqualität</strong>: Manche Antworten wirken im ersten Moment stark, verursachen aber hohe Nacharbeit in der Fachprüfung. Ein guter Prompt erzeugt nicht nur gute Sprache, sondern eine prüfbare Ausgabe – genau darauf achten wir nachher im Toolvergleich.</li>
+          <li>Der 5-Schritte-Prüfprozess vor jeder Übernahme: <strong>Faktencheck → Quellencheck → Logikcheck → Kontextcheck → Sprachcheck.</strong> Ohne diese fünf Schritte kein KI-Ergebnis in verbindliche Dokumente.</li>
+          <li>Vier Warnsignale, die jeder kennen sollte: sehr selbstsicherer Ton ohne Belege · exakte Details ohne nachvollziehbare Quelle · zu perfekte Antworten trotz komplexer Ausgangslage · Verweis auf nicht existente Rechtsquellen.</li>
+        </ul>
+      </div>
       <div class="miro-box">
-        <div class="miro-head">Jetzt: Miro-Board <small>Frame 5 „Prompt-Baukasten“ · Folie 19 zeigen · ca. 20 Min.</small></div>
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 5 „Prompt-Baukasten“ · Folie 19 zeigen · ca. 15 Min.</small></div>
         <h4>Aufgabe: Gemeinsam einen Prompt aus den fünf Bausteinen bauen</h4>
         <ul>
           <li>Einen Fall aus der <strong>Geeignet-Spalte von Frame 3</strong> auswählen (Bogen zum Vormittag!).</li>
@@ -562,9 +642,9 @@
         <span class="tag mod">Live-Vergleich ChatGPT / Vibe / Claude (ca. 30 Min.)</span>
         <ul>
           <li>Drei freigegebene Systeme, identische Aufgaben – wir suchen keinen Testsieger, sondern das passende Werkzeug.</li>
-          <li>Demo 1: Sperrigen Verwaltungstext in klare Bürgerinformation übersetzen – bleibt die fachliche Substanz erhalten?</li>
-          <li>Demo 2: Ungeordnete Notizen zu einem prüfbaren Vermerk strukturieren – Logik, Vollständigkeit, keine Erfindungen?</li>
-          <li>Demo 3: Lange Eingabe auf Kernaussagen und Fristen verdichten – gehen Nuancen verloren?</li>
+          <li><strong>Demo 1 – Bürgerkommunikation</strong> (Prompt bereitlegen): „Sie sind Kommunikationsassistenz einer öffentlichen Verwaltung. Formulieren Sie eine E-Mail zur Terminverschiebung einer Sprechstunde. Anforderungen: freundlich und verständlich, max. 140 Wörter, Struktur: Betreff, kurzer Anlass, neuer Terminvorschlag, Kontaktmöglichkeit. Keine personenbezogenen Beispieldaten.“ – Prüfung: sofort verständlich? Handlungsoptionen enthalten?</li>
+          <li><strong>Demo 2 – Vermerk/Leitungsvorlage</strong> (Prompt bereitlegen): „Fassen Sie den folgenden Fachtext für eine interne Leitungsvorlage zusammen. Ausgabeformat: 1) Kernaussage in einem Satz, 2) drei zentrale Risiken, 3) drei empfohlene Maßnahmen. Grenzen: keine neuen Fakten erfinden, unklare Stellen mit ‚Prüfbedarf‘ markieren.“ – Prüfung: Risiken vollständig? Nuancen unterschlagen?</li>
+          <li><strong>Demo 3 – Verständlich erklären</strong> (Prompt bereitlegen): „Erklären Sie den Begriff ‚Ermessensentscheidung‘ für Bürgerinnen und Bürger. Format: eine kurze Definition, ein Alltagsbeispiel, ein Hinweis, was Betroffene tun können. Sprache: einfach, kurze Sätze, keine juristischen Fachzitate.“ – Prüfung: korrekt geblieben? Ton passend?</li>
           <li>Beobachtungsauftrag: Nicht auf Geschwindigkeit achten, sondern auf die Nacharbeitsquote.</li>
           <li>Nur datensparsame Beispielinhalte – Postkarten-Regel gilt auch im Test.</li>
         </ul>
@@ -583,7 +663,7 @@
       </div>
       <div class="part">
         <span class="tag mod">Sicherung (ca. 10 Min.)</span>
-        <p>Ergebnisse am Board festhalten: Welches System passt zu welcher Aufgabe? Prompt-Vorlagen als Mitgabe zeigen (TXT-Link auf der Startseite).</p>
+        <p>Ergebnisse am Board festhalten: Welches System passt zu welcher Aufgabe? Prompt-Vorlagen als Mitgabe zeigen (TXT-Link auf der Startseite, Folie 22) – mit der Botschaft: Keine Vorlage ist fertig. Sie ist der Startpunkt für gute Routine, kein Ersatz für Denken und Prüfen – jede wird auf Vorgang, Datenlage und Zielgruppe angepasst.</p>
       </div>
       <div class="part">
         <span class="tag zusatz">Zusatz für Schnellere</span>
@@ -605,16 +685,20 @@
       </div>
       <div class="res"><strong>Material:</strong> Folie 23 (Modulstart) · Folie 24 (Arbeitsphase Matrix + Startfall-Karte) · Folie 25 (Transfer startet klein) · Folie 26 (Kleine Standards) · Folie 27 (Mitgabe) · Miro Frame 6 (Potenzial-Matrix + Startfall-Karten) · Aufgaben-Zettel aus Miro Frame 3 wiederverwenden</div>
       <div class="part">
-        <span class="tag rede">Vorstellen (ca. 10 Min.)</span>
+        <span class="tag rede">Vorstellen (ca. 15 Min.) – Potenzial vor Aktionismus</span>
         <ul>
           <li>Wir haben viel ausprobiert – jetzt sorgen wir dafür, dass das Wissen nicht im Seminarraum bleibt.</li>
           <li>Potenzial vor Aktionismus: KI ist ein Kraftverstärker für Routinetexte und Datenaufbereitung – bewusst weglassen bei Ermessensentscheidungen.</li>
+          <li>Die Potenzial-Einordnung nach Aufgabentyp: <strong>Routinetexte</strong> = hohes Potenzial · <strong>Datenaufbereitung</strong> = hoch · <strong>Fachrecherche</strong> = mittel bis hoch · <strong>Bürgerkommunikation</strong> = mittel (hohe Fehlerkosten!) · <strong>Ermessensentscheidungen</strong> = niedrig.</li>
+          <li>Kernsatz: Der beste Einstieg ist selten die spektakulärste Aufgabe – sondern der Vorgang mit <strong>hoher Wiederholung, klarer Struktur und guter Prüfbarkeit</strong>.</li>
           <li>Lernpfad Bronze/Silber/Gold: Niemand muss alles sofort können. Bronze = sichere Anwendung mit Faktencheck, Gold = Multiplikator im Team.</li>
-          <li>Team-Routine schlägt Einzelwissen: kurze Formate (30 Minuten alle zwei Wochen) für Prompts und Fehlerfälle.</li>
+          <li>Team-Routine schlägt Einzelwissen: kurze Formate (30 Minuten alle zwei Wochen) für Prompts und Fehlerfälle. Für Bereiche: Mini-Roadmap statt Einzelaktion – drei priorisierte Anwendungsfälle, klare Verantwortlichkeiten, fester Review-Rhythmus.</li>
+          <li>Warnung vor der <strong>stillen Delegation</strong>: Je besser KI funktioniert, desto größer die Versuchung, ungeprüft zu übernehmen. Deshalb in sensiblen Prozessen dokumentieren, wer final geprüft und freigegeben hat – so bleibt die Unterschrift eine echte Verantwortungsübernahme.</li>
+          <li>Überleitung zur Übung – die vier Reflexionsfragen laut stellen: Welche Aufgaben kosten Sie pro Woche am meisten Zeit? Welche davon sind klar strukturierbar? Wo kann KI einen Entwurf liefern, den Sie sicher prüfen können? Und welche Aufgaben bleiben bewusst ohne KI?</li>
         </ul>
       </div>
       <div class="miro-box">
-        <div class="miro-head">Jetzt: Miro-Board <small>Frame 6 „Potenzial-Matrix &amp; Startfall“ · Folie 24 zeigen · ca. 25 Min.</small></div>
+        <div class="miro-head">Jetzt: Miro-Board <small>Frame 6 „Potenzial-Matrix &amp; Startfall“ · Folie 24 zeigen · ca. 20 Min.</small></div>
         <h4>Aufgabe: Aufgaben auf die Matrix – dann Startfall-Karte ausfüllen</h4>
         <ul>
           <li>Jede Person nimmt 1–2 ihrer Aufgaben-Zettel aus <strong>Frame 3</strong> (oder schreibt neue) und platziert sie auf der Matrix: X-Achse = Aufwand der Einführung, Y-Achse = Nutzen/Entlastung.</li>
@@ -636,6 +720,13 @@
       <div class="part">
         <span class="tag mod">Sicherung (ca. 10 Min.)</span>
         <p>Hinweis auf die gebauten Tools, die der Kreis und die Teilnehmenden weiter nutzen können. Verweis auf die Praxiswerkstätten für Vertiefung und spezielle Einsatzfelder.</p>
+      </div>
+      <div class="part">
+        <span class="tag rede">Schlussbotschaft des Moduls</span>
+        <ul>
+          <li>„KI verändert Arbeit, aber nicht den Menschen.“ Schneller, strukturierter, effizienter – ja. Aber der Kern der Verwaltungsarbeit bleibt menschlich: Interessen abwägen, rechtliche Folgen einordnen, verständlich kommunizieren, Vertrauen in Verfahren sichern.</li>
+          <li>Die Haltung für die kommenden Jahre: <strong>offen für Neues, klar in der Verantwortung.</strong> Genau daraus entsteht professionelle Souveränität im Umgang mit KI.</li>
+        </ul>
       </div>
     </section>
 
