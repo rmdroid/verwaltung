@@ -353,11 +353,15 @@ Leitfrage: "Wie wird aus einer vagen Bitte ein präziser Auftrag?"
 4. Schwächen benennen, Zettel anpassen, erneut testen –
    2 bis 3 Runden. Iteration ist das Handwerk.
 
-Teil B – Toolvergleich-Beobachtung (ca. 30 Min.):
-Während der Live-Demos (ChatGPT / Vibe / Claude) notieren die
-Teilnehmenden ihre Beobachtungen in der Vergleichstabelle:
+Teil B – Team-Übung + Share-Runde (ca. 35 Min.):
+Die Zweierteams prompten selbst: je Team eine Übung (aus dem
+Redescript) und ein zugewiesenes System (ChatGPT/Vibe/Claude).
+Beobachtungen kommen als Zettel in die Vergleichstabelle:
 Was fällt bei Sprache, Struktur, Nacharbeit auf? Welches Ergebnis
 wäre dienstlich am ehesten verwendbar?
+Danach teilen 2–3 vorab angesprochene Teams ihr Ergebnis per
+MS-Teams-Bildschirmfreigabe auf den Beamer (Mikrofon/Lautsprecher
+aus – alle sind im Raum). Tabelle gemeinsam vervollständigen.
 
 BILD-PROMPT 5a (Prompt-Baukasten):
 Erstelle ein Bild im Querformat 16:9, flaches Infodesign, Dunkelblau
@@ -456,8 +460,18 @@ Person – jede Notiz mit Namenskürzel." Text exakt und fehlerfrei.
 10. CHECKLISTE VORBEREITUNG (vor dem Kurstag)
 ---------------------------------------------------------------------
 
-[ ] Alle 11 Bilder generieren (0, 1a, 1b, 2, 3, 4, 5a, 5b, 6a, 6b, 7),
-    Texte auf Rechtschreibung prüfen
+[x] Alle 11 Bilder generiert – liegen im Unterordner /miro:
+    1_Willkommen.png          → Frame 0
+    2_Selbsttest.png          → Frame 1 (Punkte-Skala, nach Selbsttest)
+    3_Gedanken_zum_Start.png  → Frame 1 (drei Spalten, zuerst)
+    4_Mythen_Parkplatz.png    → Frame 2
+    5_Aufgaben_Cluster.png    → Frame 3
+    6_Daten_Ampel.png         → Frame 4
+    7_Prompt_Baukasten.png    → Frame 5 (Teil A)
+    8_Vergleichstabelle.png   → Frame 5 (Teil B)
+    9_Potenzial_Matrix.png    → Frame 6
+    10_Startfall_Karte.png    → Frame 6 (Vorlage zum Kopieren)
+    11_Abschluss.png          → Frame 7
 [ ] Board anlegen, Frames 0–7 von links nach rechts, Uhrzeiten in
     die Frame-Titel
 [ ] Bilder einfügen und SPERREN
@@ -467,7 +481,11 @@ Person – jede Notiz mit Namenskürzel." Text exakt und fehlerfrei.
 [ ] Startfall-Karte (6b) einfügen + Kopier-Hinweis daneben
 [ ] Freigabelink erstellen: "Jeder mit dem Link" + "Bearbeiten",
     Link testen (Inkognito-Fenster, ohne Anmeldung)
-[ ] Link auf der Kursseite (index.html) beim Miro-Button eintragen
+[ ] Miro-Link in index.html eintragen: Datei öffnen, im <script>
+    am Dateiende die markierte Zeile suchen
+    (const MIRO_BOARD_URL = "";) und den Freigabelink zwischen
+    die Anführungszeichen setzen – mehr nicht. Button und
+    Hinweistext stellen sich automatisch um.
 [ ] Probedurchlauf: einmal als anonymer Gast Zettel kleben und
     verschieben – funktioniert alles?
 
