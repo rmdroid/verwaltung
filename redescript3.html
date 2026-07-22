@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Regieplan | Einsteiger KI – Wetteraukreis</title>
+  <style>
+    :root {
+      --ink: #1f2f45;
+      --muted: #54667f;
+      --accent: #1c4f8f;
+      --accent-deep: #12345d;
+      --petrol: #2d7187;
+      --gold: #916212;
+      --purple: #6b3fa0;
+      --slate: #4d5f78;
+      --green: #1f7651;
+      --red: #8b3328;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --line: #d8e1ec;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 26px 16px 60px; }
+
+    header.top {
+      background: linear-gradient(135deg, var(--accent-deep), var(--accent));
+      color: #fff;
+      border-radius: 18px;
+      padding: 24px 26px;
+      margin-bottom: 16px;
+    }
+    header.top h1 { margin: 0 0 6px; font-size: 1.6rem; line-height: 1.2; }
+    header.top p { margin: 0; opacity: 0.85; font-size: 0.92rem; }
+
+    /* Legende */
+    .legend {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+    .legend h2 { margin: 0 0 10px; font-size: 0.95rem; color: var(--accent-deep); }
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px 16px;
+    }
+    .legend-row { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--muted); }
+    .legend-row .chip { flex: 0 0 auto; }
+
+    /* Chips (AKTION) */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+    .chip-folie { background: var(--accent); }
+    .chip-miro { background: var(--petrol); }
+    .chip-frage { background: var(--gold); }
+    .chip-beispiel { background: var(--purple); }
+    .chip-regie { background: var(--slate); }
+    .chip-sicherung { background: var(--green); }
+    .chip-zusatz {
+      background: #fff;
+      color: var(--green);
+      border: 2px dashed var(--green);
+      padding: 4px 10px;
+    }
+    .chip-rede {
+      background: #fff;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      padding: 4px 10px;
+    }
+    .chip-pause { background: var(--red); }
+
+    /* Module-/Blockstruktur */
+    section.block {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 22px;
+      margin-bottom: 16px;
+      break-inside: avoid;
+    }
+    .blockhead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+      margin-bottom: 6px;
+    }
+    .blockhead h2 { margin: 0; font-size: 1.2rem; color: var(--accent-deep); }
+    .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .folien {
+      font-weight: 800; font-size: 0.82rem; color: #fff;
+      background: var(--accent); padding: 4px 12px; border-radius: 999px; white-space: nowrap;
+    }
+    .time {
+      font-weight: 700; font-size: 0.78rem; color: var(--muted);
+      background: #e8edf4; padding: 4px 12px; border-radius: 999px; white-space: nowrap;
+    }
+    .res {
+      background: #f4f7fb; border: 1px dashed var(--line); border-radius: 10px;
+      padding: 8px 13px; margin: 10px 0 14px; font-size: 0.86rem; color: var(--muted);
+    }
+    .res strong { color: var(--accent-deep); }
+
+    /* Beat-Zeilen: Aktion links, Inhalt rechts */
+    .beat {
+      display: flex;
+      gap: 14px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+      align-items: flex-start;
+    }
+    .beat:first-of-type { border-top: none; }
+    .beat-num {
+      flex: 0 0 22px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding-top: 7px;
+      text-align: right;
+    }
+    .beat-chip-col { flex: 0 0 176px; padding-top: 1px; }
+    .beat-body { flex: 1 1 auto; min-width: 0; }
+    .beat-body > p:first-child { margin-top: 0; }
+    .beat-body p { margin: 0 0 6px; color: var(--ink); }
+    .beat-body ul { margin: 4px 0 0; padding-left: 18px; color: var(--ink); }
+    .beat-body li + li { margin-top: 5px; }
+    .beat-body .note { color: var(--muted); font-size: 0.9rem; }
+
+    /* Sprechtext-Box */
+    .speech {
+      position: relative;
+      background: #eef4fb;
+      border-left: 4px solid var(--accent);
+      padding: 10px 14px 10px 30px;
+      border-radius: 0 10px 10px 0;
+      color: var(--ink);
+    }
+    .speech::before {
+      content: "“";
+      position: absolute; left: 6px; top: -2px;
+      font-size: 1.7rem; color: var(--accent); opacity: 0.55;
+    }
+    .speech ul { margin: 4px 0 0; padding-left: 18px; }
+    .speech li + li { margin-top: 6px; }
+    .speech p { margin: 0 0 6px; }
+    .speech p:last-child, .speech ul:last-child { margin-bottom: 0; }
+
+    /* Frage-Box */
+    .frage-box {
+      background: #fbf4e5;
+      border-left: 4px solid var(--gold);
+      padding: 9px 14px;
+      border-radius: 0 10px 10px 0;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* Beispiel-/Prompt-Box */
+    .promptbox {
+      background: var(--accent-deep);
+      color: #e9f0fb;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      margin: 4px 0;
+    }
+    .promptbox + .note { margin-top: 6px; }
+
+    /* Miro-Aufgabenbox innerhalb eines Beats */
+    .miro-task {
+      border: 2px solid var(--petrol);
+      border-radius: 12px;
+      background: #e9f3f6;
+      padding: 12px 14px;
+    }
+    .miro-task .mt-title { font-weight: 800; color: var(--accent-deep); margin: 0 0 6px; font-size: 0.95rem; }
+    .miro-task ul { margin: 4px 0 0; padding-left: 18px; }
+    .miro-task li + li { margin-top: 5px; }
+    .bildref {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--petrol);
+      background: #fff;
+      border: 1px solid var(--petrol);
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+
+    /* Details / Lösungshilfe eingeklappt */
+    details.loesung {
+      margin-top: 10px;
+      background: #fff;
+      border: 1px dashed var(--petrol);
+      border-radius: 10px;
+      padding: 8px 12px;
+    }
+    details.loesung summary {
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--green);
+      list-style: none;
+    }
+    details.loesung summary::-webkit-details-marker { display: none; }
+    details.loesung summary::before { content: "▸ "; }
+    details.loesung[open] summary::before { content: "▾ "; }
+    details.loesung ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 0.9rem; }
+    details.loesung li + li { margin-top: 5px; }
+    details.loesung ol { margin: 8px 0 0; padding-left: 22px; color: var(--muted); font-size: 0.9rem; }
+    details.loesung ol li { margin-top: 8px; }
+    .amp {
+      display: inline-block;
+      font-weight: 800;
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
+      padding: 2px 8px;
+      border-radius: 999px;
+      color: #fff;
+      margin-right: 4px;
+    }
+    .amp-gruen { background: var(--green); }
+    .amp-gelb { background: var(--gold); }
+    .amp-rot { background: var(--red); }
+
+    /* Sicherung */
+    .sicherung-box {
+      background: #eef8f1;
+      border-left: 4px solid var(--green);
+      padding: 9px 14px;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .pause-block {
+      background: #eef2f7;
+      text-align: center;
+      padding: 10px 20px;
+    }
+    .pause-block .blockhead { border: none; margin: 0; padding: 0; justify-content: center; }
+
+    footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 24px; }
+
+    @media print {
+      body { background: #fff; }
+      section.block { border: 1px solid #ccc; box-shadow: none; }
+      details.loesung { border-style: solid; }
+    }
+    @media (max-width: 640px) {
+      .beat { flex-direction: column; gap: 6px; }
+      .beat-chip-col { flex: none; }
+      .beat-num { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <h1>Regieplan — Aktion &amp; Redetext getrennt<br>VHS-Kurs „Einsteiger KI“ – Wetteraukreis</h1>
+      <p>Dozent: Robert Meyer · 9:00–15:50 Uhr · Diese Fassung trennt strikt: <strong>links was Sie tun</strong>, <strong>rechts was Sie sagen</strong>.<br>Foliennummern = Reihenfolge in start.html · Miro-Frames + Bilddateien = miro.txt/Ordner „miro“ · Ausführliche Hintergründe stehen in redescript.html</p>
+    </header>
+
+    <div class="legend">
+      <h2>Zeichenerklärung — solide Chips = Aktion, umrandete Chips = Sprechen</h2>
+      <div class="legend-grid">
+        <div class="legend-row"><span class="chip chip-folie">Folie N</span> Foliewechsel in start.html</div>
+        <div class="legend-row"><span class="chip chip-miro">Miro Frame N</span> Wechsel zum Miro-Board, konkrete Aufgabe</div>
+        <div class="legend-row"><span class="chip chip-frage">Frage</span> Jetzt in die Gruppe fragen</div>
+        <div class="legend-row"><span class="chip chip-beispiel">Beispiel zeigen</span> Prompt/Beispiel live eingeben oder vorlesen</div>
+        <div class="legend-row"><span class="chip chip-regie">Regie</span> Sonstige Handlung (Demo, Video, Handzeichen, Übergang, Team-Aktion)</div>
+        <div class="legend-row"><span class="chip chip-sicherung">Sicherung</span> Ergebnis des Blocks festhalten</div>
+        <div class="legend-row"><span class="chip chip-zusatz">Zusatz</span> Optionale Aufgabe für Schnellere</div>
+        <div class="legend-row"><span class="chip chip-rede">Sprechen</span> Kein Wechsel nötig — nur Redetext</div>
+      </div>
+    </div>
+
+    <!-- ============ AUFTAKT ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Auftakt: Ankommen &amp; erste Demos</h2>
+        <div class="meta"><span class="folien">Folien 1–2 + 9</span><span class="time">9:00–9:15</span></div>
+      </div>
+      <div class="res"><strong>Vorbereitung:</strong> ChatGPT-Fenster neben der Präsentation bereit am Beamer.</div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 1</span></div>
+        <div class="beat-body"><p class="note">„Willkommen"-Folie zeigen, ChatGPT-Fenster daneben öffnen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Demo 1</span></div>
+        <div class="beat-body"><p class="note">Live in ChatGPT eintippen: „Wie viele Buchstaben E hat das Wort Erdbeere?"</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Demo 2</span></div>
+        <div class="beat-body"><p class="note">Monat-mit-X-Frage eintippen und Ergebnis zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Demo 3</span></div>
+        <div class="beat-body"><p class="note">„Prüfe meine französische Aussprache"-Demo zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-frage">Frage</span></div>
+        <div class="beat-body"><div class="frage-box">Wer hat die ChatGPT-App auf dem Handy? (Handzeichen)</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-frage">Frage</span></div>
+        <div class="beat-body"><div class="frage-box">Welche Learnings nehmen wir aus den Demos mit? Wie hätten wir das besser prompten können?</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">7</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <ul>
+              <li>Herzlich willkommen im Namen der VHS und in meinem Namen. Schön, dass Sie alle da sind.</li>
+              <li>Ich bin Robert Meyer und moderiere Sie heute durch den Kurs.</li>
+              <li>Mein Ziel: Ihnen KI näherbringen, die Angst nehmen, Sie begeistern – und klar benennen, wo die Mythen liegen.</li>
+              <li>Sie sollen heute Nachmittag sagen können: Meine Lernkurve ist heute stetig gestiegen.</li>
+              <li>Ein kompletter KI-Einsteigerkurs dauert 20 Tage à 8 Stunden – wir haben einen Tag. Wir schneiden Themen an, die Vertiefung kommt danach.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">8</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 2</span></div>
+        <div class="beat-body"><p class="note">„Roter Faden" zeigen – die vier Schritte stehen auf der Folie, kurz kommentieren.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">9</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 9</span></div>
+        <div class="beat-body"><p class="note">Wechsel für die Erwartungs-Passage.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">10</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Lehre aus dem ersten Termin:</strong> Das ist ein echter Einsteigerkurs. Wir starten bei den Grundlagen und gehen kleinschrittig vor. Für Fortgeschrittene ist heute Wiederholung und Orientierung – dafür gibt es Zusatzaufgaben und die Praxiswerkstätten im Anschluss. Und: Wenn ich zu schnell oder zu langsam bin, sagen Sie es sofort.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VORSTELLUNG & ANKOMMEN ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Vorstellung &amp; Ankommen am Board</h2>
+        <div class="meta"><span class="folien">Folie 3</span><span class="time">9:15–9:35</span></div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 3</span></div>
+        <div class="beat-body"><p class="note">Bleibt für den ganzen Block stehen (Teil 1 im Raum / Teil 2 am Board).</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <ul>
+              <li>Robert Meyer, aus Friedberg (Bruchenbrücken), KI-Dozent und Berater.</li>
+              <li>Motto: Lebenslanges Lernen. Ich nutze KI privat und beruflich intensiv – Tools, die ich brauche, baue ich mir selbst.</li>
+              <li>Meine Erwartung: Dass Sie Spaß am Lernen haben – und dass ich heute auch von Ihnen lerne.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Runde im Raum</span></div>
+        <div class="beat-body"><p class="note">Nur drei Punkte pro Person: Name und Bereich · KI-Nutzung ja/nein · ein Satz zur prägendsten KI-Erfahrung. Bewusst kurz halten – Details kommen gleich ans Board.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-frage">Frage</span></div>
+        <div class="beat-body"><div class="frage-box">Wer hat bereits ein ChatGPT-Konto (kostenlos oder Plus)? (Handzeichen)</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-frage">Frage</span></div>
+        <div class="beat-body"><div class="frage-box">Wie wurde KI in der Kreisverwaltung eingeführt? Wer möchte das kurz schildern? (nebenbei einsammeln)</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Kursseite zeigen</span></div>
+        <div class="beat-body"><p class="note">rmdroid.github.io/verwaltung/ öffnen oder auf den Beamer holen – dort finden alle den Miro-Board-Link (und alle weiteren Kurslinks). Jetzt kurz zeigen, wo der Miro-Button liegt, bevor es ans Board geht.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">7</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 1</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: Ängste &amp; Erwartungen in drei Spalten</p>
+            <ul>
+              <li>Farbe nehmen, Kürzel festlegen – kurz zeigen, wie Zettel kleben funktioniert.</li>
+              <li>Je 1–2 Zettel: Meine Ängste/Bedenken bei KI · Meine Erwartungen an KI · Meine Erwartungen an den Kurstag.</li>
+              <li>Kurz laut würdigen, Wiederholungen zu Clustern zusammenschieben.</li>
+              <li>Punkte-Skala bleibt noch leer – kommt nach dem Selbsttest.</li>
+            </ul>
+            <span class="bildref">Bild 3_Gedanken_zum_Start.png</span>
+            <details class="loesung">
+              <summary>Moderationshilfe – typische Nennungen</summary>
+              <ul>
+                <li>Ängste: Arbeitsplatzverlust, Datenschutz/Überwachung, Fehler übernehmen, „ich bin zu alt dafür", Abhängigkeit → tauchen im Tagesverlauf wieder auf (Modul 1, 3, 5): „Darauf kommen wir zurück."</li>
+                <li>Erwartungen an KI: Zeitersparnis, bessere Texte, weniger Routine → Überleitung zu Modul 2.</li>
+                <li>Erwartungen an den Tag: „endlich verstehen", „was darf ich überhaupt?" → Verweis auf Dienstanweisungs-Block gleich im Anschluss.</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SELBSTTEST & KI-KLUFT ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Selbsttest &amp; KI-Kluft</h2>
+        <div class="meta"><span class="folien">Folien 4–8</span><span class="time">9:35–9:50</span></div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 4</span></div>
+        <div class="beat-body"><p class="note">Selbsttest-Folie zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Kursseite zeigen</span></div>
+        <div class="beat-body"><p class="note">rmdroid.github.io/verwaltung öffnen – heute der gemeinsame Einstiegspunkt. Selbsttest machen lassen (zehn Aussagen, jeder für sich).</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 1</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: Punktzahl (0–50) auf die Skala kleben</p>
+            <ul>
+              <li>Jede Person klebt ihre Punktzahl (Zettel nur mit Kürzel) an die passende Stelle.</li>
+              <li>Einen Moment wirken lassen – die Streuung ist der sichtbare Beweis für die KI-Kluft.</li>
+            </ul>
+            <span class="bildref">Bild 2_Selbsttest.png</span>
+            <details class="loesung">
+              <summary>Zonen &amp; Teambildung</summary>
+              <ul>
+                <li>0–24 Einstieg · 25–39 solide Anwendung · 40–50 fortgeschritten („heute als Erfahrungsgeber gefragt").</li>
+                <li>Zweierteams direkt an der Skala bilden: je ein Zettel von links mit einem von rechts – erfahren neben neu.</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 5</span></div>
+        <div class="beat-body"><p class="note">„KI-Kluft" zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p>„Schauen Sie auf unsere Skala: Diese Spannbreite ist die KI-Kluft – live und in diesem Raum."</p>
+            <ul>
+              <li>Meine Erfahrungen zur KI-Kluft: innerhalb von Teams, zwischen Bürgern und Verwaltung.</li>
+              <li>LinkedIn-Story (dritte KI-Kluft).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-frage">Frage</span></div>
+        <div class="beat-body"><div class="frage-box">Wer ist auf LinkedIn? (Handzeichen)</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">7</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech"><p>Damit wir die Kluft heute direkt verkleinern: Wir arbeiten in Zweierteams – erfahren neben neu, orientiert an der Skala. Das spart auch Ressourcen (Konten, kostenlose Prompts).</p></div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">8</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 6</span></div>
+        <div class="beat-body"><p class="note">„Drei Grundbotschaften" kurz zeigen (Inhalt steht auf der Folie).</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">9</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folien 7–8</span></div>
+        <div class="beat-body"><p class="note">Tagesplan + Arbeitsmodus zeigen, kurz kommentieren als Überleitung zur Dienstanweisung.</p></div>
+      </div>
+    </section>
+
+    <!-- ============ DIENSTANWEISUNG ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Dienstanweisung kompakt</h2>
+        <div class="meta"><span class="folien">Folien 10–11</span><span class="time">9:50–10:05</span></div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 10</span></div>
+        <div class="beat-body"><p class="note">Spielregeln in Stichpunkten zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <ul>
+              <li>Seit dem 01.04.2026 gilt bei Ihnen die Dienstanweisung zum Umgang mit Generativer KI – für alle Beschäftigten der Kreisverwaltung und der Eigenbetriebe. Sie ist heute unsere verbindliche Leitplanke.</li>
+              <li>Grundsätze: Kennzeichnungspflicht, Überprüfbarkeit (KI halluziniert!), Diskriminierungsverbot, KI ersetzt kein menschliches Urteilsvermögen.</li>
+              <li>Datenschutz: Erlaubt sind öffentliche Informationen, anonymisierte Daten, allgemeine Textbausteine. Untersagt sind personenbezogene, sensible und vertrauliche Daten sowie Dokumente mit echten Daten.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 11</span></div>
+        <div class="beat-body"><p class="note">Freigegebene Systeme zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <ul>
+              <li>Freigegeben sind: ChatGPT, Perplexity, Mistral Le Chat (heißt heute Vibe), Proton Lumo, DeepL und Claude. Gemini, Copilot und Ecosia nur als Suche.</li>
+              <li>Regeln: nur im Browser, nur kostenfrei, dienstliche E-Mail, Trainingsnutzung deaktivieren. Verstöße an den ISB melden.</li>
+              <li>Verantwortung für Eingaben und Ergebnisse tragen Sie selbst – deshalb üben wir heute genau das.</li>
+            </ul>
+            <p><strong>Änderung zum ersten Termin:</strong> Wir besprechen und nutzen heute ausschließlich freigegebene Tools. Keine Erwartungen aufbauen, die dienstlich nicht erfüllbar sind.</p>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Video</span></div>
+        <div class="beat-body"><p class="note">„KI in der Verwaltung" zeigen (Link auf der Startseite unter Kursmedien).</p></div>
+      </div>
+    </section>
+
+    <!-- ============ MODUL 1 ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 1: Was ist KI eigentlich?</h2>
+        <div class="meta"><span class="folien">Folien 12–13</span><span class="time">10:05–10:50</span></div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 12</span></div>
+        <div class="beat-body"><p class="note">Modulstart zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Einstieg: KI ist längst da</strong></p>
+            <ul>
+              <li>Wer hat heute schon KI genutzt? Vermutlich alle: Der Spamfilter im Postfach sortiert mit KI aus, die Videokonferenz unterdrückt Hintergrundgeräusche mit KI.</li>
+              <li>Abgrenzung: Nicht alles, was „KI" heißt, ist KI. Regelbasierte Automatisierung (wenn A, dann B) ist keine KI. KI erkennt Muster in Daten – sie „denkt" nicht menschlich.</li>
+              <li>Warum die Abgrenzung wichtig ist: Sie entscheidet, wann Sie einem Ergebnis vertrauen können und wann nicht.</li>
+              <li>Umgangssprachlich sagen wir „KI" – korrekt wäre: multimodales Transformer Large Language Model. Ein KI-Chatbot ist die Web-Oberfläche dazu. Wir bleiben bei „KI", kennen aber die korrekte Bezeichnung.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Wie ein Sprachmodell arbeitet</strong></p>
+            <ul>
+              <li>Generative KI <strong>erzeugt</strong> neue Inhalte (Texte, Tabellen, Entwürfe) – analytische KI <strong>bewertet</strong> nur (erkennen, klassifizieren, vorhersagen).</li>
+              <li>Die Autocomplete-Analogie: Ein LLM ist ein sehr leistungsfähiges Autocomplete, trainiert auf gewaltigen Textmengen. Es zerlegt Text in Tokens und berechnet Wort für Wort, was am wahrscheinlichsten folgt.</li>
+              <li>Konsequenz 1: Klare Eingaben verbessern die Qualität deutlich – deshalb üben wir nachher das Prompten.</li>
+              <li><strong>Konsequenz 2 (Kernbotschaft!):</strong> Das Modell optimiert sprachliche Plausibilität, nicht Wahrheit. Ein souverän klingendes Ergebnis ist kein Beweis für Richtigkeit.</li>
+              <li>Für die Verwaltung heißt das: stark bei Entwürfen und Strukturierung – nie alleinige Quelle für Rechts- oder Fachwahrheit.</li>
+              <li>Einordnung schwache vs. starke KI: Im Alltag begegnet Ihnen ausschließlich schwache, spezialisierte KI (zusammenfassen, formulieren, strukturieren). Starke KI/AGI ist Zukunftsdebatte – wir arbeiten mit dem, was heute real ist.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Die zwei großen Fehlerquellen</strong></p>
+            <ul>
+              <li><strong>Biases (Verzerrungen):</strong> entstehen durch einseitige Trainingsdaten, unklare Zielkriterien oder einseitige Beispiele im Prompt. In der Verwaltung besonders sensibel – kleine systematische Verzerrungen können reale Nachteile erzeugen.</li>
+              <li>Gegenmittel: Ergebnisse nie als „objektiv" interpretieren; bei wichtigen Fällen alternative Formulierungen testen – reagiert das Modell systematisch anders, ist das ein Prüfhinweis.</li>
+              <li><strong>Halluzinationen:</strong> inhaltlich falsche, aber sprachlich überzeugende Aussagen – erfundene Quellen, falsche Paragrafen, scheinbar exakte Zahlen. Das Modell füllt Lücken mit Plausiblem.</li>
+              <li><strong>Sicherheitsregel:</strong> Entwurf durch KI ist zulässig – verbindliche Aussage ohne Prüfung nicht. Namen, Normen, Zahlen und Zuständigkeiten immer in den Faktencheck.</li>
+              <li>Praxis-Trick: Bei kritischen Fragen kürzere Antworten anfordern – leichter zu prüfen, weniger erfundene Details.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-beispiel">Beispiel zeigen</span></div>
+        <div class="beat-body">
+          <p class="note">Live-Trick „begründeter Prompt" – in ChatGPT/Vibe eingeben und Ergebnis vorlesen:</p>
+          <div class="promptbox">Was kannst du mir zur Entwicklung und Einführung von KI in deutschen Behörden sagen? Welche Teile deiner Antwort sind unsicher?</div>
+          <p class="note">Zeigt, wie das Modell seine eigenen Grenzen benennt. Ersetzt keine Prüfung, macht sie aber leichter.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Demo n8n</span></div>
+        <div class="beat-body"><p class="note">Aufbau eines Chatbots zeigen – Vogelperspektive auf Frontend (Webseite) und Backend (Infrastruktur, Datenbanken, LLMs). Begriffe Temperature und Agent nebenbei erwähnen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">7</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 13</span></div>
+        <div class="beat-body"><p class="note">Arbeitsphasen-Folie zeigen – bleibt während der Board-Arbeit stehen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">8</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 2</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: „Was kann KI – was kann sie nicht?"</p>
+            <ul>
+              <li>2–3 Zettel mit Annahmen/Erfahrungen zuerst in den „Parkplatz" (unsortiert).</li>
+              <li>Gemeinsam einsortieren: STIMMT / HYPE-MYTHOS / KOMMT DRAUF AN.</li>
+              <li>Bei „Kommt drauf an" bewusst diskutieren – Fortgeschrittene als Erfahrungsgeber ansprechen.</li>
+            </ul>
+            <span class="bildref">Bild 4_Mythen_Parkplatz.png</span>
+            <details class="loesung">
+              <summary>Lösungshilfe – typische Aussagen richtig einsortiert</summary>
+              <ul>
+                <li><strong>STIMMT:</strong> „KI erfindet manchmal Fakten und Quellen" · „KI steckt längst in Alltagssoftware" · „Meine Eingaben können als Trainingsdaten genutzt werden" · „KI ist stark bei Entwürfen und Zusammenfassungen".</li>
+                <li><strong>HYPE/MYTHOS:</strong> „KI weiß alles und ist immer aktuell" · „KI versteht, was sie sagt" · „KI ist neutral und objektiv" · „KI ersetzt uns alle in fünf Jahren" · „Der Chatbot lernt automatisch aus jedem Gespräch mit mir".</li>
+                <li><strong>KOMMT DRAUF AN:</strong> „KI spart Zeit" (nur mit gutem Prompt + Faktencheck) · „KI-Nutzung ist bei uns verboten" (nein – freigegebene Tools + Regeln der DA) · „KI kann Entscheidungen treffen" (vorschlagen ja, entscheiden nie).</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">9</div>
+        <div class="beat-chip-col"><span class="chip chip-zusatz">Zusatz</span></div>
+        <div class="beat-body"><p class="note">Bloom-Taxonomie-Lernprompt in ChatGPT oder Vibe ausprobieren (Link auf der Startseite).</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">10</div>
+        <div class="beat-chip-col"><span class="chip chip-sicherung">Sicherung</span></div>
+        <div class="beat-body"><div class="sicherung-box">Drei Kernaussagen festhalten: KI-Ergebnisse sind Vorschläge, keine Entscheidungen. Halluzinationen sind normal, nicht die Ausnahme. Verantwortung bleibt beim Menschen.</div></div>
+      </div>
+    </section>
+
+    <section class="block pause-block">
+      <div class="blockhead"><h2>Kurzpause</h2><span class="time">10:50–11:05</span></div>
+    </section>
+
+    <!-- ============ MODUL 2 ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 2: KI im Dienst-Alltag</h2>
+        <div class="meta"><span class="folien">Folien 14–15</span><span class="time">11:05–11:45</span></div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 14</span></div>
+        <div class="beat-body"><p class="note">Modulstart zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Wo KI schon steckt</strong></p>
+            <ul>
+              <li>Anknüpfen an Modul 1 („KI ist längst da"), jetzt konkret im Dienst: Spam- und Phishing-Erkennung im E-Mail-System · automatische Transkription in Besprechungstools · Such- und Vorschlagsfunktionen in Office · Übersetzungs- und Sprachassistenz · Priorisierung in Service- und Ticketsystemen.</li>
+              <li>Das eigentlich Neue ist nicht der Chatbot – es ist der <strong>direkte Zugriff der Fachbereiche</strong> auf generative KI. Deshalb beginnt KI-Kompetenz mit dem Erkennen vorhandener Nutzung, nicht mit Toolbegeisterung.</li>
+              <li>Zwei Formen unterscheiden: <strong>generative KI</strong> als eigenes Tool (Browser-Chat – flexibel für Entwürfe und Struktur) vs. <strong>eingebettete KI</strong> in der Fachsoftware (prozessnäher, mit Rechtemanagement). Das ist keine Technikfrage, sondern eine Governance-Frage: Datennutzung und Freigaben unterscheiden sich je Form.</li>
+              <li>Die Praxisregel dazu: <strong>Im Zweifel nicht improvisieren, sondern Freigabestatus klären.</strong> Genau dafür gibt es die Positivliste in der Dienstanweisung – diese kleine Disziplin schützt Sie und die Organisation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Aufgabe vor Marke: die Tool-Matrix</strong></p>
+            <ul>
+              <li>„Aufgabe vor Marke": Es gibt nicht das beste Tool, nur das passende Profil für die Aufgabe. Fünf Aufgabentypen kurz durchgehen:</li>
+              <li><strong>Rohentwurf für Schreiben</strong> → schnelle Struktur und Sprache; Grenze: Fakten können falsch sein.</li>
+              <li><strong>Fachtext verdichten</strong> → Zeitersparnis bei der Erstsichtung; Grenze: Nuancen und Minderheitspositionen gehen verloren.</li>
+              <li><strong>Übersetzung / Leichte Sprache</strong> → bessere Verständlichkeit für Bürgerkommunikation; Grenze: transportiert die Vereinfachung noch die fachlich richtige Aussage?</li>
+              <li><strong>Tabellen- und Musteranalyse</strong> → schnellere Vorstrukturierung; Grenze: Kontext fehlt, nie finale Bewertung.</li>
+              <li><strong>Ideensammlung / Gliederung</strong> → bessere Startqualität; geringstes Risiko, solange es Entwurf bleibt.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Chancen und Grenzen ehrlich benennen</strong></p>
+            <ul>
+              <li>Chancen: KI wirkt am stärksten, wo <strong>hohe Textlast auf knappe Zeit</strong> trifft. Sie beschleunigt vor allem die Erstbearbeitung – die erste Struktur steht in Minuten statt Stunden. Merksatz: KI ist ein Hebel für gute Prozesse, keine Abkürzung bei der Qualität.</li>
+              <li>Grenzen (daraus folgt die No-AI-Zone): keine rechtsverbindlichen Entscheidungen · keine eigenständige Ermessensausübung · keine Gewähr für Fakten · kennt weder lokale Zuständigkeiten noch politische Kontexte · übernimmt keine Haftung.</li>
+              <li>Die wichtigste Grenze ist organisatorisch: KI versteht nicht, welche Folgen eine Formulierung in Ihrem konkreten Verfahren hat. Deshalb: <strong>Bewusstes Nicht-Nutzen ist professionell.</strong></li>
+              <li>Fallbeispiel 1 – Bürgerinformation: Fachabteilung braucht kurzfristig eine Veröffentlichung. Trick: erst die fachlich präzise Version erzeugen, daraus die bürgernahe Fassung ableiten – Substanz bleibt, Verständlichkeit steigt. Redaktionszeit deutlich kürzer, Faktencheck bleibt Pflicht.</li>
+              <li>Fallbeispiel 2 – Stellungnahmen-Synopse: Mehrere lange Eingaben je einzeln zusammenfassen, dann Synopse. Erfolgsfaktor war die feste Strukturvorgabe: Argumente pro und contra, offene Rechtsfragen, Umsetzungsfolgen. Nacharbeit: Nuancen und Minderheitspositionen von Hand.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 15</span></div>
+        <div class="beat-body"><p class="note">Arbeitsphase zeigen – bleibt während der Board-Arbeit stehen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 3</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: „Wo steckt schon KI – welche Aufgabe würden Sie abgeben?"</p>
+            <ul>
+              <li>2–3 eigene Aufgaben auf Zettel – allgemein formuliert, keine echten Fälle/Namen/Aktenzeichen.</li>
+              <li>Gemeinsam einsortieren: GEEIGNET / UNGEEIGNET / UNKLAR.</li>
+              <li>Unklar-Spalte stehen lassen → Überleitung zu Modul 3. Geeignet-Spalte bleibt stehen → wird in Modul 5 wiederverwendet.</li>
+            </ul>
+            <span class="bildref">Bild 5_Aufgaben_Cluster.png</span>
+            <details class="loesung">
+              <summary>Lösungshilfe – direkte Auflösung der Miro-Beispiele</summary>
+              <ul>
+                <li><strong>„Protokolle schreiben" → GEEIGNET.</strong> Struktur und Formulierung eines Vermerks sind laut Anlage 1 zulässig (Formulierungen gestalten). Voraussetzung: das Protokoll enthält keine personenbezogenen Details – sonst nur die anonymisierte Rohstruktur eingeben, Namen und Beschlüsse mit Personenbezug händisch ergänzen.</li>
+                <li><strong>„Bürgeranfragen beantworten" → UNKLAR, guter Diskussionsfall.</strong> Ein allgemeiner Antwortbaustein ist zulässig („Standardantworten vorbereiten", Anlage 1). Sobald die konkrete Anfrage eines Bürgers mit Namen, Aktenzeichen oder Fallbezug eingegeben wird, kippt es nach ROT (Bürgerdaten verarbeiten ist untersagt). Frage an die Gruppe: Was müsste man ändern, damit es GEEIGNET wird? → Anfrage anonymisieren oder nur als generische Vorlage nutzen.</li>
+                <li><strong>„Excel-Auswertung Monatsbericht" → GEEIGNET für die Vorlage, UNKLAR für die Daten.</strong> Formeln, Zellenformate und Layout darf KI erstellen (Anlage 1: „Excel-Vorlagen erstellen"). Die eigentlichen Monatsdaten (falls personenbezogen, z. B. Fallzahlen mit Sachbearbeiter-Zuordnung) gehören nicht in den Prompt – nur die Struktur beschreiben, echte Zahlen selbst eintragen.</li>
+              </ul>
+            </details>
+            <details class="loesung">
+              <summary>Lösungshilfe – Abgleich mit Anlage 1 der Dienstanweisung</summary>
+              <ul>
+                <li><strong>Zulässig:</strong> Word-/Excel-Vorlagen · Formulierungen gestalten · Vergleiche · Recherchen · Gesetzestexte vereinfachen · Agenda · FAQ-Entwürfe · Fortbildungsideen · Pressemitteilung vorbereiten · Social-Media-Textbausteine · Brainstormen · Standardantworten.</li>
+                <li><strong>Untersagt:</strong> Widerspruchs-/Bußgeldbescheide · Sozialleistungsbescheide · Ansprüche auf Sozialleistungen bewerten · Bürgerdaten verarbeiten · rechtliche Stellungnahmen · Arbeitsverträge mit Daten · Gesundheitsdaten · Melderegisterdaten.</li>
+                <li>Faustregel: Entwurf/Struktur = meist geeignet · Entscheidung/Ermessen/echte Personendaten = ungeeignet.</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">7</div>
+        <div class="beat-chip-col"><span class="chip chip-sicherung">Sicherung</span></div>
+        <div class="beat-body"><div class="sicherung-box">Ergebnis: eine gemeinsame Liste geeigneter Einsatzfelder für den eigenen Bereich – bleibt auf dem Board stehen.</div></div>
+      </div>
+    </section>
+
+    <!-- ============ MODUL 3 ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 3: Recht &amp; Sicherheit</h2>
+        <div class="meta"><span class="folien">Folien 16–17</span><span class="time">11:45–12:30</span></div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 16</span></div>
+        <div class="beat-body"><p class="note">Modulstart zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Die richtige Frage zuerst</strong></p>
+            <ul>
+              <li>In der Verwaltung gilt: Risikologik vor Effizienzlogik. Ziel ist Compliance ohne unnötige Bürokratie.</li>
+              <li>Die wichtigste Sicherheitsfrage lautet nicht „Welches Modell ist am besten?", sondern: <strong>„Welche Informationen dürfen in dieses System?"</strong></li>
+              <li>Die Prüfreihenfolge dazu: erst Datenbezug klären, dann Freigabe, erst danach den Nutzen bewerten. Diese Reihenfolge verhindert, dass scheinbar hilfreiche Nutzung rechtlich kippt.</li>
+              <li>Postkarten-Regel: Was nicht auf eine offen lesbare Postkarte gehört, gehört auch nicht ungeprüft in ein KI-Tool.</li>
+              <li>Daten-Ampel (Grün/Gelb/Rot) als schnelle Entscheidungshilfe vorstellen – die üben wir gleich live am Board.</li>
+              <li>Entscheidungsbaum als Standard-Vorprüfung: Personenbezug? Anonymisierbar? Freigegeben? Zweck klar und prüfbar?</li>
+              <li>Checkliste Vor/Während/Nach – identisch mit der Logik von Anlage 3 der Dienstanweisung.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-beispiel">Beispiel zeigen</span></div>
+        <div class="beat-body">
+          <p class="note"><strong>Anonymisierung in fünf Schritten</strong> – Originaltext kopieren → direkte Identifikatoren entfernen → indirekte Identifikatoren verallgemeinern → fachliche Relevanz prüfen → gegenlesen. Vorher/Nachher vorsprechen:</p>
+          <div class="promptbox">Vorher: „Herr Max Mustermann, wohnhaft in der Musterstraße 12, beantragt am 14.03.2026 … Aktenzeichen 48-7732/26"
+
+Nachher: „Eine antragstellende Person beantragt im März 2026 … interne Referenz entfernt"</div>
+          <p class="note">Drei typische Fehler: stehen gelassene <strong>Aktenzeichen</strong> · nicht abstrahierte <strong>Zeit- und Ortsangaben</strong> (Kombination aus Datum, Ort, Funktion identifiziert!) · vergessene <strong>Metadaten in Anhängen</strong>.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Kennzeichnung, EU AI Act und Verstöße</strong></p>
+            <ul>
+              <li>Kennzeichnung in drei Stufen denken: interne Arbeitsskizzen nach Hausregel · entscheidungsrelevante Dokumente mit dokumentierter KI-Mitwirkung · externe Kommunikation im Zweifel transparent kennzeichnen. Doppelter Nutzen: schafft Vertrauen und macht den Fehlerfall nachvollziehbar.</li>
+              <li>EU AI Act in drei Minuten: Verordnung (EU) 2024/1689 ist in Kraft, der Ansatz ist <strong>risikobasiert</strong> – je höher das Risiko, desto strenger die Pflichten.</li>
+              <li>Vier Risikoklassen: verbotenes Risiko · hohes Risiko · begrenztes Risiko · minimales Risiko. Die Pflichten greifen stufenweise; früh wirksam wurden Verbote bestimmter Praktiken und die Vorgaben zur KI-Kompetenz – deshalb sitzen Sie heute übrigens auch hier.</li>
+              <li>Wichtig: KI-Compliance ist keine reine IT-Aufgabe – auch Fachbereiche, die Ergebnisse weiterverarbeiten, sind Teil des Compliance-Systems.</li>
+              <li>Was bei Verstößen passiert: aufsichtsrechtliche und datenschutzrechtliche Maßnahmen, dienstrechtliche Folgen, Reputationsschaden, Korrekturaufwand. Die ehrliche Botschaft dazu: Die häufigste Ursache ist <strong>nicht Vorsatz, sondern Prozessunklarheit</strong> – genau deshalb gibt es Ampel, Entscheidungsbaum und die Meldepflicht beim ISB. Melden ist Schadensbegrenzung, kein Schuldeingeständnis.</li>
+              <li>Diese Tools schenke ich Ihnen – sie bleiben dauerhaft online. Und: Solche Tools können Sie mit KI-Hilfe selbst bauen.</li>
+              <li>Hinweis: Für den EU AI Act gibt es ein separates Vertiefungsmodul (Link auf der Startseite).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 17</span></div>
+        <div class="beat-body"><p class="note">Arbeitsphase mit Ampel-Definition zeigen – bleibt während der Board-Arbeit stehen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 4</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: 15 Beispielsätze auf Grün, Gelb oder Rot ziehen</p>
+            <ul>
+              <li>15 nummerierte Zettel liegen im Feld „Eingang". Reihum ziehen und jede Entscheidung begründen (DA, Entscheidungsbaum, Postkarten-Regel).</li>
+              <li>Ampel: GRÜN = darf so rein · GELB = erst anonymisieren/prüfen · ROT = gehört nicht in die KI.</li>
+              <li>Bei jedem Gelb fragen: „Was müsste man ändern, damit es Grün wird?"</li>
+            </ul>
+            <span class="bildref">Bild 6_Daten_Ampel.png</span>
+            <details class="loesung">
+              <summary>Auflösung – alle 15 Beispiele mit Satz und Begründung</summary>
+              <ol>
+                <li><span class="amp amp-gruen">GRÜN</span> „Erstelle mir eine freundliche Standardantwort: Ihre Anfrage ist eingegangen und wird schnellstmöglich bearbeitet." – allgemeiner Textbaustein ohne Personenbezug (Anlage 1: „Standardantworten vorbereiten").</li>
+                <li><span class="amp amp-gruen">GRÜN</span> „Erkläre mir diesen Paragrafen aus dem Verwaltungsverfahrensgesetz in einfacher Sprache." – öffentliche Information (Anlage 1: „Gesetzestexte vereinfachen").</li>
+                <li><span class="amp amp-gelb">GELB</span> „Fasse diese Beschwerde zusammen: Herr Krause aus der Hauptstraße 12 in Bad Nauheim beschwert sich zum dritten Mal über die Bearbeitungsdauer seines Bauantrags." – Name und Adresse entfernen, dann als anonymisierte Zusammenfassung zulässig („Ein Bürger beschwert sich …").</li>
+                <li><span class="amp amp-gruen">GRÜN</span> „Schlage mir eine Agenda für eine einstündige Teamsitzung zum Thema Digitalisierung vor." – zulässiger Einsatzzweck laut Anlage 1.</li>
+                <li><span class="amp amp-rot">ROT</span> „Prüfe, ob Frau Yilmaz mit 1.850 Euro Einkommen und drei Kindern Anspruch auf Wohngeld hat." – Anspruch bewerten ist ausdrücklich untersagt, zusätzlich personenbezogene Daten.</li>
+                <li><span class="amp amp-gelb">GELB</span> „Strukturiere meine Notizen zum Vorgang mit dem Aktenzeichen 32-2026-0815 als Vermerk." – Aktenzeichen ist indirekter Personenbezug (steht wörtlich in der Dienstanweisung); Vermerk ohne Aktenzeichen und ohne Namen strukturieren lassen ist ok.</li>
+                <li><span class="amp amp-gelb">GELB</span> „Formuliere diesen Text bürgerfreundlicher: Der Antrag ist unter Beifügung der erforderlichen Nachweise fristgerecht einzureichen." – der Satz selbst ist unkritisch, aber Gelb als Erinnerung: echte Texte enthalten oft Name, Datum oder Aktenzeichen – erst prüfen, dann eingeben (alternativ als Grün spielbar, gute Diskussion).</li>
+                <li><span class="amp amp-rot">ROT</span> „Hier ist das ärztliche Attest von Frau Berger – fasse die wichtigsten Punkte für die Akte zusammen." – Gesundheitsdaten, sensible Daten und echtes Dokument: dreifach untersagt.</li>
+                <li><span class="amp amp-gruen">GRÜN</span> „Erstelle eine Excel-Vorlage mit Formeln für unsere monatliche Urlaubsplanung im Team." – zulässig laut Anlage 1; Formeln danach fachlich prüfen.</li>
+                <li><span class="amp amp-rot">ROT</span> „Schreibe den Widerspruchsbescheid für den abgelehnten Antrag von Familie Öztürk." – ausdrücklich untersagt, rechtlich bindend, muss von Fachpersonal erstellt werden.</li>
+                <li><span class="amp amp-gelb">GELB</span> „Formuliere eine Einladung zum Mitarbeitergespräch mit Herrn Weber am 12. August um 10 Uhr." – mit Namen untersagt (personenbezogene Daten); ohne Namen als neutrale Vorlage Grün. Klassischer Fall für „Was müsste man ändern?"</li>
+                <li><span class="amp amp-rot">ROT</span> „Fasse unseren internen Notfallplan für IT-Ausfälle auf einer Seite zusammen." – vertrauliche Daten, ausdrücklich als Beispiel in der Dienstanweisung genannt.</li>
+                <li><span class="amp amp-gruen">GRÜN</span> „Sammle Ideen für Energiesparmaßnahmen in einem Bürogebäude." – zulässig laut Anlage 1.</li>
+                <li><span class="amp amp-gruen">GRÜN</span> „Mache aus diesen Stichpunkten einen Entwurf für eine Pressemitteilung über das neue Bürgerbüro." – zulässig laut Anlage 1, wenn die Stichpunkte keine Personendaten enthalten; Freigabe durch verantwortliche Person und Kennzeichnung beachten (eignet sich als Grenzdiskussion Grün/Gelb).</li>
+                <li><span class="amp amp-rot">ROT</span> „Ein Bürger droht in seiner E-Mail mit seinem Anwalt – formuliere eine rechtliche Stellungnahme als Antwort." – ausdrücklich untersagt, muss von Juristen erstellt werden.</li>
+              </ol>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">7</div>
+        <div class="beat-chip-col"><span class="chip chip-sicherung">Sicherung</span></div>
+        <div class="beat-body"><div class="sicherung-box">Merksatz: Die Dateneingabe ist der zentrale Risikohebel. Im Zweifel: Entscheidungsbaum nutzen oder ISB fragen.</div></div>
+      </div>
+    </section>
+
+    <section class="block pause-block">
+      <div class="blockhead"><h2>Mittagspause</h2><span class="time">12:30–13:00</span></div>
+    </section>
+
+    <!-- ============ MODUL 4 ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 4: Prompten &amp; Toolvergleich</h2>
+        <div class="meta"><span class="folien">Folien 18–22</span><span class="time">13:00–14:15</span></div>
+      </div>
+      <div class="res"><strong>Vorbereitung:</strong> MS Teams für die Share-Runde bereithalten (Link auf Kursseite, Beamer auf Teams-Fenster umschaltbar).</div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 18</span></div>
+        <div class="beat-body"><p class="note">Modulstart + 5 Bausteine zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <ul>
+              <li>Jetzt krempeln wir die Ärmel hoch: Wie steuere ich die KI so präzise, dass ich brauchbare Ergebnisse statt Zufallsprodukte bekomme?</li>
+              <li>Die 5 Bausteine: Rolle, Kontext, Aufgabe, Ausgabeformat, Grenzen und Prüfkriterien. Je klarer die Steuerung, desto geringer die Nacharbeit.</li>
+              <li>Iteration statt Frustration: Drei bis vier Runden sind normal für ein gutes Ergebnis.</li>
+              <li>Custom Prompt-Assistent und Prompt-Schablone zeigen (Links auf der Startseite), ggf. Video „Prompt Frameworks".</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-beispiel">Beispiel zeigen</span></div>
+        <div class="beat-body">
+          <p class="note">Prompt-Karte komplett vorsprechen:</p>
+          <div class="promptbox">Rolle: Sie sind Schreibassistenz für eine öffentliche Verwaltung.
+Kontext: Es geht um eine Terminverschiebung im Bürgeramt.
+Aufgabe: Formulieren Sie eine freundliche und klare E-Mail.
+Format: 1 Betreff, 1 Einleitungssatz, 3 Stichpunkte, 1 Abschluss.
+Einschränkungen: keine juristischen Bewertungen, keine persönlichen Daten.</div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-beispiel">Beispiel zeigen</span></div>
+        <div class="beat-body">
+          <p class="note">Dreisprung schlecht → mittel → gut am Bescheid-Beispiel:</p>
+          <div class="promptbox">1) „Fass den Bescheid zusammen."
+2) „Fass den Bescheid in drei Punkten zusammen."
+3) „Fassen Sie den Bescheid für die interne Abstimmung zusammen: Anlass, Rechtsgrundlage, nächste Schritte. Maximal 120 Wörter. Keine neuen Fakten ergänzen."</div>
+          <p class="note">Kernsatz: Präzision, nicht Länge.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Ergebnisse prüfen wie ein Profi</strong></p>
+            <ul>
+              <li>Stil ist keine Wahrheit: Ein souverän formulierter Text kann falsche Normen, erfundene Quellen oder verkürzte Schlüsse enthalten.</li>
+              <li>Dazu die Denkfigur <strong>Erstqualität vs. Prüfqualität</strong>: Manche Antworten wirken im ersten Moment stark, verursachen aber hohe Nacharbeit in der Fachprüfung. Ein guter Prompt erzeugt nicht nur gute Sprache, sondern eine prüfbare Ausgabe – genau darauf achten wir nachher im Toolvergleich.</li>
+              <li>Der 5-Schritte-Prüfprozess vor jeder Übernahme: <strong>Faktencheck → Quellencheck → Logikcheck → Kontextcheck → Sprachcheck.</strong> Ohne diese fünf Schritte kein KI-Ergebnis in verbindliche Dokumente.</li>
+              <li>Vier Warnsignale, die jeder kennen sollte: sehr selbstsicherer Ton ohne Belege · exakte Details ohne nachvollziehbare Quelle · zu perfekte Antworten trotz komplexer Ausgangslage · Verweis auf nicht existente Rechtsquellen.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 19</span></div>
+        <div class="beat-body"><p class="note">Arbeitsphase Prompt-Baukasten zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">7</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 5a</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: Gemeinsam einen Prompt aus den fünf Bausteinen bauen</p>
+            <ul>
+              <li>Einen Fall aus der Geeignet-Spalte von Frame 3 wählen (Bogen zum Vormittag).</li>
+              <li>Fünf Felder mit Zetteln füllen, Prompt live testen, 2–3 Runden nachschärfen.</li>
+            </ul>
+            <span class="bildref">Bild 7_Prompt_Baukasten.png</span>
+            <details class="loesung">
+              <summary>Muster-Lösung als Rückfallebene</summary>
+              <ul>
+                <li>Rolle: „Sie sind erfahrene Sachbearbeiterin im Bürgerservice einer Kreisverwaltung."</li>
+                <li>Kontext: „Bürgerinnen und Bürger fragen häufig per E-Mail nach dem Bearbeitungsstand. Antworten sollen freundlich und für Laien verständlich sein."</li>
+                <li>Aufgabe: „Erstellen Sie eine wiederverwendbare Antwortvorlage."</li>
+                <li>Ausgabeformat: „Höchstens 120 Wörter, Sie-Form, Platzhalter in eckigen Klammern."</li>
+                <li>Grenzen: „Keine Rechtsauskünfte, keine Fristzusagen, keine erfundenen Angaben, keine Namen."</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">8</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folien 20–21</span></div>
+        <div class="beat-body"><p class="note">Tool-Block (Regeln ChatGPT/Vibe/Claude) dann Team-Übungs-Folie zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">9</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Team-Aktion</span></div>
+        <div class="beat-body">
+          <p class="note">Zweierteams vom Morgen (erfahren neben neu) bekommen je eine Übung + ein System (ChatGPT/Vibe/Claude gleichmäßig verteilen). Prompt ausführen, mit 5-Schritte-Prozess prüfen, mindestens eine Nachschärfe-Runde. Nur datensparsame Beispielinhalte.</p>
+          <div class="promptbox">Übung 1 – Bürgerkommunikation:
+„Formulieren Sie eine E-Mail zur Terminverschiebung einer Sprechstunde. Freundlich, max. 140 Wörter, Struktur: Betreff, Anlass, neuer Termin, Kontakt. Keine personenbezogenen Beispieldaten."
+
+Übung 2 – Vermerk/Leitungsvorlage:
+„Fassen Sie den Fachtext zusammen: 1) Kernaussage in einem Satz, 2) drei Risiken, 3) drei Maßnahmen. Keine neuen Fakten erfinden, Unklares mit 'Prüfbedarf' markieren." (Beispieltext aus prompt.txt mitgeben)
+
+Übung 3 – Verständlich erklären:
+„Erklären Sie 'Ermessensentscheidung' für Bürgerinnen und Bürger: Definition, Alltagsbeispiel, Handlungshinweis. Einfache Sprache, keine Fachzitate."</div>
+          <p class="note">Während der Übung herumgehen – 2–3 Teams für die Share-Runde vorwarnen (nicht kalt aufrufen).</p>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">10</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Übergang</span></div>
+        <div class="beat-body"><p class="note">Überleitung zur Share-Runde: Teams treten der Teams-Besprechung bei (Link auf Kursseite), Beamer auf Teams-Fenster umschalten.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">11</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Team-Aktion</span></div>
+        <div class="beat-body">
+          <p class="note"><strong>Wichtig ansagen: Mikrofon und Lautsprecher aus</strong> beim Beitritt – nur Bildschirm teilen, sonst Rückkopplung im Raum. Jedes Team zeigt: Prompt → erstes Ergebnis → Nachschärfung → Endergebnis. Idealerweise ein Team pro System.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">12</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 5b</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: Beobachtungen in die Vergleichstabelle</p>
+            <ul>
+              <li>Spalten ChatGPT/Vibe/Claude, Zeilen Sprache/Struktur/Nacharbeit/dienstlich verwendbar.</li>
+              <li>In der Share-Runde gemeinsam auswerten.</li>
+            </ul>
+            <span class="bildref">Bild 8_Vergleichstabelle.png</span>
+            <details class="loesung">
+              <summary>Erwartbares Ergebnis</summary>
+              <p>Kein Sieger auf allen Zeilen – Botschaft „Aufgabe vor Marke". Entscheidend ist „Nacharbeit nötig?".</p>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">13</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 22</span></div>
+        <div class="beat-body"><p class="note">Prompt-Vorlagen als Mitgabe zeigen (TXT-Link auf der Startseite).</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">14</div>
+        <div class="beat-chip-col"><span class="chip chip-sicherung">Sicherung</span></div>
+        <div class="beat-body"><div class="sicherung-box">Botschaft: Keine Vorlage ist fertig – sie ist der Startpunkt für gute Routine, kein Ersatz für Denken und Prüfen.</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">15</div>
+        <div class="beat-chip-col"><span class="chip chip-zusatz">Zusatz</span></div>
+        <div class="beat-body"><p class="note">Multi-User-Prompt und Prompt-Generator ausprobieren; eigenen Fall mit dem Custom GPT durchspielen.</p></div>
+      </div>
+    </section>
+
+    <section class="block pause-block">
+      <div class="blockhead"><h2>Kurzpause</h2><span class="time">14:15–14:30</span></div>
+    </section>
+
+    <!-- ============ MODUL 5 ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Modul 5: Transfer &amp; Roadmap</h2>
+        <div class="meta"><span class="folien">Folien 23–27</span><span class="time">14:30–15:15</span></div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 23</span></div>
+        <div class="beat-body"><p class="note">Modulstart zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p><strong>Potenzial vor Aktionismus</strong></p>
+            <ul>
+              <li>Wir haben viel ausprobiert – jetzt sorgen wir dafür, dass das Wissen nicht im Seminarraum bleibt.</li>
+              <li>Potenzial vor Aktionismus: KI ist ein Kraftverstärker für Routinetexte und Datenaufbereitung – bewusst weglassen bei Ermessensentscheidungen.</li>
+              <li>Die Potenzial-Einordnung nach Aufgabentyp: <strong>Routinetexte</strong> = hohes Potenzial · <strong>Datenaufbereitung</strong> = hoch · <strong>Fachrecherche</strong> = mittel bis hoch · <strong>Bürgerkommunikation</strong> = mittel (hohe Fehlerkosten!) · <strong>Ermessensentscheidungen</strong> = niedrig.</li>
+              <li>Kernsatz: Der beste Einstieg ist selten die spektakulärste Aufgabe – sondern der Vorgang mit <strong>hoher Wiederholung, klarer Struktur und guter Prüfbarkeit</strong>.</li>
+              <li>Lernpfad Bronze/Silber/Gold: Niemand muss alles sofort können. Bronze = sichere Anwendung mit Faktencheck, Gold = Multiplikator im Team.</li>
+              <li>Team-Routine schlägt Einzelwissen: kurze Formate (30 Minuten alle zwei Wochen) für Prompts und Fehlerfälle. Für Bereiche: Mini-Roadmap statt Einzelaktion – drei priorisierte Anwendungsfälle, klare Verantwortlichkeiten, fester Review-Rhythmus.</li>
+              <li>Warnung vor der <strong>stillen Delegation</strong>: Je besser KI funktioniert, desto größer die Versuchung, ungeprüft zu übernehmen. Deshalb in sensiblen Prozessen dokumentieren, wer final geprüft und freigegeben hat – so bleibt die Unterschrift eine echte Verantwortungsübernahme.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-frage">Frage</span></div>
+        <div class="beat-body">
+          <div class="frage-box">
+            Welche Aufgaben kosten Sie pro Woche am meisten Zeit? Welche davon sind klar strukturierbar? Wo kann KI einen Entwurf liefern, den Sie sicher prüfen können? Welche Aufgaben bleiben bewusst ohne KI?
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 24</span></div>
+        <div class="beat-body"><p class="note">Arbeitsphase Matrix + Startfall-Karte zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 6</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: Aufgaben auf die Matrix – dann Startfall-Karte ausfüllen</p>
+            <ul>
+              <li>1–2 Aufgaben-Zettel aus Frame 3 (oder neu) auf die Matrix: Aufwand × Nutzen.</li>
+              <li>Quadrant oben links „Sofort starten" = Startkandidaten.</li>
+              <li>Startfall-Karte kopieren und ausfüllen: Meine Aufgabe / Ich starte am / Daran messe ich den Erfolg / Kürzel.</li>
+            </ul>
+            <span class="bildref">Bilder 9_Potenzial_Matrix.png + 10_Startfall_Karte.png</span>
+            <details class="loesung">
+              <summary>Beispiele je Quadrant + Muster-Startfall</summary>
+              <ul>
+                <li>Sofort starten: Standardantworten, Texte umformulieren, E-Mail-Entwürfe.</li>
+                <li>Planen: FAQ-Aufbau, Vorlagen-Bibliothek fürs Team.</li>
+                <li>Nebenbei mitnehmen: Brainstorming, Formulierungshilfen im Einzelfall.</li>
+                <li>Bewusst weglassen: alles mit Bescheiden, Ermessen, echten Personendaten.</li>
+                <li>Muster-Startfall: „Meine Aufgabe: Antworten auf Bürgeranfragen verständlicher formulieren · Ich starte am: kommenden Montag · Erfolg: Zeit pro E-Mail und Rückfragen · Kürzel: …"</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-frage">Frage</span></div>
+        <div class="beat-body"><div class="frage-box">Wie hat der Kreis KI bisher eingeführt? Welches Onboarding gab es? Wer lernt wie?</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">7</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folien 25–27</span></div>
+        <div class="beat-body"><p class="note">Transfer startet klein → Kleine Standards → Mitgabe kurz zeigen und kommentieren.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">8</div>
+        <div class="beat-chip-col"><span class="chip chip-sicherung">Sicherung</span></div>
+        <div class="beat-body"><div class="sicherung-box">Hinweis auf die gebauten Tools, die weiter genutzt werden können. Verweis auf die Praxiswerkstätten für Vertiefung und spezielle Einsatzfelder.</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">9</div>
+        <div class="beat-chip-col"><span class="chip chip-rede">Sprechen</span></div>
+        <div class="beat-body">
+          <div class="speech">
+            <p>„KI verändert Arbeit, aber nicht den Menschen." Schneller, strukturierter, effizienter – ja. Aber der Kern der Verwaltungsarbeit bleibt menschlich: Interessen abwägen, rechtliche Folgen einordnen, verständlich kommunizieren, Vertrauen in Verfahren sichern.</p>
+            <p>Die Haltung für die kommenden Jahre: <strong>offen für Neues, klar in der Verantwortung.</strong> Genau daraus entsteht professionelle Souveränität im Umgang mit KI.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABSCHLUSS ============ -->
+    <section class="block">
+      <div class="blockhead">
+        <h2>Abschluss</h2>
+        <div class="meta"><span class="folien">Folien 28–29</span><span class="time">15:15–15:50</span></div>
+      </div>
+
+      <div class="beat">
+        <div class="beat-num">1</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 28</span></div>
+        <div class="beat-body"><p class="note">Selbsttest erneut ausfüllen lassen und mit dem Morgenwert vergleichen – keine Leistungskontrolle, sondern sichtbare Entwicklung.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">2</div>
+        <div class="beat-chip-col"><span class="chip chip-folie">Folie 29</span></div>
+        <div class="beat-body"><p class="note">„Drei Fragen zum Abschluss" zeigen.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">3</div>
+        <div class="beat-chip-col"><span class="chip chip-miro">Miro Frame 7</span></div>
+        <div class="beat-body">
+          <div class="miro-task">
+            <p class="mt-title">Aufgabe: Drei Abschlussfragen + Feedback-Skala</p>
+            <ul>
+              <li>Je ein Zettel: Was ist heute klarer geworden? / Was macht Ihnen weniger Sorgen als heute Morgen? / Was setzen Sie morgen konkret um?</li>
+              <li>Feedback-Skala 1–10 darunter befüllen.</li>
+            </ul>
+            <span class="bildref">Bild 11_Abschluss.png</span>
+          </div>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">4</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Übergang</span></div>
+        <div class="beat-body">
+          <p class="note"><strong>Stärkster Moment des Tages:</strong> Gemeinsam zurück zu <strong>Miro Frame 1</strong> scrollen.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">5</div>
+        <div class="beat-chip-col"><span class="chip chip-frage">Frage</span></div>
+        <div class="beat-body"><div class="frage-box">Welche Angst von heute Morgen ist kleiner geworden? Ziehen Sie Ihren Morgen-Zettel hierher, wenn er sich erledigt hat.</div></div>
+      </div>
+      <div class="beat">
+        <div class="beat-num">6</div>
+        <div class="beat-chip-col"><span class="chip chip-regie">Abschluss</span></div>
+        <div class="beat-body">
+          <p class="note">Die Umsetzen-Spalte mit den Startfall-Karten aus Frame 6 verknüpfen („Das steht ja schon auf Ihrer Karte – wann geht es los?"). Zum Schluss: Startseite, Tools und Miro-Board bleiben online – nochmals auf die Praxiswerkstätten hinweisen.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>Regieplan zum VHS-Kurs „Einsteiger KI“ · Robert Meyer · Ausführliche Fassung mit Hintergründen: redescript.html</footer>
+  </div>
+</body>
+</html>
